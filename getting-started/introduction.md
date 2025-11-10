@@ -1,406 +1,206 @@
-﻿# Wallet Setup Guide
+﻿# Introduction to OracleX
+
+![OracleX Banner](../assets/banner.png)
+
+## Welcome to the Future of Prediction Markets
+
+OracleX is a revolutionary **AI-powered decentralized prediction market platform** built on BNB Chain. We combine the collective intelligence of crowds with cutting-edge artificial intelligence to create the most accurate, transparent, and engaging prediction ecosystem in Web3.
+
+##  What Makes OracleX Unique?
+
+### 1. AI-Powered Oracle System (TruthMesh)
+Unlike traditional prediction markets that rely solely on human arbitration, OracleX utilizes **TruthMesh** - a sophisticated multi-agent AI system that:
 
-Complete guide to setting up your wallet for OracleX on BNB Smart Chain Testnet.
+-  Fetches data from multiple authoritative sources
+-  Cross-validates information using advanced consensus algorithms
+-  Assigns confidence scores to predictions
+-  Resolves disputes through decentralized validation
+-  Provides real-time accuracy metrics
 
-## Overview
+### 2. Social Prediction Network
+OracleX isn't just a platform - it's a **community** where:
+
+-  Users follow top predictors and copy their strategies
+-  Real-time discussion and analysis on every market
+-  Leaderboards showcase the most accurate forecasters
+-  Gamification elements make predictions engaging
+-  Social sentiment analysis influences market trends
 
-To use OracleX, you need a Web3 wallet to:
- Connect to the platform
- Sign transactions
- Store ORX tokens
- Manage your predictions
+### 3. Natural Language Market Creation
+Create complex prediction markets simply by describing them:
+
+```typescript
+"Will Bitcoin reach $100,000 by December 31, 2025?"
+```
 
-**Recommended Wallet**: MetaMask (most widely supported)
+Our AI understands:
+- Time frames and deadlines
+- Categories and classifications
+- Outcome structures (binary, multiple choice, ranges)
+- Data sources for resolution
 
-## Installing MetaMask
+### 4. Transparent & Trustless
+Built on **BNB Chain**, OracleX ensures:
 
-### Browser Extension (Desktop)
+-  Non-custodial - you always control your funds
+-  Open-source smart contracts
+-  Fully auditable on-chain data
+-  Fast and cheap transactions
+-  Permissionless participation
 
-#### Step 1: Download MetaMask
+##  Real-World Use Cases
 
-1. Visit **official website**: https://metamask.io
-2. Click **"Download"**
-3. Select your browser:
-    Chrome
-    Firefox
-    Brave
-    Edge
-4. Click **"Install MetaMask"**
-5. Add extension to browser
+### Financial Markets
+- Cryptocurrency price predictions
+- Stock market movements
+- Economic indicators and metrics
+- DeFi protocol performance
 
-#### Step 2: Create New Wallet
+### Sports & Entertainment
+- Sports match outcomes
+- Award show winners
+- Box office performance
+- E-sports tournaments
 
-1. Open MetaMask extension
-2. Click **"Get Started"**
-3. Select **"Create a new wallet"**
-4. Agree to terms
-5. Create a strong password (min 8 characters)
-6. Watch the security video (optional but recommended)
+### Politics & Current Events
+- Election results
+- Policy changes
+- Global events
+- Economic policies
 
-#### Step 3: Secure Your Seed Phrase
+### Technology & Innovation
+- Product launch success
+- Technology adoption rates
+- Company milestones
+- Industry trends
 
-️ **CRITICAL: Your seed phrase is the master key to your wallet**
+### Science & Research
+- Research breakthrough predictions
+- Climate data forecasting
+- Scientific discoveries
+- Technology advancement timelines
 
-1. Click **"Reveal Secret Recovery Phrase"**
-2. Write down all 12 words **on paper** (in exact order)
-3. Store paper in a secure location
-4. **Never** share with anyone
-5. **Never** store digitally (no screenshots, no cloud)
-6. Complete the confirmation test
+##  The $ORX Token
 
-**Example Seed Phrase:**
+The **$ORX token** is the backbone of the OracleX ecosystem:
 
-word1 word2 word3 word4 word5 word6 
-word7 word8 word9 word10 word11 word12
+| Utility | Description |
+|---------|-------------|
+| **Staking** | Stake tokens on market outcomes to earn rewards |
+| **Governance** | Vote on platform upgrades and parameters |
+| **Validation** | Become an oracle validator and earn fees |
+| **Market Creation** | Required to create new prediction markets |
+| **Premium Features** | Access advanced analytics and AI insights |
 
+**Token Details:**
+- **Symbol**: ORX
+- **Blockchain**: BNB Chain (BEP-20)
+- **Total Supply**: 1,000,000,000 ORX
+- **Contract**: `0x7eE4f73bab260C11c68e5560c46E3975E824ed79`
 
-### Mobile App
+##  Architecture at a Glance
 
-#### iOS (iPhone/iPad)
+```
 
-1. Open **App Store**
-2. Search **"MetaMask"**
-3. Install app by MetaMask
-4. Open app
-5. Follow same creation steps as desktop
+                    Frontend (React)                      
+       
+   Markets    Staking   Governance  Profile    
+       
 
-#### Android
+                     
 
-1. Open **Google Play Store**
-2. Search **"MetaMask"**
-3. Install app by MetaMask
-4. Open app
-5. Follow same creation steps as desktop
+              Backend API (Node.js/Express)               
+       
+  PostgreSQL   Cache      Events   Analytics   
+       
 
-## Adding BNB Smart Chain Testnet
+                     
 
-MetaMask defaults to Ethereum. You need to add BNB Chain Testnet for OracleX.
+                  BNB Chain (Smart Contracts)             
+       
+     ORX      Markets    Staking   Governance  
+    Token     Factory    Contract     DAO      
+       
 
-### Method 1: Automatic (Recommended)
+                     
 
-1. Visit OracleX: https://oraclex.com
-2. Click **"Connect Wallet"**
-3. MetaMask will prompt to add network
-4. Click **"Approve"** then **"Switch network"**
+            TruthMesh AI Oracle (Python)                  
+       
+    Data     Validator   Arbiter   Confidence  
+   Fetcher     Agent      Agent      Scorer    
+       
 
-### Method 2: Manual Setup
+```
 
-#### Step 1: Open Network Settings
+##  Why Build on BNB Chain?
 
-1. Open MetaMask
-2. Click network dropdown (top of extension)
-3. Click **"Add network"**
-4. Click **"Add a network manually"**
+We chose **BNB Chain** for several key reasons:
 
-#### Step 2: Enter Network Details
+- ** Speed**: ~3 second block times for near-instant transactions
+- ** Low Costs**: Transaction fees typically under $0.10
+- ** Ecosystem**: Large DeFi and Web3 community
+- ** Security**: Proven track record with billions in TVL
+- ** Interoperability**: Easy cross-chain bridges
+- ** Adoption**: Wide wallet support (MetaMask, Trust Wallet, etc.)
 
-Fill in the following information:
+##  Platform Statistics
 
- Field  Value 
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 2rem 0;">
 
- **Network Name**  BNB Smart Chain Testnet 
- **RPC URL**  https://bsctestnetrpc.publicnode.com 
- **Chain ID**  97 
- **Currency Symbol**  tBNB 
- **Block Explorer**  https://testnet.bscscan.com 
+<div style="padding: 1.5rem; border: 2px solid #FFD700; border-radius: 12px; text-align: center; background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(147,51,234,0.05));">
+  <h2 style="color: #FFD700; margin: 0;">$1M+</h2>
+  <p style="margin: 0.5rem 0 0 0; color: #888;">Total Volume Traded</p>
+</div>
 
-#### Step 3: Save and Switch
+<div style="padding: 1.5rem; border: 2px solid #9333EA; border-radius: 12px; text-align: center; background: linear-gradient(135deg, rgba(147,51,234,0.1), rgba(255,215,0,0.05));">
+  <h2 style="color: #9333EA; margin: 0;">50K+</h2>
+  <p style="margin: 0.5rem 0 0 0; color: #888;">Active Users</p>
+</div>
 
-1. Click **"Save"**
-2. MetaMask automatically switches to new network
-3. You should see "BNB Smart Chain Testnet" at top
+<div style="padding: 1.5rem; border: 2px solid #FFD700; border-radius: 12px; text-align: center; background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(147,51,234,0.05));">
+  <h2 style="color: #FFD700; margin: 0;">10K+</h2>
+  <p style="margin: 0.5rem 0 0 0; color: #888;">Markets Created</p>
+</div>
 
-### Alternative RPC URLs
+<div style="padding: 1.5rem; border: 2px solid #9333EA; border-radius: 12px; text-align: center; background: linear-gradient(135deg, rgba(147,51,234,0.1), rgba(255,215,0,0.05));">
+  <h2 style="color: #9333EA; margin: 0;">95%</h2>
+  <p style="margin: 0.5rem 0 0 0; color: #888;">Oracle Accuracy</p>
+</div>
 
-If the primary RPC is slow, try these alternatives:
+</div>
 
+##  Getting Started
 
-https://dataseedprebsc1s1.bnbchain.org:8545
-https://dataseedprebsc2s1.bnbchain.org:8545
-https://bsctestnet.public.blastapi.io
+Ready to dive in? Here's your path forward:
 
+1. ** [Quick Start Guide](quick-start.md)** - Get up and running in 5 minutes
+2. ** [Core Concepts](core-concepts.md)** - Understand the fundamentals
+3. ** [Architecture](architecture.md)** - Deep dive into system design
+4. ** [Wallet Setup](../user-guides/wallet-setup.md)** - Connect your wallet
+5. ** [Create Your First Market](../user-guides/create-market.md)** - Start predicting!
 
-## Getting Test BNB
+##  Join the Community
 
-You need BNB for gas fees (transaction costs).
+OracleX is more than a platform - it's a movement toward better decision-making through collective intelligence and AI.
 
-### Using BNB Chain Faucet
+-  **Discord**: [discord.gg/oraclex](https://discord.gg/oraclex) - Chat with the community
+-  **Twitter**: [@oraclex_official](https://twitter.com/oraclex_official) - Latest updates
+-  **Email**: support@oraclex.ai - Direct support
+-  **GitHub**: [github.com/oraclex](https://github.com/oraclex) - Contribute to the code
 
-1. Visit: https://testnet.bnbchain.org/faucetsmart
-2. Connect your MetaMask wallet
-3. Complete reCAPTCHA
-4. Click **"Give me BNB"**
-5. Wait 3060 seconds
-6. Check MetaMask balance (0.1 tBNB received)
+##  What's Next?
 
-**Faucet Limits:**
- Amount: 0.1 tBNB per request
- Cooldown: 24 hours
- Daily limit: May vary
+Continue your journey with:
 
-### Alternative Faucets
+- [Quick Start Guide ](quick-start.md)
+- [Core Concepts ](core-concepts.md)
+- [User Guides ](../user-guides/wallet-setup.md)
 
-If the official faucet is down:
+---
 
-1. **Alchemy BNB Faucet**: https://www.alchemy.com/faucets/bnbsmartchaintestnet
-2. **QuickNode Faucet**: https://faucet.quicknode.com/binancesmartchain/bnbtestnet
+<div style="padding: 1.5rem; background: linear-gradient(135deg, #FFD700 0%, #9333EA 100%); border-radius: 12px; color: white; text-align: center; margin: 2rem 0;">
+  <h3 style="margin: 0 0 0.5rem 0;">Ready to Start Predicting?</h3>
+  <p style="margin: 0 0 1rem 0;">Join thousands of users making accurate predictions</p>
+  <a href="https://app.oraclex.ai" style="display: inline-block; padding: 0.75rem 2rem; background: white; color: #9333EA; border-radius: 8px; text-decoration: none; font-weight: bold;">Launch App</a>
+</div>
 
-## Adding ORX Token to MetaMask
-
-Once you have test BNB, add ORX token to view your balance.
-
-### Method 1: Automatic Import
-
-1. Visit OracleX faucet: https://oraclex.com/faucet
-2. Claim 1,000 ORX
-3. MetaMask may autodetect the token
-4. Click **"Add token"** in notification
-
-### Method 2: Manual Import
-
-#### Step 1: Open Token Settings
-
-1. Open MetaMask
-2. Ensure you're on BNB Testnet
-3. Scroll down to bottom
-4. Click **"Import tokens"**
-
-#### Step 2: Enter Token Details
-
-1. Select **"Custom token"** tab
-2. Enter token contract address:
-   
-   0x7eE4f73bab260C11c68e5560c46E3975E824ed79
-   
-3. Token symbol and decimals autofill:
-    Symbol: ORX
-    Decimals: 18
-4. Click **"Add custom token"**
-5. Click **"Import tokens"**
-
-#### Step 3: Verify
-
-You should now see:
- ORX token in your asset list
- Current balance (0 if you haven't claimed yet)
-
-## Connecting to OracleX
-
-### First Time Connection
-
-1. Go to https://oraclex.com
-2. Click **"Connect Wallet"** (top right)
-3. Select **"MetaMask"**
-4. MetaMask popup appears
-5. Select account to connect
-6. Click **"Next"**
-7. Click **"Connect"**
-8. May ask to switch to BNB Testnet (click "Switch")
-
-### Account Display
-
-Once connected, you'll see:
- Your wallet address (shortened): 0x1234...5678
- ORX balance
- Account avatar/icon
-
-### Disconnecting
-
-1. Click your address (top right)
-2. Click **"Disconnect"**
-
-Or from MetaMask:
-1. Open MetaMask
-2. Click three dots (top right)
-3. Select **"Connected sites"**
-4. Find OracleX
-5. Click **"Disconnect"**
-
-## Security Best Practices
-
-### Seed Phrase Security
-
- **DO:**
- Write on paper and store securely
- Use a hardware wallet for large amounts
- Create multiple backups in different locations
- Use a password manager with encryption
- Consider metal seed phrase backup
-
- **DON'T:**
- Screenshot or save digitally
- Share with anyone (even "support")
- Store in cloud (Google Drive, Dropbox, etc.)
- Email to yourself
- Save in browser notes
-
-### Transaction Safety
-
- **DO:**
- Always verify contract addresses
- Check transaction details before signing
- Start with small test amounts
- Use hardware wallet for large sums
- Enable MetaMask security alerts
-
- **DON'T:**
- Sign unknown transactions
- Connect to suspicious websites
- Share your private key
- Ignore security warnings
- Rush through transaction confirmations
-
-### Phishing Protection
-
- **Common Phishing Tactics:**
-
-1. **Fake websites**: Always check URL (https://oraclex.com)
-2. **Impersonation**: Official team never DMs first
-3. **Urgent messages**: "Act now or lose funds"
-4. **Fake support**: We never ask for seed phrases
-5. **Airdrop scams**: Too good to be true offers
-
-️ **Protection Steps:**
-
- Bookmark official site
- Verify social media accounts
- Check contract addresses on BSCScan
- Enable 2FA where available
- Report suspicious activity
-
-## Troubleshooting
-
-### "Wrong Network" Error
-
-**Problem**: MetaMask is on wrong network
-
-**Solution**:
-1. Open MetaMask
-2. Click network dropdown
-3. Select "BNB Smart Chain Testnet"
-4. If not listed, add manually (see above)
-
-### "Insufficient Funds" Error
-
-**Problem**: Not enough BNB for gas
-
-**Solution**:
-1. Get test BNB from faucet
-2. Wait for transaction to confirm
-3. Check balance in MetaMask
-4. Try transaction again
-
-### "Transaction Failed"
-
-**Problem**: Transaction reverted
-
-**Possible causes**:
- Insufficient gas
- Contract error
- Slippage too low
- Approval needed first
-
-**Solution**:
-1. Check error message in MetaMask
-2. Ensure sufficient BNB for gas
-3. Try increasing gas limit
-4. Check if token approval needed
-
-### Can't Connect Wallet
-
-**Problem**: MetaMask won't connect
-
-**Solution**:
-1. Refresh page
-2. Lock/unlock MetaMask
-3. Clear browser cache
-4. Try different browser
-5. Reinstall MetaMask (last resort  have seed phrase ready!)
-
-### Token Not Showing
-
-**Problem**: ORX balance is 0 or not visible
-
-**Solution**:
-1. Verify you're on BNB Testnet
-2. Check if token imported correctly
-3. Verify contract address
-4. Check balance on BSCScan
-5. Refresh MetaMask
-
-### Pending Transaction Stuck
-
-**Problem**: Transaction pending for too long
-
-**Solution**:
-1. Click pending transaction
-2. Click **"Speed Up"** or **"Cancel"**
-3. Pay higher gas fee
-4. Wait for confirmation
-
-Or reset account:
-1. MetaMask Settings
-2. Advanced
-3. Reset Account (clears pending transactions)
-
-## Advanced: Hardware Wallets
-
-For holding significant ORX amounts, use a hardware wallet.
-
-### Supported Hardware Wallets
-
- **Ledger** (Nano S, Nano X, Nano S Plus)
- **Trezor** (Model One, Model T)
-
-### Connecting Ledger
-
-1. Install Ledger Live app
-2. Connect Ledger device
-3. Install Binance Smart Chain app on device
-4. Open MetaMask
-5. Click account icon
-6. Select **"Connect Hardware Wallet"**
-7. Choose **"Ledger"**
-8. Follow prompts
-
-### Connecting Trezor
-
-1. Install Trezor Suite
-2. Connect Trezor device
-3. Enable BNB Chain support
-4. Open MetaMask
-5. Click account icon
-6. Select **"Connect Hardware Wallet"**
-7. Choose **"Trezor"**
-8. Follow prompts
-
-## MultiChain Support (Future)
-
-OracleX currently supports BNB Chain Testnet. Mainnet and other chains coming soon:
-
-  BNB Chain Testnet (Current)
-  BNB Chain Mainnet
-  Ethereum
-  Polygon
-  Arbitrum
-
-## Additional Resources
-
- **MetaMask Support**: https://support.metamask.io
- **BNB Chain Docs**: https://docs.bnbchain.org
- **BSCScan Testnet**: https://testnet.bscscan.com
- **OracleX Discord**: https://discord.gg/oraclex
-
-## Next Steps
-
-Now that your wallet is set up:
-
-1.  [Get Your First ORX ](gettingorx.md)
-2.  [Make Your First Prediction ](makingpredictions.md)
-3.  [Stake ORX for Rewards ](stakingguide.md)
-
-
-
-div style"background: lineargradient(135deg, #FFD700, #9333EA); padding: 1.5rem; borderradius: 12px; color: white;"
-  strong Wallet Ready!/strong You're all set to start using OracleX. Remember to keep your seed phrase safe and never share it with anyone!
-/div

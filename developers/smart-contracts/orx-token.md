@@ -1,406 +1,392 @@
-﻿# Wallet Setup Guide
+﻿# ORX Token Contract
+
+The ORX token is an ERC-20 utility token that powers the entire OracleX ecosystem.
+
+##  Contract Details
+
+| Property | Value |
+|----------|-------|
+| **Name** | OracleX Token |
+| **Symbol** | ORX |
+| **Decimals** | 18 |
+| **Total Supply** | 1,000,000,000 ORX |
+| **Address** | `0x7eE4f73bab260C11c68e5560c46E3975E824ed79` |
+| **Network** | BNB Chain Testnet (97) |
+| **Standard** | ERC-20 |
+
+##  Core Functions
+
+### Read Functions
+
+#### `balanceOf`
+Get token balance of an address.
+
+```solidity
+function balanceOf(address account) external view returns (uint256)
+```
+
+**Example:**
+```typescript
+const balance = await orxToken.balanceOf(userAddress);
+console.log('Balance:', ethers.formatEther(balance), 'ORX');
+```
+
+#### `allowance`
+Check spending allowance granted to a spender.
+
+```solidity
+function allowance(address owner, address spender) external view returns (uint256)
+```
+
+**Example:**
+```typescript
+const allowance = await orxToken.allowance(
+  userAddress,
+  stakingContractAddress
+);
+console.log('Allowance:', ethers.formatEther(allowance), 'ORX');
+```
+
+#### `totalSupply`
+Get total token supply.
+
+```solidity
+function totalSupply() external view returns (uint256)
+```
+
+**Example:**
+```typescript
+const supply = await orxToken.totalSupply();
+console.log('Total Supply:', ethers.formatEther(supply), 'ORX');
+```
+
+### Write Functions
+
+#### `transfer`
+Transfer tokens to another address.
+
+```solidity
+function transfer(address to, uint256 amount) external returns (bool)
+```
+
+**Example:**
+```typescript
+const tx = await orxToken.transfer(
+  recipientAddress,
+  ethers.parseEther('100') // 100 ORX
+);
+await tx.wait();
+console.log('Transfer complete');
+```
+
+**Gas Estimate:** ~52,000
+
+#### `approve`
+Approve spending allowance for another address.
+
+```solidity
+function approve(address spender, uint256 amount) external returns (bool)
+```
+
+**Example:**
+```typescript
+// Approve staking contract to spend tokens
+const tx = await orxToken.approve(
+  stakingContractAddress,
+  ethers.parseEther('1000') // 1000 ORX
+);
+await tx.wait();
+console.log('Approval granted');
+```
+
+**Gas Estimate:** ~46,000
+
+** Pro Tip:** For unlimited approval, use `ethers.MaxUint256`:
+```typescript
+const tx = await orxToken.approve(
+  stakingContractAddress,
+  ethers.MaxUint256 // Unlimited approval
+);
+```
+
+#### `transferFrom`
+Transfer tokens on behalf of owner (requires prior approval).
+
+```solidity
+function transferFrom(
+  address from,
+  address to,
+  uint256 amount
+) external returns (bool)
+```
+
+**Example:**
+```typescript
+// Contract transfers tokens from user
+const tx = await orxToken.transferFrom(
+  userAddress,
+  contractAddress,
+  ethers.parseEther('50')
+);
+await tx.wait();
+```
+
+**Gas Estimate:** ~64,000
+
+##  Events
+
+### Transfer
+Emitted when tokens are transferred.
+
+```solidity
+event Transfer(address indexed from, address indexed to, uint256 value)
+```
+
+**Listening:**
+```typescript
+orxToken.on('Transfer', (from, to, amount, event) => {
+  console.log(`Transfer: ${ethers.formatEther(amount)} ORX`);
+  console.log(`From: ${from}`);
+  console.log(`To: ${to}`);
+});
+```
+
+**Querying:**
+```typescript
+// Get all transfers to an address
+const filter = orxToken.filters.Transfer(null, userAddress);
+const events = await orxToken.queryFilter(filter, -10000); // Last 10k blocks
+
+events.forEach(event => {
+  console.log('Received:', ethers.formatEther(event.args.value), 'ORX');
+});
+```
+
+### Approval
+Emitted when spending allowance is set.
+
+```solidity
+event Approval(address indexed owner, address indexed spender, uint256 value)
+```
+
+**Listening:**
+```typescript
+orxToken.on('Approval', (owner, spender, amount, event) => {
+  console.log(`Approval: ${ethers.formatEther(amount)} ORX`);
+  console.log(`Owner: ${owner}`);
+  console.log(`Spender: ${spender}`);
+});
+```
+
+##  Token Distribution
+
+```mermaid
+pie title ORX Token Distribution
+    "Public Sale" : 30
+    "Staking Rewards" : 25
+    "Development" : 20
+    "Community Treasury" : 15
+    "Team & Advisors" : 10
+```
+
+| Allocation | Tokens | Percentage | Vesting |
+|------------|--------|------------|---------|
+| **Public Sale** | 300M | 30% | Immediate |
+| **Staking Rewards** | 250M | 25% | 5 years |
+| **Development** | 200M | 20% | 3 years |
+| **Community Treasury** | 150M | 15% | DAO controlled |
+| **Team & Advisors** | 100M | 10% | 4 years, 1 year cliff |
+
+##  Token Utilities
+
+### 1. Prediction Markets
+- Create markets: 1,000 ORX
+- Place predictions: Any amount
+- Earn from correct predictions
+
+### 2. Staking
+- Stake to earn rewards
+- Lock periods: 30-365 days
+- APY: 5-50% based on duration
+
+### 3. Governance
+- Propose changes: 10,000 ORX
+- Vote on proposals: 1 ORX = 1 vote
+- Delegate voting power
+
+### 4. Fee Discounts
+| ORX Balance | Fee Discount |
+|-------------|--------------|
+| 0-999 | 0% (2% fee) |
+| 1,000-9,999 | 25% (1.5% fee) |
+| 10,000-99,999 | 50% (1% fee) |
+| 100,000+ | 75% (0.5% fee) |
+
+### 5. AI Oracle Access
+- Basic queries: Free
+- Premium data: 10 ORX/query
+- Custom oracles: Stake required
+
+##  Complete Interface
+
+```typescript
+import { ethers } from 'ethers';
+
+// Initialize contract
+const ORX_TOKEN_ADDRESS = '0x7eE4f73bab260C11c68e5560c46E3975E824ed79';
+const provider = new ethers.JsonRpcProvider(
+  'https://bsc-testnet-rpc.publicnode.com'
+);
+const signer = await provider.getSigner();
+const orxToken = new ethers.Contract(ORX_TOKEN_ADDRESS, ABI, signer);
+
+// Read operations
+const balance = await orxToken.balanceOf(userAddress);
+const allowance = await orxToken.allowance(owner, spender);
+const totalSupply = await orxToken.totalSupply();
+const name = await orxToken.name();
+const symbol = await orxToken.symbol();
+const decimals = await orxToken.decimals();
+
+// Write operations
+await orxToken.transfer(to, amount);
+await orxToken.approve(spender, amount);
+await orxToken.transferFrom(from, to, amount);
+
+// Events
+orxToken.on('Transfer', (from, to, amount) => {});
+orxToken.on('Approval', (owner, spender, amount) => {});
+```
+
+##  Security Features
+
+-  **OpenZeppelin Standard**: Uses battle-tested ERC-20 implementation
+-  **Immutable**: No upgrade mechanism, code cannot change
+-  **No Mint Function**: Fixed supply, no inflation
+-  **No Pause Function**: Fully decentralized, always tradeable
+-  **Audited**: Security audit by CertiK (see [Audits ](../../security/audits.md))
+
+##  Testing
+
+```typescript
+// Test token functionality
+describe('ORX Token', () => {
+  it('Should have correct name and symbol', async () => {
+    expect(await orxToken.name()).to.equal('OracleX Token');
+    expect(await orxToken.symbol()).to.equal('ORX');
+  });
+
+  it('Should transfer tokens', async () => {
+    const amount = ethers.parseEther('100');
+    await orxToken.transfer(recipient, amount);
+    expect(await orxToken.balanceOf(recipient)).to.equal(amount);
+  });
+
+  it('Should approve and transferFrom', async () => {
+    const amount = ethers.parseEther('50');
+    await orxToken.approve(spender, amount);
+    await orxToken.connect(spender).transferFrom(owner, recipient, amount);
+    expect(await orxToken.balanceOf(recipient)).to.equal(amount);
+  });
+});
+```
+
+##  On-Chain Metrics
+
+Query token metrics from the blockchain:
+
+```typescript
+// Get circulating supply
+const totalSupply = await orxToken.totalSupply();
+const burnedTokens = await orxToken.balanceOf(ethers.ZeroAddress);
+const circulatingSupply = totalSupply - burnedTokens;
+
+// Get largest holders (requires indexing)
+const holders = await getTopHolders(ORX_TOKEN_ADDRESS, 100);
+
+// Get transfer volume (24h)
+const transfers24h = await getTransfers(ORX_TOKEN_ADDRESS, {
+  fromBlock: currentBlock - 28800, // ~24h at 3s blocks
+  toBlock: currentBlock
+});
+```
+
+##  Integration Examples
+
+### React Hook
+```typescript
+import { useState, useEffect } from 'react';
+import { useWeb3 } from './useWeb3';
+
+export const useORXBalance = () => {
+  const { address, orxContract } = useWeb3();
+  const [balance, setBalance] = useState('0');
+
+  useEffect(() => {
+    const fetchBalance = async () => {
+      if (!address || !orxContract) return;
+      const bal = await orxContract.balanceOf(address);
+      setBalance(ethers.formatEther(bal));
+    };
+
+    fetchBalance();
+    
+    // Listen for transfers
+    const filter = orxContract.filters.Transfer(null, address);
+    orxContract.on(filter, fetchBalance);
+
+    return () => orxContract.removeAllListeners(filter);
+  }, [address, orxContract]);
+
+  return balance;
+};
+```
+
+### Approval Component
+```typescript
+const TokenApproval = ({ spender, amount }) => {
+  const [approved, setApproved] = useState(false);
+  const { orxContract } = useWeb3();
+
+  const checkApproval = async () => {
+    const allowance = await orxContract.allowance(address, spender);
+    setApproved(allowance >= amount);
+  };
+
+  const approve = async () => {
+    const tx = await orxContract.approve(spender, amount);
+    await tx.wait();
+    setApproved(true);
+  };
+
+  return (
+    <div>
+      {!approved ? (
+        <button onClick={approve}>Approve ORX</button>
+      ) : (
+        <span> Approved</span>
+      )}
+    </div>
+  );
+};
+```
+
+##  Resources
+
+- **BSCScan**: https://testnet.bscscan.com/token/0x7eE4f73bab260C11c68e5560c46E3975E824ed79
+- **Source Code**: `/contracts/contracts/ORXToken.sol`
+- **Tests**: `/contracts/test/ORXToken.test.ts`
+- **ABI**: `/frontend/src/abis/ORXToken.json`
+
+## See Also
+
+- [Staking Contract ](staking-contract.md)
+- [Token Economics ](../../tokenomics/orx-token.md)
+- [How to Get ORX ](../../user-guides/getting-orx.md)
+
+---
+
+<div style="background: linear-gradient(135deg, #FFD700, #9333EA); padding: 1.5rem; border-radius: 12px; color: white;">
+  <strong> Get Test ORX:</strong> Visit our <a href="https://oraclex.com/faucet" style="color: white; text-decoration: underline;">faucet</a> to receive 1,000 test ORX tokens for development and testing.
+</div>
 
-Complete guide to setting up your wallet for OracleX on BNB Smart Chain Testnet.
-
-## Overview
-
-To use OracleX, you need a Web3 wallet to:
- Connect to the platform
- Sign transactions
- Store ORX tokens
- Manage your predictions
-
-**Recommended Wallet**: MetaMask (most widely supported)
-
-## Installing MetaMask
-
-### Browser Extension (Desktop)
-
-#### Step 1: Download MetaMask
-
-1. Visit **official website**: https://metamask.io
-2. Click **"Download"**
-3. Select your browser:
-    Chrome
-    Firefox
-    Brave
-    Edge
-4. Click **"Install MetaMask"**
-5. Add extension to browser
-
-#### Step 2: Create New Wallet
-
-1. Open MetaMask extension
-2. Click **"Get Started"**
-3. Select **"Create a new wallet"**
-4. Agree to terms
-5. Create a strong password (min 8 characters)
-6. Watch the security video (optional but recommended)
-
-#### Step 3: Secure Your Seed Phrase
-
-️ **CRITICAL: Your seed phrase is the master key to your wallet**
-
-1. Click **"Reveal Secret Recovery Phrase"**
-2. Write down all 12 words **on paper** (in exact order)
-3. Store paper in a secure location
-4. **Never** share with anyone
-5. **Never** store digitally (no screenshots, no cloud)
-6. Complete the confirmation test
-
-**Example Seed Phrase:**
-
-word1 word2 word3 word4 word5 word6 
-word7 word8 word9 word10 word11 word12
-
-
-### Mobile App
-
-#### iOS (iPhone/iPad)
-
-1. Open **App Store**
-2. Search **"MetaMask"**
-3. Install app by MetaMask
-4. Open app
-5. Follow same creation steps as desktop
-
-#### Android
-
-1. Open **Google Play Store**
-2. Search **"MetaMask"**
-3. Install app by MetaMask
-4. Open app
-5. Follow same creation steps as desktop
-
-## Adding BNB Smart Chain Testnet
-
-MetaMask defaults to Ethereum. You need to add BNB Chain Testnet for OracleX.
-
-### Method 1: Automatic (Recommended)
-
-1. Visit OracleX: https://oraclex.com
-2. Click **"Connect Wallet"**
-3. MetaMask will prompt to add network
-4. Click **"Approve"** then **"Switch network"**
-
-### Method 2: Manual Setup
-
-#### Step 1: Open Network Settings
-
-1. Open MetaMask
-2. Click network dropdown (top of extension)
-3. Click **"Add network"**
-4. Click **"Add a network manually"**
-
-#### Step 2: Enter Network Details
-
-Fill in the following information:
-
- Field  Value 
-
- **Network Name**  BNB Smart Chain Testnet 
- **RPC URL**  https://bsctestnetrpc.publicnode.com 
- **Chain ID**  97 
- **Currency Symbol**  tBNB 
- **Block Explorer**  https://testnet.bscscan.com 
-
-#### Step 3: Save and Switch
-
-1. Click **"Save"**
-2. MetaMask automatically switches to new network
-3. You should see "BNB Smart Chain Testnet" at top
-
-### Alternative RPC URLs
-
-If the primary RPC is slow, try these alternatives:
-
-
-https://dataseedprebsc1s1.bnbchain.org:8545
-https://dataseedprebsc2s1.bnbchain.org:8545
-https://bsctestnet.public.blastapi.io
-
-
-## Getting Test BNB
-
-You need BNB for gas fees (transaction costs).
-
-### Using BNB Chain Faucet
-
-1. Visit: https://testnet.bnbchain.org/faucetsmart
-2. Connect your MetaMask wallet
-3. Complete reCAPTCHA
-4. Click **"Give me BNB"**
-5. Wait 3060 seconds
-6. Check MetaMask balance (0.1 tBNB received)
-
-**Faucet Limits:**
- Amount: 0.1 tBNB per request
- Cooldown: 24 hours
- Daily limit: May vary
-
-### Alternative Faucets
-
-If the official faucet is down:
-
-1. **Alchemy BNB Faucet**: https://www.alchemy.com/faucets/bnbsmartchaintestnet
-2. **QuickNode Faucet**: https://faucet.quicknode.com/binancesmartchain/bnbtestnet
-
-## Adding ORX Token to MetaMask
-
-Once you have test BNB, add ORX token to view your balance.
-
-### Method 1: Automatic Import
-
-1. Visit OracleX faucet: https://oraclex.com/faucet
-2. Claim 1,000 ORX
-3. MetaMask may autodetect the token
-4. Click **"Add token"** in notification
-
-### Method 2: Manual Import
-
-#### Step 1: Open Token Settings
-
-1. Open MetaMask
-2. Ensure you're on BNB Testnet
-3. Scroll down to bottom
-4. Click **"Import tokens"**
-
-#### Step 2: Enter Token Details
-
-1. Select **"Custom token"** tab
-2. Enter token contract address:
-   
-   0x7eE4f73bab260C11c68e5560c46E3975E824ed79
-   
-3. Token symbol and decimals autofill:
-    Symbol: ORX
-    Decimals: 18
-4. Click **"Add custom token"**
-5. Click **"Import tokens"**
-
-#### Step 3: Verify
-
-You should now see:
- ORX token in your asset list
- Current balance (0 if you haven't claimed yet)
-
-## Connecting to OracleX
-
-### First Time Connection
-
-1. Go to https://oraclex.com
-2. Click **"Connect Wallet"** (top right)
-3. Select **"MetaMask"**
-4. MetaMask popup appears
-5. Select account to connect
-6. Click **"Next"**
-7. Click **"Connect"**
-8. May ask to switch to BNB Testnet (click "Switch")
-
-### Account Display
-
-Once connected, you'll see:
- Your wallet address (shortened): 0x1234...5678
- ORX balance
- Account avatar/icon
-
-### Disconnecting
-
-1. Click your address (top right)
-2. Click **"Disconnect"**
-
-Or from MetaMask:
-1. Open MetaMask
-2. Click three dots (top right)
-3. Select **"Connected sites"**
-4. Find OracleX
-5. Click **"Disconnect"**
-
-## Security Best Practices
-
-### Seed Phrase Security
-
- **DO:**
- Write on paper and store securely
- Use a hardware wallet for large amounts
- Create multiple backups in different locations
- Use a password manager with encryption
- Consider metal seed phrase backup
-
- **DON'T:**
- Screenshot or save digitally
- Share with anyone (even "support")
- Store in cloud (Google Drive, Dropbox, etc.)
- Email to yourself
- Save in browser notes
-
-### Transaction Safety
-
- **DO:**
- Always verify contract addresses
- Check transaction details before signing
- Start with small test amounts
- Use hardware wallet for large sums
- Enable MetaMask security alerts
-
- **DON'T:**
- Sign unknown transactions
- Connect to suspicious websites
- Share your private key
- Ignore security warnings
- Rush through transaction confirmations
-
-### Phishing Protection
-
- **Common Phishing Tactics:**
-
-1. **Fake websites**: Always check URL (https://oraclex.com)
-2. **Impersonation**: Official team never DMs first
-3. **Urgent messages**: "Act now or lose funds"
-4. **Fake support**: We never ask for seed phrases
-5. **Airdrop scams**: Too good to be true offers
-
-️ **Protection Steps:**
-
- Bookmark official site
- Verify social media accounts
- Check contract addresses on BSCScan
- Enable 2FA where available
- Report suspicious activity
-
-## Troubleshooting
-
-### "Wrong Network" Error
-
-**Problem**: MetaMask is on wrong network
-
-**Solution**:
-1. Open MetaMask
-2. Click network dropdown
-3. Select "BNB Smart Chain Testnet"
-4. If not listed, add manually (see above)
-
-### "Insufficient Funds" Error
-
-**Problem**: Not enough BNB for gas
-
-**Solution**:
-1. Get test BNB from faucet
-2. Wait for transaction to confirm
-3. Check balance in MetaMask
-4. Try transaction again
-
-### "Transaction Failed"
-
-**Problem**: Transaction reverted
-
-**Possible causes**:
- Insufficient gas
- Contract error
- Slippage too low
- Approval needed first
-
-**Solution**:
-1. Check error message in MetaMask
-2. Ensure sufficient BNB for gas
-3. Try increasing gas limit
-4. Check if token approval needed
-
-### Can't Connect Wallet
-
-**Problem**: MetaMask won't connect
-
-**Solution**:
-1. Refresh page
-2. Lock/unlock MetaMask
-3. Clear browser cache
-4. Try different browser
-5. Reinstall MetaMask (last resort  have seed phrase ready!)
-
-### Token Not Showing
-
-**Problem**: ORX balance is 0 or not visible
-
-**Solution**:
-1. Verify you're on BNB Testnet
-2. Check if token imported correctly
-3. Verify contract address
-4. Check balance on BSCScan
-5. Refresh MetaMask
-
-### Pending Transaction Stuck
-
-**Problem**: Transaction pending for too long
-
-**Solution**:
-1. Click pending transaction
-2. Click **"Speed Up"** or **"Cancel"**
-3. Pay higher gas fee
-4. Wait for confirmation
-
-Or reset account:
-1. MetaMask Settings
-2. Advanced
-3. Reset Account (clears pending transactions)
-
-## Advanced: Hardware Wallets
-
-For holding significant ORX amounts, use a hardware wallet.
-
-### Supported Hardware Wallets
-
- **Ledger** (Nano S, Nano X, Nano S Plus)
- **Trezor** (Model One, Model T)
-
-### Connecting Ledger
-
-1. Install Ledger Live app
-2. Connect Ledger device
-3. Install Binance Smart Chain app on device
-4. Open MetaMask
-5. Click account icon
-6. Select **"Connect Hardware Wallet"**
-7. Choose **"Ledger"**
-8. Follow prompts
-
-### Connecting Trezor
-
-1. Install Trezor Suite
-2. Connect Trezor device
-3. Enable BNB Chain support
-4. Open MetaMask
-5. Click account icon
-6. Select **"Connect Hardware Wallet"**
-7. Choose **"Trezor"**
-8. Follow prompts
-
-## MultiChain Support (Future)
-
-OracleX currently supports BNB Chain Testnet. Mainnet and other chains coming soon:
-
-  BNB Chain Testnet (Current)
-  BNB Chain Mainnet
-  Ethereum
-  Polygon
-  Arbitrum
-
-## Additional Resources
-
- **MetaMask Support**: https://support.metamask.io
- **BNB Chain Docs**: https://docs.bnbchain.org
- **BSCScan Testnet**: https://testnet.bscscan.com
- **OracleX Discord**: https://discord.gg/oraclex
-
-## Next Steps
-
-Now that your wallet is set up:
-
-1.  [Get Your First ORX ](gettingorx.md)
-2.  [Make Your First Prediction ](makingpredictions.md)
-3.  [Stake ORX for Rewards ](stakingguide.md)
-
-
-
-div style"background: lineargradient(135deg, #FFD700, #9333EA); padding: 1.5rem; borderradius: 12px; color: white;"
-  strong Wallet Ready!/strong You're all set to start using OracleX. Remember to keep your seed phrase safe and never share it with anyone!
-/div

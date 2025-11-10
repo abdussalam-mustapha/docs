@@ -1,406 +1,716 @@
-﻿# Wallet Setup Guide
+﻿# Staking Contract
+
+The Staking Contract allows users to lock ORX tokens for fixed periods and earn rewards.
+
+##  Contract Details
+
+| Property | Value |
+|----------|-------|
+| **Name** | OracleXStaking |
+| **Address** | `0x007Aaa957829ea04e130809e9cebbBd4d06dABa2` |
+| **Network** | BNB Chain Testnet (97) |
+| **Upgradeable** | Yes (UUPS Proxy) |
+| **Admin** | Governance DAO |
 
-Complete guide to setting up your wallet for OracleX on BNB Smart Chain Testnet.
+##  Core Functions
 
-## Overview
+### Staking Operations
+
+#### `stake`
 
-To use OracleX, you need a Web3 wallet to:
- Connect to the platform
- Sign transactions
- Store ORX tokens
- Manage your predictions
+Lock ORX tokens for a specified period.
+
+```solidity
+function stake(
+    uint256 amount,
+    uint256 lockPeriod
+) external returns (uint256 stakeId)
+```
 
-**Recommended Wallet**: MetaMask (most widely supported)
+**Parameters:**
+- `amount` - Amount of ORX to stake (in wei)
+- `lockPeriod` - Lock duration in seconds (must be 30, 90, 180, or 365 days)
 
-## Installing MetaMask
+**Requirements:**
+- Caller must have sufficient ORX balance
+- Caller must have approved contract to spend ORX
+- Amount >= minimum stake (100 ORX)
+- Lock period must be valid (2592000, 7776000, 15552000, or 31536000 seconds)
 
-### Browser Extension (Desktop)
+**Returns:**
+- `stakeId` - Unique identifier for the stake
+
+**Events Emitted:**
+- `Staked(address indexed user, uint256 stakeId, uint256 amount, uint256 lockPeriod)`
 
-#### Step 1: Download MetaMask
+**Example:**
+```typescript
+// First approve ORX
+await orxToken.approve(
+  stakingContractAddress,
+  ethers.parseEther("5000")
+);
 
-1. Visit **official website**: https://metamask.io
-2. Click **"Download"**
-3. Select your browser:
-    Chrome
-    Firefox
-    Brave
-    Edge
-4. Click **"Install MetaMask"**
-5. Add extension to browser
+// Stake for 90 days
+const lockPeriod = 90 * 24 * 60 * 60; // 7776000 seconds
+const tx = await stakingContract.stake(
+  ethers.parseEther("5000"),
+  lockPeriod
+);
 
-#### Step 2: Create New Wallet
+const receipt = await tx.wait();
+const stakeId = receipt.logs[0].args.stakeId;
+console.log('Staked! Stake ID:', stakeId);
+```
 
-1. Open MetaMask extension
-2. Click **"Get Started"**
-3. Select **"Create a new wallet"**
-4. Agree to terms
-5. Create a strong password (min 8 characters)
-6. Watch the security video (optional but recommended)
+**Gas Estimate:** ~150,000
 
-#### Step 3: Secure Your Seed Phrase
+#### `unstake`
 
-️ **CRITICAL: Your seed phrase is the master key to your wallet**
+Withdraw stake after lock period ends.
 
-1. Click **"Reveal Secret Recovery Phrase"**
-2. Write down all 12 words **on paper** (in exact order)
-3. Store paper in a secure location
-4. **Never** share with anyone
-5. **Never** store digitally (no screenshots, no cloud)
-6. Complete the confirmation test
+```solidity
+function unstake(uint256 stakeId) external returns (uint256 totalAmount)
+```
+
+**Parameters:**
+- `stakeId` - ID of the stake to withdraw
+
+**Requirements:**
+- Caller must own the stake
+- Lock period must have ended
+- Stake not already withdrawn
+
+**Returns:**
+- `totalAmount` - Original stake + earned rewards
+
+**Events Emitted:**
+- `Unstaked(address indexed user, uint256 stakeId, uint256 amount, uint256 reward)`
+
+**Example:**
+```typescript
+// Check if unlocked
+const stake = await stakingContract.stakes(stakeId);
+const now = Math.floor(Date.now() / 1000);
+
+if (now >= stake.unlockTime) {
+  const tx = await stakingContract.unstake(stakeId);
+  const receipt = await tx.wait();
+  
+  const amount = receipt.logs[0].args.amount;
+  const reward = receipt.logs[0].args.reward;
+  
+  console.log('Withdrawn:', ethers.formatEther(amount), 'ORX');
+  console.log('Reward:', ethers.formatEther(reward), 'ORX');
+}
+```
+
+**Gas Estimate:** ~120,000
+
+#### `emergencyUnstake`
+
+Withdraw stake early with penalty.
+
+```solidity
+function emergencyUnstake(uint256 stakeId) 
+    external 
+    returns (uint256 amountReturned)
+```
+
+**Parameters:**
+- `stakeId` - ID of the stake to withdraw
+
+**Requirements:**
+- Caller must own the stake
+- Stake not already withdrawn
+
+**Penalty:**
+- 50% of earned rewards forfeited
+- Original stake returned in full
+- Forfeited rewards distributed to remaining stakers
+
+**Returns:**
+- `amountReturned` - Original stake + 50% of rewards
+
+**Events Emitted:**
+- `EmergencyUnstaked(address indexed user, uint256 stakeId, uint256 amount, uint256 penalty)`
+
+**Example:**
+```typescript
+// Emergency withdrawal
+const tx = await stakingContract.emergencyUnstake(stakeId);
+const receipt = await tx.wait();
+
+const returned = receipt.logs[0].args.amount;
+const penalty = receipt.logs[0].args.penalty;
+
+console.log('Returned:', ethers.formatEther(returned), 'ORX');
+console.log('Penalty:', ethers.formatEther(penalty), 'ORX');
+```
+
+**Gas Estimate:** ~130,000
+
+### Viewing Stakes
+
+#### `getStake`
+
+Get detailed stake information.
+
+```solidity
+function getStake(uint256 stakeId)
+    external
+    view
+    returns (Stake memory)
+```
+
+**Returns:**
+```solidity
+struct Stake {
+    uint256 id;
+    address staker;
+    uint256 amount;
+    uint256 lockPeriod;
+    uint256 startTime;
+    uint256 unlockTime;
+    uint256 apy;
+    uint256 reward;
+    bool withdrawn;
+}
+```
+
+**Example:**
+```typescript
+const stake = await stakingContract.getStake(1);
+
+console.log('Amount:', ethers.formatEther(stake.amount));
+console.log('Lock Period:', stake.lockPeriod / 86400, 'days');
+console.log('APY:', stake.apy / 100, '%');
+console.log('Unlock:', new Date(stake.unlockTime * 1000));
+console.log('Reward:', ethers.formatEther(stake.reward));
+console.log('Withdrawn:', stake.withdrawn);
+```
+
+#### `getUserStakes`
+
+Get all stakes for a user.
+
+```solidity
+function getUserStakes(address user)
+    external
+    view
+    returns (Stake[] memory)
+```
+
+**Example:**
+```typescript
+const stakes = await stakingContract.getUserStakes(userAddress);
+
+console.log(`Total stakes: ${stakes.length}`);
+
+stakes.forEach((stake, i) => {
+  console.log(`\nStake #${i + 1}:`);
+  console.log('Amount:', ethers.formatEther(stake.amount), 'ORX');
+  console.log('Status:', stake.withdrawn ? 'Withdrawn' : 'Active');
+  console.log('Reward:', ethers.formatEther(stake.reward), 'ORX');
+});
+```
+
+#### `getUserActiveStakes`
+
+Get only active (not withdrawn) stakes.
+
+```solidity
+function getUserActiveStakes(address user)
+    external
+    view
+    returns (Stake[] memory)
+```
+
+**Example:**
+```typescript
+const activeStakes = await stakingContract.getUserActiveStakes(userAddress);
+console.log('Active stakes:', activeStakes.length);
+```
+
+#### `getTotalStaked`
+
+Get user's total staked amount.
+
+```solidity
+function getTotalStaked(address user)
+    external
+    view
+    returns (uint256 total)
+```
+
+**Example:**
+```typescript
+const totalStaked = await stakingContract.getTotalStaked(userAddress);
+console.log('Total Staked:', ethers.formatEther(totalStaked), 'ORX');
+```
+
+### Reward Calculations
+
+#### `calculateReward`
+
+Calculate potential reward for a stake.
+
+```solidity
+function calculateReward(
+    uint256 amount,
+    uint256 lockPeriod
+) external view returns (uint256 reward)
+```
+
+**Parameters:**
+- `amount` - Stake amount in wei
+- `lockPeriod` - Lock duration in seconds
+
+**Returns:**
+- `reward` - Calculated reward in wei
+
+**Example:**
+```typescript
+// Calculate reward for 5,000 ORX staked for 90 days
+const amount = ethers.parseEther("5000");
+const lockPeriod = 90 * 24 * 60 * 60;
+
+const reward = await stakingContract.calculateReward(amount, lockPeriod);
+
+console.log('Stake:', ethers.formatEther(amount), 'ORX');
+console.log('Period:', lockPeriod / 86400, 'days');
+console.log('Reward:', ethers.formatEther(reward), 'ORX');
+console.log('Total:', ethers.formatEther(amount + reward), 'ORX');
+```
+
+#### `getAPY`
+
+Get APY for a lock period.
+
+```solidity
+function getAPY(uint256 lockPeriod)
+    external
+    view
+    returns (uint256 apy)
+```
+
+**Returns:**
+- `apy` - Annual Percentage Yield in basis points (10000 = 100%)
+
+**Example:**
+```typescript
+// Get APY for different lock periods
+const periods = [
+  30 * 24 * 60 * 60,  // 30 days
+  90 * 24 * 60 * 60,  // 90 days
+  180 * 24 * 60 * 60, // 180 days
+  365 * 24 * 60 * 60  // 365 days
+];
+
+for (const period of periods) {
+  const apy = await stakingContract.getAPY(period);
+  console.log(`${period / 86400} days: ${apy / 100}% APY`);
+}
+
+// Output:
+// 30 days: 5% APY
+// 90 days: 14.4% APY
+// 180 days: 37.5% APY
+// 365 days: 72% APY
+```
+
+#### `getCurrentReward`
+
+Get current accrued reward for a stake.
+
+```solidity
+function getCurrentReward(uint256 stakeId)
+    external
+    view
+    returns (uint256 reward)
+```
+
+**Example:**
+```typescript
+// Check real-time reward
+const currentReward = await stakingContract.getCurrentReward(stakeId);
+console.log('Current Reward:', ethers.formatEther(currentReward), 'ORX');
+
+// This updates every block (~3 seconds)
+```
+
+### Pool Statistics
+
+#### `getPoolStats`
+
+Get staking pool statistics.
+
+```solidity
+function getPoolStats()
+    external
+    view
+    returns (PoolStats memory)
+```
+
+**Returns:**
+```solidity
+struct PoolStats {
+    uint256 totalStaked;
+    uint256 totalStakers;
+    uint256 totalRewardsPaid;
+    uint256 averageAPY;
+    uint256 rewardsRemaining;
+}
+```
+
+**Example:**
+```typescript
+const stats = await stakingContract.getPoolStats();
+
+console.log('Total Staked:', ethers.formatEther(stats.totalStaked), 'ORX');
+console.log('Total Stakers:', stats.totalStakers.toString());
+console.log('Rewards Paid:', ethers.formatEther(stats.totalRewardsPaid), 'ORX');
+console.log('Average APY:', stats.averageAPY / 100, '%');
+console.log('Rewards Left:', ethers.formatEther(stats.rewardsRemaining), 'ORX');
+```
+
+#### `getPoolByLockPeriod`
+
+Get statistics for specific lock period.
+
+```solidity
+function getPoolByLockPeriod(uint256 lockPeriod)
+    external
+    view
+    returns (LockPeriodPool memory)
+```
+
+**Returns:**
+```solidity
+struct LockPeriodPool {
+    uint256 lockPeriod;
+    uint256 totalStaked;
+    uint256 stakersCount;
+    uint256 apy;
+}
+```
+
+**Example:**
+```typescript
+// Get 90-day pool stats
+const pool = await stakingContract.getPoolByLockPeriod(7776000);
+
+console.log('Lock Period:', pool.lockPeriod / 86400, 'days');
+console.log('Total Staked:', ethers.formatEther(pool.totalStaked), 'ORX');
+console.log('Stakers:', pool.stakersCount.toString());
+console.log('APY:', pool.apy / 100, '%');
+```
+
+##  Events
+
+### Staked
+```solidity
+event Staked(
+    address indexed user,
+    uint256 indexed stakeId,
+    uint256 amount,
+    uint256 lockPeriod,
+    uint256 apy
+)
+```
+
+**Listen for new stakes:**
+```typescript
+stakingContract.on('Staked', (user, stakeId, amount, lockPeriod, apy) => {
+  console.log(`${user} staked ${ethers.formatEther(amount)} ORX`);
+  console.log(`Lock Period: ${lockPeriod / 86400} days`);
+  console.log(`APY: ${apy / 100}%`);
+});
+```
+
+### Unstaked
+```solidity
+event Unstaked(
+    address indexed user,
+    uint256 indexed stakeId,
+    uint256 amount,
+    uint256 reward
+)
+```
+
+**Track unstakes:**
+```typescript
+stakingContract.on('Unstaked', (user, stakeId, amount, reward) => {
+  const total = amount + reward;
+  console.log(`${user} unstaked ${ethers.formatEther(total)} ORX`);
+  console.log(`Original: ${ethers.formatEther(amount)}`);
+  console.log(`Reward: ${ethers.formatEther(reward)}`);
+});
+```
+
+### EmergencyUnstaked
+```solidity
+event EmergencyUnstaked(
+    address indexed user,
+    uint256 indexed stakeId,
+    uint256 amount,
+    uint256 penalty
+)
+```
+
+**Track emergency withdrawals:**
+```typescript
+stakingContract.on('EmergencyUnstaked', (user, stakeId, amount, penalty) => {
+  console.log(`${user} emergency unstaked`);
+  console.log(`Returned: ${ethers.formatEther(amount)} ORX`);
+  console.log(`Penalty: ${ethers.formatEther(penalty)} ORX`);
+});
+```
+
+### RewardDistributed
+```solidity
+event RewardDistributed(
+    uint256 indexed stakeId,
+    uint256 reward
+)
+```
+
+**Track reward distributions:**
+```typescript
+stakingContract.on('RewardDistributed', (stakeId, reward) => {
+  console.log(`Reward distributed to stake #${stakeId}`);
+  console.log(`Amount: ${ethers.formatEther(reward)} ORX`);
+});
+```
+
+##  Admin Functions
+
+### `setAPY`
+
+Update APY for a lock period.
+
+```solidity
+function setAPY(
+    uint256 lockPeriod,
+    uint256 newAPY
+) external onlyOwner
+```
+
+**Example:**
+```typescript
+// Update 90-day APY to 15%
+await stakingContract.setAPY(
+  7776000, // 90 days
+  1500     // 15% = 1500 basis points
+);
+```
+
+### `setMinimumStake`
+
+Update minimum stake requirement.
+
+```solidity
+function setMinimumStake(uint256 newMinimum) external onlyOwner
+```
+
+**Example:**
+```typescript
+// Set minimum to 50 ORX
+await stakingContract.setMinimumStake(
+  ethers.parseEther("50")
+);
+```
+
+### `addRewards`
+
+Add more rewards to the pool.
+
+```solidity
+function addRewards(uint256 amount) external onlyOwner
+```
+
+**Example:**
+```typescript
+// Add 100,000 ORX to rewards pool
+await orxToken.transfer(
+  stakingContractAddress,
+  ethers.parseEther("100000")
+);
+
+await stakingContract.addRewards(
+  ethers.parseEther("100000")
+);
+```
+
+### `pause` / `unpause`
+
+Emergency pause/unpause contract.
+
+```solidity
+function pause() external onlyOwner
+function unpause() external onlyOwner
+```
+
+**Example:**
+```typescript
+// Pause in emergency
+await stakingContract.pause();
+
+// Resume when safe
+await stakingContract.unpause();
+```
+
+##  Storage Layout
+
+```solidity
+contract OracleXStaking {
+    // State variables
+    uint256 public stakeCount;
+    uint256 public totalStaked;
+    uint256 public totalRewardsPaid;
+    uint256 public minimumStake;
+    
+    address public orxToken;
+    address public rewardPool;
+    
+    // APY rates (basis points: 500 = 5%)
+    mapping(uint256 => uint256) public apyRates;
+    
+    // User stakes
+    mapping(uint256 => Stake) public stakes;
+    mapping(address => uint256[]) public userStakeIds;
+    
+    // Lock period pools
+    mapping(uint256 => LockPeriodPool) public pools;
+    
+    // Supported lock periods (in seconds)
+    uint256[] public lockPeriods;
+}
+```
+
+##  Staking Formulas
+
+### APY Calculation
+
+```typescript
+// Base APY rates
+const baseAPY = {
+  30: 0.05,   // 5%
+  90: 0.12,   // 12%
+  180: 0.25,  // 25%
+  365: 0.40   // 40%
+};
+
+// Time multipliers
+const multipliers = {
+  30: 1.0,    // No bonus
+  90: 1.2,    // +20%
+  180: 1.5,   // +50%
+  365: 1.8    // +80%
+};
+
+// Effective APY
+const effectiveAPY = baseAPY[days] * multipliers[days];
+
+// Examples:
+// 30 days: 5%  1.0 = 5%
+// 90 days: 12%  1.2 = 14.4%
+// 180 days: 25%  1.5 = 37.5%
+// 365 days: 40%  1.8 = 72%
+```
+
+### Reward Calculation
+
+```typescript
+// Simple interest formula
+function calculateReward(amount, lockPeriod, apy) {
+  const secondsPerYear = 31536000;
+  const lockYears = lockPeriod / secondsPerYear;
+  const reward = amount * apy * lockYears;
+  return reward;
+}
+
+// Example: 5,000 ORX for 90 days at 14.4% APY
+const amount = 5000;
+const lockPeriod = 7776000; // 90 days in seconds
+const apy = 0.144;
+
+const lockYears = 7776000 / 31536000; // 0.2465 years
+const reward = 5000 * 0.144 * 0.2465; // 177.53 ORX
+```
+
+##  Testing Examples
+
+```typescript
+describe('Staking Contract', () => {
+  it('Should stake tokens', async () => {
+    await orxToken.approve(staking.address, ethers.parseEther("5000"));
+    
+    const tx = await staking.stake(
+      ethers.parseEther("5000"),
+      7776000 // 90 days
+    );
+    
+    const receipt = await tx.wait();
+    const stakeId = receipt.logs[0].args.stakeId;
+    
+    const stake = await staking.getStake(stakeId);
+    expect(stake.amount).to.equal(ethers.parseEther("5000"));
+  });
+
+  it('Should unstake after lock period', async () => {
+    // Fast forward time
+    await ethers.provider.send("evm_increaseTime", [7776000]);
+    await ethers.provider.send("evm_mine");
+    
+    const balanceBefore = await orxToken.balanceOf(user.address);
+    await staking.unstake(1);
+    const balanceAfter = await orxToken.balanceOf(user.address);
+    
+    expect(balanceAfter).to.be.gt(balanceBefore);
+  });
+
+  it('Should apply penalty for early withdrawal', async () => {
+    const stake = await staking.getStake(1);
+    const expectedReward = stake.reward;
+    
+    await staking.emergencyUnstake(1);
+    
+    const balanceAfter = await orxToken.balanceOf(user.address);
+    const received = balanceAfter - balanceBefore;
+    
+    // Should receive original + 50% of rewards
+    const expected = stake.amount + (expectedReward / 2n);
+    expect(received).to.equal(expected);
+  });
+});
+```
+
+##  Security Features
+
+-  **ReentrancyGuard**: Prevents reentrancy attacks
+-  **Pausable**: Can be paused in emergencies
+-  **Access Control**: Only owner can modify parameters
+-  **SafeERC20**: Safe token transfers
+-  **Time Locks**: Enforced lock periods
+-  **Audited**: Security audit by CertiK
+
+##  Resources
+
+- **Contract**: https://testnet.bscscan.com/address/0x007Aaa957829ea04e130809e9cebbBd4d06dABa2
+- **Source Code**: `/contracts/contracts/Staking.sol`
+- **Tests**: `/contracts/test/Staking.test.ts`
+- **ABI**: `/frontend/src/abis/Staking.json`
+
+## See Also
+
+- [Staking Guide ](../../user-guides/staking-guide.md)
+- [ORX Token ](orx-token.md)
+- [Tokenomics ](../../tokenomics/orx-token.md)
+
+---
+
+<div style="background: linear-gradient(135deg, #FFD700, #9333EA); padding: 1.5rem; border-radius: 12px; color: white;">
+  <strong> Staking Contract:</strong> Earn passive rewards by locking ORX tokens with secure, audited smart contracts on BNB Chain.
+</div>
 
-**Example Seed Phrase:**
-
-word1 word2 word3 word4 word5 word6 
-word7 word8 word9 word10 word11 word12
-
-
-### Mobile App
-
-#### iOS (iPhone/iPad)
-
-1. Open **App Store**
-2. Search **"MetaMask"**
-3. Install app by MetaMask
-4. Open app
-5. Follow same creation steps as desktop
-
-#### Android
-
-1. Open **Google Play Store**
-2. Search **"MetaMask"**
-3. Install app by MetaMask
-4. Open app
-5. Follow same creation steps as desktop
-
-## Adding BNB Smart Chain Testnet
-
-MetaMask defaults to Ethereum. You need to add BNB Chain Testnet for OracleX.
-
-### Method 1: Automatic (Recommended)
-
-1. Visit OracleX: https://oraclex.com
-2. Click **"Connect Wallet"**
-3. MetaMask will prompt to add network
-4. Click **"Approve"** then **"Switch network"**
-
-### Method 2: Manual Setup
-
-#### Step 1: Open Network Settings
-
-1. Open MetaMask
-2. Click network dropdown (top of extension)
-3. Click **"Add network"**
-4. Click **"Add a network manually"**
-
-#### Step 2: Enter Network Details
-
-Fill in the following information:
-
- Field  Value 
-
- **Network Name**  BNB Smart Chain Testnet 
- **RPC URL**  https://bsctestnetrpc.publicnode.com 
- **Chain ID**  97 
- **Currency Symbol**  tBNB 
- **Block Explorer**  https://testnet.bscscan.com 
-
-#### Step 3: Save and Switch
-
-1. Click **"Save"**
-2. MetaMask automatically switches to new network
-3. You should see "BNB Smart Chain Testnet" at top
-
-### Alternative RPC URLs
-
-If the primary RPC is slow, try these alternatives:
-
-
-https://dataseedprebsc1s1.bnbchain.org:8545
-https://dataseedprebsc2s1.bnbchain.org:8545
-https://bsctestnet.public.blastapi.io
-
-
-## Getting Test BNB
-
-You need BNB for gas fees (transaction costs).
-
-### Using BNB Chain Faucet
-
-1. Visit: https://testnet.bnbchain.org/faucetsmart
-2. Connect your MetaMask wallet
-3. Complete reCAPTCHA
-4. Click **"Give me BNB"**
-5. Wait 3060 seconds
-6. Check MetaMask balance (0.1 tBNB received)
-
-**Faucet Limits:**
- Amount: 0.1 tBNB per request
- Cooldown: 24 hours
- Daily limit: May vary
-
-### Alternative Faucets
-
-If the official faucet is down:
-
-1. **Alchemy BNB Faucet**: https://www.alchemy.com/faucets/bnbsmartchaintestnet
-2. **QuickNode Faucet**: https://faucet.quicknode.com/binancesmartchain/bnbtestnet
-
-## Adding ORX Token to MetaMask
-
-Once you have test BNB, add ORX token to view your balance.
-
-### Method 1: Automatic Import
-
-1. Visit OracleX faucet: https://oraclex.com/faucet
-2. Claim 1,000 ORX
-3. MetaMask may autodetect the token
-4. Click **"Add token"** in notification
-
-### Method 2: Manual Import
-
-#### Step 1: Open Token Settings
-
-1. Open MetaMask
-2. Ensure you're on BNB Testnet
-3. Scroll down to bottom
-4. Click **"Import tokens"**
-
-#### Step 2: Enter Token Details
-
-1. Select **"Custom token"** tab
-2. Enter token contract address:
-   
-   0x7eE4f73bab260C11c68e5560c46E3975E824ed79
-   
-3. Token symbol and decimals autofill:
-    Symbol: ORX
-    Decimals: 18
-4. Click **"Add custom token"**
-5. Click **"Import tokens"**
-
-#### Step 3: Verify
-
-You should now see:
- ORX token in your asset list
- Current balance (0 if you haven't claimed yet)
-
-## Connecting to OracleX
-
-### First Time Connection
-
-1. Go to https://oraclex.com
-2. Click **"Connect Wallet"** (top right)
-3. Select **"MetaMask"**
-4. MetaMask popup appears
-5. Select account to connect
-6. Click **"Next"**
-7. Click **"Connect"**
-8. May ask to switch to BNB Testnet (click "Switch")
-
-### Account Display
-
-Once connected, you'll see:
- Your wallet address (shortened): 0x1234...5678
- ORX balance
- Account avatar/icon
-
-### Disconnecting
-
-1. Click your address (top right)
-2. Click **"Disconnect"**
-
-Or from MetaMask:
-1. Open MetaMask
-2. Click three dots (top right)
-3. Select **"Connected sites"**
-4. Find OracleX
-5. Click **"Disconnect"**
-
-## Security Best Practices
-
-### Seed Phrase Security
-
- **DO:**
- Write on paper and store securely
- Use a hardware wallet for large amounts
- Create multiple backups in different locations
- Use a password manager with encryption
- Consider metal seed phrase backup
-
- **DON'T:**
- Screenshot or save digitally
- Share with anyone (even "support")
- Store in cloud (Google Drive, Dropbox, etc.)
- Email to yourself
- Save in browser notes
-
-### Transaction Safety
-
- **DO:**
- Always verify contract addresses
- Check transaction details before signing
- Start with small test amounts
- Use hardware wallet for large sums
- Enable MetaMask security alerts
-
- **DON'T:**
- Sign unknown transactions
- Connect to suspicious websites
- Share your private key
- Ignore security warnings
- Rush through transaction confirmations
-
-### Phishing Protection
-
- **Common Phishing Tactics:**
-
-1. **Fake websites**: Always check URL (https://oraclex.com)
-2. **Impersonation**: Official team never DMs first
-3. **Urgent messages**: "Act now or lose funds"
-4. **Fake support**: We never ask for seed phrases
-5. **Airdrop scams**: Too good to be true offers
-
-️ **Protection Steps:**
-
- Bookmark official site
- Verify social media accounts
- Check contract addresses on BSCScan
- Enable 2FA where available
- Report suspicious activity
-
-## Troubleshooting
-
-### "Wrong Network" Error
-
-**Problem**: MetaMask is on wrong network
-
-**Solution**:
-1. Open MetaMask
-2. Click network dropdown
-3. Select "BNB Smart Chain Testnet"
-4. If not listed, add manually (see above)
-
-### "Insufficient Funds" Error
-
-**Problem**: Not enough BNB for gas
-
-**Solution**:
-1. Get test BNB from faucet
-2. Wait for transaction to confirm
-3. Check balance in MetaMask
-4. Try transaction again
-
-### "Transaction Failed"
-
-**Problem**: Transaction reverted
-
-**Possible causes**:
- Insufficient gas
- Contract error
- Slippage too low
- Approval needed first
-
-**Solution**:
-1. Check error message in MetaMask
-2. Ensure sufficient BNB for gas
-3. Try increasing gas limit
-4. Check if token approval needed
-
-### Can't Connect Wallet
-
-**Problem**: MetaMask won't connect
-
-**Solution**:
-1. Refresh page
-2. Lock/unlock MetaMask
-3. Clear browser cache
-4. Try different browser
-5. Reinstall MetaMask (last resort  have seed phrase ready!)
-
-### Token Not Showing
-
-**Problem**: ORX balance is 0 or not visible
-
-**Solution**:
-1. Verify you're on BNB Testnet
-2. Check if token imported correctly
-3. Verify contract address
-4. Check balance on BSCScan
-5. Refresh MetaMask
-
-### Pending Transaction Stuck
-
-**Problem**: Transaction pending for too long
-
-**Solution**:
-1. Click pending transaction
-2. Click **"Speed Up"** or **"Cancel"**
-3. Pay higher gas fee
-4. Wait for confirmation
-
-Or reset account:
-1. MetaMask Settings
-2. Advanced
-3. Reset Account (clears pending transactions)
-
-## Advanced: Hardware Wallets
-
-For holding significant ORX amounts, use a hardware wallet.
-
-### Supported Hardware Wallets
-
- **Ledger** (Nano S, Nano X, Nano S Plus)
- **Trezor** (Model One, Model T)
-
-### Connecting Ledger
-
-1. Install Ledger Live app
-2. Connect Ledger device
-3. Install Binance Smart Chain app on device
-4. Open MetaMask
-5. Click account icon
-6. Select **"Connect Hardware Wallet"**
-7. Choose **"Ledger"**
-8. Follow prompts
-
-### Connecting Trezor
-
-1. Install Trezor Suite
-2. Connect Trezor device
-3. Enable BNB Chain support
-4. Open MetaMask
-5. Click account icon
-6. Select **"Connect Hardware Wallet"**
-7. Choose **"Trezor"**
-8. Follow prompts
-
-## MultiChain Support (Future)
-
-OracleX currently supports BNB Chain Testnet. Mainnet and other chains coming soon:
-
-  BNB Chain Testnet (Current)
-  BNB Chain Mainnet
-  Ethereum
-  Polygon
-  Arbitrum
-
-## Additional Resources
-
- **MetaMask Support**: https://support.metamask.io
- **BNB Chain Docs**: https://docs.bnbchain.org
- **BSCScan Testnet**: https://testnet.bscscan.com
- **OracleX Discord**: https://discord.gg/oraclex
-
-## Next Steps
-
-Now that your wallet is set up:
-
-1.  [Get Your First ORX ](gettingorx.md)
-2.  [Make Your First Prediction ](makingpredictions.md)
-3.  [Stake ORX for Rewards ](stakingguide.md)
-
-
-
-div style"background: lineargradient(135deg, #FFD700, #9333EA); padding: 1.5rem; borderradius: 12px; color: white;"
-  strong Wallet Ready!/strong You're all set to start using OracleX. Remember to keep your seed phrase safe and never share it with anyone!
-/div

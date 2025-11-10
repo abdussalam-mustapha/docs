@@ -1,406 +1,696 @@
-﻿# Wallet Setup Guide
+﻿# Architecture Overview
 
-Complete guide to setting up your wallet for OracleX on BNB Smart Chain Testnet.
+This document provides a comprehensive overview of OracleX's technical architecture, covering all system components, their interactions, and design decisions.
 
-## Overview
+##  System Architecture
 
-To use OracleX, you need a Web3 wallet to:
- Connect to the platform
- Sign transactions
- Store ORX tokens
- Manage your predictions
+### High-Level Overview
 
-**Recommended Wallet**: MetaMask (most widely supported)
+```
 
-## Installing MetaMask
+                          Users                                  
+              (Web Browsers, Mobile Wallets)                     
 
-### Browser Extension (Desktop)
+                 
+                  HTTPS/WSS
+                 
 
-#### Step 1: Download MetaMask
-
-1. Visit **official website**: https://metamask.io
-2. Click **"Download"**
-3. Select your browser:
-    Chrome
-    Firefox
-    Brave
-    Edge
-4. Click **"Install MetaMask"**
-5. Add extension to browser
-
-#### Step 2: Create New Wallet
-
-1. Open MetaMask extension
-2. Click **"Get Started"**
-3. Select **"Create a new wallet"**
-4. Agree to terms
-5. Create a strong password (min 8 characters)
-6. Watch the security video (optional but recommended)
-
-#### Step 3: Secure Your Seed Phrase
-
-️ **CRITICAL: Your seed phrase is the master key to your wallet**
-
-1. Click **"Reveal Secret Recovery Phrase"**
-2. Write down all 12 words **on paper** (in exact order)
-3. Store paper in a secure location
-4. **Never** share with anyone
-5. **Never** store digitally (no screenshots, no cloud)
-6. Complete the confirmation test
-
-**Example Seed Phrase:**
-
-word1 word2 word3 word4 word5 word6 
-word7 word8 word9 word10 word11 word12
-
-
-### Mobile App
-
-#### iOS (iPhone/iPad)
-
-1. Open **App Store**
-2. Search **"MetaMask"**
-3. Install app by MetaMask
-4. Open app
-5. Follow same creation steps as desktop
-
-#### Android
-
-1. Open **Google Play Store**
-2. Search **"MetaMask"**
-3. Install app by MetaMask
-4. Open app
-5. Follow same creation steps as desktop
-
-## Adding BNB Smart Chain Testnet
-
-MetaMask defaults to Ethereum. You need to add BNB Chain Testnet for OracleX.
-
-### Method 1: Automatic (Recommended)
-
-1. Visit OracleX: https://oraclex.com
-2. Click **"Connect Wallet"**
-3. MetaMask will prompt to add network
-4. Click **"Approve"** then **"Switch network"**
-
-### Method 2: Manual Setup
-
-#### Step 1: Open Network Settings
-
-1. Open MetaMask
-2. Click network dropdown (top of extension)
-3. Click **"Add network"**
-4. Click **"Add a network manually"**
-
-#### Step 2: Enter Network Details
-
-Fill in the following information:
-
- Field  Value 
-
- **Network Name**  BNB Smart Chain Testnet 
- **RPC URL**  https://bsctestnetrpc.publicnode.com 
- **Chain ID**  97 
- **Currency Symbol**  tBNB 
- **Block Explorer**  https://testnet.bscscan.com 
-
-#### Step 3: Save and Switch
-
-1. Click **"Save"**
-2. MetaMask automatically switches to new network
-3. You should see "BNB Smart Chain Testnet" at top
-
-### Alternative RPC URLs
-
-If the primary RPC is slow, try these alternatives:
-
-
-https://dataseedprebsc1s1.bnbchain.org:8545
-https://dataseedprebsc2s1.bnbchain.org:8545
-https://bsctestnet.public.blastapi.io
-
-
-## Getting Test BNB
-
-You need BNB for gas fees (transaction costs).
-
-### Using BNB Chain Faucet
-
-1. Visit: https://testnet.bnbchain.org/faucetsmart
-2. Connect your MetaMask wallet
-3. Complete reCAPTCHA
-4. Click **"Give me BNB"**
-5. Wait 3060 seconds
-6. Check MetaMask balance (0.1 tBNB received)
-
-**Faucet Limits:**
- Amount: 0.1 tBNB per request
- Cooldown: 24 hours
- Daily limit: May vary
-
-### Alternative Faucets
-
-If the official faucet is down:
-
-1. **Alchemy BNB Faucet**: https://www.alchemy.com/faucets/bnbsmartchaintestnet
-2. **QuickNode Faucet**: https://faucet.quicknode.com/binancesmartchain/bnbtestnet
-
-## Adding ORX Token to MetaMask
-
-Once you have test BNB, add ORX token to view your balance.
-
-### Method 1: Automatic Import
-
-1. Visit OracleX faucet: https://oraclex.com/faucet
-2. Claim 1,000 ORX
-3. MetaMask may autodetect the token
-4. Click **"Add token"** in notification
-
-### Method 2: Manual Import
-
-#### Step 1: Open Token Settings
-
-1. Open MetaMask
-2. Ensure you're on BNB Testnet
-3. Scroll down to bottom
-4. Click **"Import tokens"**
-
-#### Step 2: Enter Token Details
-
-1. Select **"Custom token"** tab
-2. Enter token contract address:
+                     Frontend Layer                              
    
-   0x7eE4f73bab260C11c68e5560c46E3975E824ed79
+   React 18 + TypeScript + Vite                              
+    Pages (Markets, Staking, Governance, Profile)           
+    Components (Shadcn UI, Custom)                          
+    State Management (React Context, Hooks)                 
+    Web3 Integration (ethers.js v6, MetaMask)               
    
-3. Token symbol and decimals autofill:
-    Symbol: ORX
-    Decimals: 18
-4. Click **"Add custom token"**
-5. Click **"Import tokens"**
 
-#### Step 3: Verify
+                 
+        
+                         
+         REST/WSS         Web3 RPC
+                         
+  
+  Backend API         BNB Chain (Smart Contracts)            
+  (Node.js)           
+                     ORX Token (ERC-20)                    
+        Transfer, Approve, Allowance       
+ PostgreSQL         
+  Database          
+       Market Factory                        
+                      Create, List, Pause Markets         
+        
+    Redis           
+    Cache          Prediction Market                     
+        Stake, Claim, Resolve               
+                      
+        
+  Blockchain       Staking Contract                      
+   Sync        Stake, Unstake, Rewards            
+        
+      
+                      Governance DAO                        
+                       Proposals, Voting, Execution        
+                       
+                       
+                      Dispute Resolution                    
+                       Challenge, Vote, Resolve            
+                       
+                       
+                      Oracle Bridge                         
+                       Register Oracles, Submit Data       
+                       
+                   
+                                   
+                                    Oracle Callbacks
+                                   
 
-You should now see:
- ORX token in your asset list
- Current balance (0 if you haven't claimed yet)
+              TruthMesh AI Oracle (Python)                        
+     
+   FastAPI Server                                              
+     REST API endpoints                                       
+     Webhook handlers                                         
+     
+     
+   Agent System (LangChain + OpenAI)                          
+     Data Fetcher Agent                                       
+     Validator Agent                                          
+     Arbiter Agent                                            
+     Confidence Scorer                                        
+     
+     
+   Data Sources                                                
+     CoinGecko API (crypto prices)                           
+     NewsAPI (news & events)                                 
+     Twitter API (social sentiment)                          
+     Weather APIs (climate data)                             
+     Custom scrapers                                          
+     
 
-## Connecting to OracleX
+```
 
-### First Time Connection
+##  Component Breakdown
 
-1. Go to https://oraclex.com
-2. Click **"Connect Wallet"** (top right)
-3. Select **"MetaMask"**
-4. MetaMask popup appears
-5. Select account to connect
-6. Click **"Next"**
-7. Click **"Connect"**
-8. May ask to switch to BNB Testnet (click "Switch")
+### 1. Frontend Layer
 
-### Account Display
+**Technology Stack:**
+- **Framework**: React 18 with TypeScript
+- **Build Tool**: Vite (fast HMR, optimized builds)
+- **Styling**: TailwindCSS + Shadcn UI components
+- **Web3**: ethers.js v6 for blockchain interaction
+- **State**: React Context API + custom hooks
+- **Routing**: React Router v6
 
-Once connected, you'll see:
- Your wallet address (shortened): 0x1234...5678
- ORX balance
- Account avatar/icon
+**Key Directories:**
+```
+frontend/src/
+ pages/           # Route pages (Markets, Staking, etc.)
+ components/      # Reusable UI components
+    ui/          # Shadcn UI primitives
+    [custom]/    # App-specific components
+ services/        # API and Web3 services
+ hooks/           # Custom React hooks
+ lib/             # Utilities and helpers
+ abis/            # Smart contract ABIs
+ assets/          # Images, fonts, icons
+```
 
-### Disconnecting
+**Web3 Integration:**
+```typescript
+// Wallet Connection
+const { provider, signer, address } = useWallet();
 
-1. Click your address (top right)
-2. Click **"Disconnect"**
+// Contract Interaction
+const contract = new ethers.Contract(
+  CONTRACT_ADDRESS,
+  ABI,
+  signer
+);
 
-Or from MetaMask:
-1. Open MetaMask
-2. Click three dots (top right)
-3. Select **"Connected sites"**
-4. Find OracleX
-5. Click **"Disconnect"**
+// Transaction with error handling
+try {
+  const tx = await contract.stakeTokens(amount, lockPeriod, false);
+  const receipt = await tx.wait();
+  console.log('Transaction hash:', tx.hash);
+} catch (error) {
+  handleError(error);
+}
+```
 
-## Security Best Practices
+### 2. Backend API Layer
 
-### Seed Phrase Security
+**Technology Stack:**
+- **Runtime**: Node.js 20+
+- **Framework**: Express.js
+- **Language**: TypeScript
+- **ORM**: Prisma (PostgreSQL)
+- **Cache**: Redis
+- **Logging**: Winston
+- **Validation**: Zod
 
- **DO:**
- Write on paper and store securely
- Use a hardware wallet for large amounts
- Create multiple backups in different locations
- Use a password manager with encryption
- Consider metal seed phrase backup
+**Architecture Pattern:**
+```
+Routes  Controllers  Services  Models
+  
+Middleware (Auth, Validation, Error Handling)
+```
 
- **DON'T:**
- Screenshot or save digitally
- Share with anyone (even "support")
- Store in cloud (Google Drive, Dropbox, etc.)
- Email to yourself
- Save in browser notes
+**Key Directories:**
+```
+backend/src/
+ routes/          # API route definitions
+ controllers/     # Request handlers
+ services/        # Business logic
+    blockchain/  # Blockchain interaction
+    oracle/      # Oracle communication
+    analytics/   # Data aggregation
+ models/          # Prisma schema & types
+ middleware/      # Express middleware
+ utils/           # Helper functions
+ config/          # Configuration files
+```
 
-### Transaction Safety
+**Database Schema:**
+```prisma
+model Market {
+  id              String      @id @default(uuid())
+  marketId        String      @unique // On-chain ID
+  title           String
+  description     String
+  category        String
+  status          MarketStatus
+  expiryTime      DateTime
+  totalVolume     Decimal
+  outcomes        Outcome[]
+  predictions     Prediction[]
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+}
 
- **DO:**
- Always verify contract addresses
- Check transaction details before signing
- Start with small test amounts
- Use hardware wallet for large sums
- Enable MetaMask security alerts
+model User {
+  id              String      @id @default(uuid())
+  address         String      @unique
+  reputation      Int         @default(500)
+  totalEarnings   Decimal     @default(0)
+  predictions     Prediction[]
+  createdAt       DateTime    @default(now())
+}
 
- **DON'T:**
- Sign unknown transactions
- Connect to suspicious websites
- Share your private key
- Ignore security warnings
- Rush through transaction confirmations
+model Prediction {
+  id              String      @id @default(uuid())
+  user            User        @relation(fields: [userId], references: [id])
+  userId          String
+  market          Market      @relation(fields: [marketId], references: [id])
+  marketId        String
+  outcome         Int
+  amount          Decimal
+  timestamp       DateTime    @default(now())
+  claimed         Boolean     @default(false)
+}
+```
 
-### Phishing Protection
+### 3. Smart Contract Layer
 
- **Common Phishing Tactics:**
+**Blockchain**: BNB Chain (Binance Smart Chain)
+- **Network**: Testnet (Chain ID: 97)
+- **RPC**: https://bsc-testnet-rpc.publicnode.com
+- **Explorer**: https://testnet.bscscan.com
 
-1. **Fake websites**: Always check URL (https://oraclex.com)
-2. **Impersonation**: Official team never DMs first
-3. **Urgent messages**: "Act now or lose funds"
-4. **Fake support**: We never ask for seed phrases
-5. **Airdrop scams**: Too good to be true offers
+**Contract Architecture:**
 
-️ **Protection Steps:**
+#### ORX Token (ERC-20)
+```solidity
+contract ORXToken is ERC20, Ownable {
+    uint256 public constant TOTAL_SUPPLY = 1_000_000_000 * 10**18;
+    
+    mapping(address => bool) public minters;
+    
+    function mint(address to, uint256 amount) external onlyMinter {
+        require(totalSupply() + amount <= TOTAL_SUPPLY);
+        _mint(to, amount);
+    }
+    
+    function addMinter(address minter) external onlyOwner {
+        minters[minter] = true;
+    }
+}
+```
 
- Bookmark official site
- Verify social media accounts
- Check contract addresses on BSCScan
- Enable 2FA where available
- Report suspicious activity
+**Deployed**: `0x7eE4f73bab260C11c68e5560c46E3975E824ed79`
 
-## Troubleshooting
+#### Market Factory
+```solidity
+contract PredictionMarketFactory {
+    mapping(uint256 => Market) public markets;
+    uint256 public marketCounter;
+    uint256 public marketCreationFee = 0.01 ether;
+    
+    function createMarket(
+        string memory title,
+        string[] memory outcomes,
+        uint256 expiryTime,
+        address oracle
+    ) external payable returns (uint256) {
+        require(msg.value >= marketCreationFee);
+        // Create market logic
+    }
+}
+```
 
-### "Wrong Network" Error
+**Deployed**: `0x273C8Dde70897069BeC84394e235feF17e7c5E1b`
 
-**Problem**: MetaMask is on wrong network
+#### Staking Contract
+```solidity
+contract StakingContract {
+    struct StakeInfo {
+        uint256 amount;
+        uint256 timestamp;
+        uint256 lockPeriod;
+        uint256 rewardDebt;
+        bool isValidator;
+    }
+    
+    mapping(address => StakeInfo) public stakes;
+    
+    uint256 public rewardRate = 100000000000000; // per second
+    uint256 public minimumStakingPeriod = 7 days;
+    
+    function stakeTokens(
+        uint256 amount,
+        uint256 lockPeriod,
+        bool asValidator
+    ) external {
+        require(lockPeriod >= minimumStakingPeriod);
+        // Staking logic
+    }
+}
+```
 
-**Solution**:
-1. Open MetaMask
-2. Click network dropdown
-3. Select "BNB Smart Chain Testnet"
-4. If not listed, add manually (see above)
+**Deployed**: `0x007Aaa957829ea04e130809e9cebbBd4d06dABa2`
 
-### "Insufficient Funds" Error
+### 4. AI Oracle Layer
 
-**Problem**: Not enough BNB for gas
+**Technology Stack:**
+- **Framework**: FastAPI (Python 3.11+)
+- **AI/ML**: LangChain + OpenAI GPT-4
+- **Data**: Pandas, NumPy
+- **HTTP Client**: httpx (async)
+- **Task Queue**: Celery + Redis
 
-**Solution**:
-1. Get test BNB from faucet
-2. Wait for transaction to confirm
-3. Check balance in MetaMask
-4. Try transaction again
+**Agent Architecture:**
 
-### "Transaction Failed"
+```python
+class TruthMeshOracle:
+    def __init__(self):
+        self.data_fetcher = DataFetcherAgent()
+        self.validator = ValidatorAgent()
+        self.arbiter = ArbiterAgent()
+        self.scorer = ConfidenceScorerAgent()
+    
+    async def resolve_market(self, market_id: str) -> Resolution:
+        # 1. Fetch data from multiple sources
+        raw_data = await self.data_fetcher.fetch(market_id)
+        
+        # 2. Validate data integrity
+        validated_data = await self.validator.validate(raw_data)
+        
+        # 3. Determine outcome
+        outcome = await self.arbiter.decide(validated_data)
+        
+        # 4. Calculate confidence score
+        confidence = await self.scorer.score(outcome, validated_data)
+        
+        return Resolution(
+            market_id=market_id,
+            outcome=outcome,
+            confidence=confidence,
+            sources=validated_data.sources
+        )
+```
 
-**Problem**: Transaction reverted
+**Data Sources Integration:**
 
-**Possible causes**:
- Insufficient gas
- Contract error
- Slippage too low
- Approval needed first
+```python
+# CoinGecko for crypto prices
+async def fetch_crypto_price(symbol: str, date: datetime):
+    url = f"https://api.coingecko.com/api/v3/coins/{symbol}/history"
+    params = {"date": date.strftime("%d-%m-%Y")}
+    response = await client.get(url, params=params)
+    return response.json()["market_data"]["current_price"]["usd"]
 
-**Solution**:
-1. Check error message in MetaMask
-2. Ensure sufficient BNB for gas
-3. Try increasing gas limit
-4. Check if token approval needed
+# NewsAPI for events
+async def fetch_news_sentiment(query: str, date_range: tuple):
+    url = "https://newsapi.org/v2/everything"
+    params = {
+        "q": query,
+        "from": date_range[0],
+        "to": date_range[1],
+        "sortBy": "relevancy",
+        "apiKey": settings.NEWS_API_KEY
+    }
+    response = await client.get(url, params=params)
+    articles = response.json()["articles"]
+    return analyze_sentiment(articles)
+```
 
-### Can't Connect Wallet
+##  Data Flow
 
-**Problem**: MetaMask won't connect
+### 1. Market Creation Flow
 
-**Solution**:
-1. Refresh page
-2. Lock/unlock MetaMask
-3. Clear browser cache
-4. Try different browser
-5. Reinstall MetaMask (last resort  have seed phrase ready!)
+```
+User (Frontend)
+     AI generates market details
+Frontend validates input
+     POST /api/markets
+Backend API
+     Store in database
+     Check wallet approval
+Web3 Transaction
+     createMarket(title, outcomes, expiry)
+Smart Contract
+     Emit MarketCreated event
+Blockchain Sync Service
+     Listen for events
+     Update database status
+Backend Database
+     Notify frontend via WebSocket
+Frontend updates UI
+```
 
-### Token Not Showing
+### 2. Prediction Flow
 
-**Problem**: ORX balance is 0 or not visible
+```
+User selects outcome + amount
+    
+Frontend calculates expected returns
+    
+Check/Request ORX approval
+     approve(stakingContract, amount)
+ORX Token Contract
+     Approval granted
+     stakeTokens(marketId, outcome, amount)
+Market Contract
+     Transfer ORX from user
+     Update stake info
+     Emit Prediction event
+Blockchain Sync
+     Update prediction in DB
+Backend Database
+     Update user portfolio
+Frontend refreshes UI
+```
 
-**Solution**:
-1. Verify you're on BNB Testnet
-2. Check if token imported correctly
-3. Verify contract address
-4. Check balance on BSCScan
-5. Refresh MetaMask
+### 3. Market Resolution Flow
 
-### Pending Transaction Stuck
+```
+Market expires (expiryTime reached)
+    
+Cron job detects expired market
+     POST /oracle/resolve/{marketId}
+Backend triggers Oracle
+    
+TruthMesh AI Oracle
+     Fetch data from sources
+     Cross-validate
+     Determine outcome
+     Calculate confidence
+     Return resolution
+Backend receives result
+     resolveMarket(marketId, winningOutcome)
+Smart Contract
+     Set winner
+     Enable claims
+     Emit MarketResolved event
+Blockchain Sync
+     Update market status
+Backend notifies winners
+     Push notifications
+Users claim rewards
+```
 
-**Problem**: Transaction pending for too long
+##  Security Architecture
 
-**Solution**:
-1. Click pending transaction
-2. Click **"Speed Up"** or **"Cancel"**
-3. Pay higher gas fee
-4. Wait for confirmation
+### Smart Contract Security
 
-Or reset account:
-1. MetaMask Settings
-2. Advanced
-3. Reset Account (clears pending transactions)
+**1. Access Control**
+```solidity
+// Ownable pattern for admin functions
+modifier onlyOwner() {
+    require(msg.sender == owner);
+    _;
+}
 
-## Advanced: Hardware Wallets
+// Role-based access for oracles
+modifier onlyOracle() {
+    require(oracles[msg.sender].isActive);
+    _;
+}
+```
 
-For holding significant ORX amounts, use a hardware wallet.
+**2. Reentrancy Protection**
+```solidity
+// OpenZeppelin ReentrancyGuard
+modifier nonReentrant() {
+    require(_status != _ENTERED);
+    _status = _ENTERED;
+    _;
+    _status = _NOT_ENTERED;
+}
+```
 
-### Supported Hardware Wallets
+**3. SafeMath & Checks**
+```solidity
+// Safe token transfers
+using SafeERC20 for IERC20;
+orxToken.safeTransferFrom(msg.sender, address(this), amount);
 
- **Ledger** (Nano S, Nano X, Nano S Plus)
- **Trezor** (Model One, Model T)
+// Overflow protection (Solidity 0.8+)
+uint256 total = stake.amount + newAmount; // Auto-reverts on overflow
+```
 
-### Connecting Ledger
+### API Security
 
-1. Install Ledger Live app
-2. Connect Ledger device
-3. Install Binance Smart Chain app on device
-4. Open MetaMask
-5. Click account icon
-6. Select **"Connect Hardware Wallet"**
-7. Choose **"Ledger"**
-8. Follow prompts
+**1. Rate Limiting**
+```typescript
+// Express rate limiter
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // 100 requests per window
+  message: "Too many requests"
+});
 
-### Connecting Trezor
+app.use('/api/', limiter);
+```
 
-1. Install Trezor Suite
-2. Connect Trezor device
-3. Enable BNB Chain support
-4. Open MetaMask
-5. Click account icon
-6. Select **"Connect Hardware Wallet"**
-7. Choose **"Trezor"**
-8. Follow prompts
+**2. Input Validation**
+```typescript
+// Zod schema validation
+const createMarketSchema = z.object({
+  title: z.string().min(10).max(200),
+  outcomes: z.array(z.string()).min(2).max(10),
+  expiryTime: z.number().min(Date.now() + 3600000), // At least 1 hour future
+  category: z.enum(['crypto', 'sports', 'politics', 'business', 'science'])
+});
+```
 
-## MultiChain Support (Future)
+**3. Authentication**
+```typescript
+// Wallet signature verification
+async function verifySignature(address: string, signature: string, message: string) {
+  const recoveredAddress = ethers.verifyMessage(message, signature);
+  return recoveredAddress.toLowerCase() === address.toLowerCase();
+}
+```
 
-OracleX currently supports BNB Chain Testnet. Mainnet and other chains coming soon:
+##  Performance Optimization
 
-  BNB Chain Testnet (Current)
-  BNB Chain Mainnet
-  Ethereum
-  Polygon
-  Arbitrum
+### Frontend Optimization
 
-## Additional Resources
+**1. Code Splitting**
+```typescript
+// Lazy load routes
+const Markets = lazy(() => import('./pages/Markets'));
+const Staking = lazy(() => import('./pages/Staking'));
 
- **MetaMask Support**: https://support.metamask.io
- **BNB Chain Docs**: https://docs.bnbchain.org
- **BSCScan Testnet**: https://testnet.bscscan.com
- **OracleX Discord**: https://discord.gg/oraclex
+// Route with Suspense
+<Suspense fallback={<Loading />}>
+  <Routes>
+    <Route path="/markets" element={<Markets />} />
+  </Routes>
+</Suspense>
+```
 
-## Next Steps
+**2. Memoization**
+```typescript
+// Memoize expensive calculations
+const sortedMarkets = useMemo(() => {
+  return markets.sort((a, b) => b.volume - a.volume);
+}, [markets]);
 
-Now that your wallet is set up:
+// Prevent unnecessary re-renders
+const MarketCard = memo(({ market }) => {
+  return <div>{market.title}</div>;
+});
+```
 
-1.  [Get Your First ORX ](gettingorx.md)
-2.  [Make Your First Prediction ](makingpredictions.md)
-3.  [Stake ORX for Rewards ](stakingguide.md)
+### Backend Optimization
 
+**1. Database Indexing**
+```prisma
+model Market {
+  marketId    String  @unique
+  status      String  @index
+  category    String  @index
+  expiryTime  DateTime @index
+  
+  @@index([status, category])
+  @@index([createdAt(sort: Desc)])
+}
+```
 
+**2. Caching Strategy**
+```typescript
+// Redis cache with TTL
+async function getCachedMarkets(category: string) {
+  const cacheKey = `markets:${category}`;
+  
+  // Try cache first
+  const cached = await redis.get(cacheKey);
+  if (cached) return JSON.parse(cached);
+  
+  // Fetch from database
+  const markets = await prisma.market.findMany({
+    where: { category }
+  });
+  
+  // Cache for 5 minutes
+  await redis.setex(cacheKey, 300, JSON.stringify(markets));
+  
+  return markets;
+}
+```
 
-div style"background: lineargradient(135deg, #FFD700, #9333EA); padding: 1.5rem; borderradius: 12px; color: white;"
-  strong Wallet Ready!/strong You're all set to start using OracleX. Remember to keep your seed phrase safe and never share it with anyone!
-/div
+**3. Connection Pooling**
+```typescript
+// Prisma connection pool
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  
+  // Connection pool settings
+  connection_limit = 10
+  pool_timeout = 20
+}
+```
+
+### Blockchain Optimization
+
+**1. Batch Queries**
+```typescript
+// Query multiple contracts in one call
+const multicall = new ethers.Contract(
+  MULTICALL_ADDRESS,
+  MULTICALL_ABI,
+  provider
+);
+
+const calls = markets.map(market => ({
+  target: market.address,
+  callData: market.interface.encodeFunctionData('getTotalVolume')
+}));
+
+const results = await multicall.aggregate(calls);
+```
+
+**2. Event Indexing**
+```typescript
+// Index events incrementally
+const lastBlock = await getLastIndexedBlock();
+const currentBlock = await provider.getBlockNumber();
+
+// Query in chunks of 1000 blocks
+for (let from = lastBlock; from < currentBlock; from += 1000) {
+  const to = Math.min(from + 1000, currentBlock);
+  const events = await contract.queryFilter(
+    contract.filters.MarketCreated(),
+    from,
+    to
+  );
+  await processEvents(events);
+}
+```
+
+##  Deployment Architecture
+
+### Production Infrastructure
+
+```
+
+                  Cloudflare CDN                          
+                  (SSL, DDoS Protection)                  
+
+                     
+        
+                                
+      
+  Vercel                 Railway        
+  (Frontend)             (Backend API)  
+   React build           Node.js      
+   Edge cache            PostgreSQL   
+   Auto-scale            Redis        
+      
+                               
+                         
+                           Docker    
+                           (Oracle)  
+                         
+```
+
+### CI/CD Pipeline
+
+```yaml
+# .github/workflows/deploy.yml
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: npm test
+      
+  deploy-frontend:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: vercel/deploy@v1
+        with:
+          token: ${{ secrets.VERCEL_TOKEN }}
+  
+  deploy-backend:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: railway/deploy@v1
+        with:
+          token: ${{ secrets.RAILWAY_TOKEN }}
+```
+
+##  Further Reading
+
+- [Smart Contract Details ](../developers/smart-contracts/README.md)
+- [Backend API Documentation ](../developers/backend-api/README.md)
+- [AI Oracle System ](../developers/ai-oracle/README.md)
+- [Security Best Practices ](../security/best-practices.md)
+
+---
+
+<div style="background: linear-gradient(135deg, #FFD700, #9333EA); padding: 1.5rem; border-radius: 12px; color: white;">
+  <strong> Architecture Note:</strong> This is a living document. As OracleX evolves, this architecture documentation will be updated to reflect the latest system design and best practices.
+</div>
+

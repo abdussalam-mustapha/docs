@@ -1,406 +1,612 @@
-﻿# Wallet Setup Guide
+﻿# Governance Guide
 
-Complete guide to setting up your wallet for OracleX on BNB Smart Chain Testnet.
+Learn how to participate in OracleX governance and shape the future of the platform.
 
-## Overview
+##  What is Governance?
 
-To use OracleX, you need a Web3 wallet to:
- Connect to the platform
- Sign transactions
- Store ORX tokens
- Manage your predictions
+OracleX uses a Decentralized Autonomous Organization (DAO) model where ORX token holders vote on protocol decisions.
 
-**Recommended Wallet**: MetaMask (most widely supported)
+**You can vote on:**
+- Protocol parameter changes
+- Treasury spending
+- Feature additions
+- Smart contract upgrades
+- Community initiatives
+- Dispute resolutions
 
-## Installing MetaMask
+**Power to the people** - No single entity controls OracleX!
 
-### Browser Extension (Desktop)
+##  Voting Power
 
-#### Step 1: Download MetaMask
+### How Voting Power Works
 
-1. Visit **official website**: https://metamask.io
-2. Click **"Download"**
-3. Select your browser:
-    Chrome
-    Firefox
-    Brave
-    Edge
-4. Click **"Install MetaMask"**
-5. Add extension to browser
+```typescript
+Voting Power = ORX Balance  Staking Multiplier
 
-#### Step 2: Create New Wallet
+Examples:
+1,000 ORX (not staked) = 1,000 votes
+1,000 ORX (30-day stake) = 1,083 votes (+8.3%)
+1,000 ORX (90-day stake) = 1,333 votes (+33.3%)
+1,000 ORX (180-day stake) = 1,667 votes (+66.7%)
+1,000 ORX (365-day stake) = 2,000 votes (+100%)
+```
 
-1. Open MetaMask extension
-2. Click **"Get Started"**
-3. Select **"Create a new wallet"**
-4. Agree to terms
-5. Create a strong password (min 8 characters)
-6. Watch the security video (optional but recommended)
+**Benefits of Staking:**
+- More voting power
+- Higher influence
+- Governance rewards
+- Priority proposals
 
-#### Step 3: Secure Your Seed Phrase
+### Checking Your Voting Power
 
-️ **CRITICAL: Your seed phrase is the master key to your wallet**
+```typescript
+Go to: Governance Dashboard
 
-1. Click **"Reveal Secret Recovery Phrase"**
-2. Write down all 12 words **on paper** (in exact order)
-3. Store paper in a secure location
-4. **Never** share with anyone
-5. **Never** store digitally (no screenshots, no cloud)
-6. Complete the confirmation test
+Your Voting Power
 
-**Example Seed Phrase:**
+ORX Balance: 5,000 ORX
+Staked: 3,000 ORX (180 days)
+Liquid: 2,000 ORX
 
-word1 word2 word3 word4 word5 word6 
-word7 word8 word9 word10 word11 word12
+Voting Power Breakdown:
+Liquid: 2,000 votes
+Staked: 3,000  1.667 = 5,001 votes
+Total: 7,001 votes
 
+Your Rank: #245 / 12,000 voters
+Percentile: Top 2%
 
-### Mobile App
+```
 
-#### iOS (iPhone/iPad)
+##  Proposal Types
 
-1. Open **App Store**
-2. Search **"MetaMask"**
-3. Install app by MetaMask
-4. Open app
-5. Follow same creation steps as desktop
+### 1. Parameter Changes
 
-#### Android
+Adjust protocol parameters:
 
-1. Open **Google Play Store**
-2. Search **"MetaMask"**
-3. Install app by MetaMask
-4. Open app
-5. Follow same creation steps as desktop
+**Examples:**
+- Trading fee: 2%  1.5%
+- Minimum market stake: 1,000  500 ORX
+- Staking lock periods
+- APY rates
 
-## Adding BNB Smart Chain Testnet
+**Requirements:**
+- Proposer needs: 10,000 ORX
+- Quorum: 10% of total votes
+- Approval: 51% of votes
+- Timelock: 48 hours
 
-MetaMask defaults to Ethereum. You need to add BNB Chain Testnet for OracleX.
+### 2. Treasury Spending
 
-### Method 1: Automatic (Recommended)
+Allocate community funds:
 
-1. Visit OracleX: https://oraclex.com
-2. Click **"Connect Wallet"**
-3. MetaMask will prompt to add network
-4. Click **"Approve"** then **"Switch network"**
+**Examples:**
+- Marketing campaigns: 50,000 ORX
+- Developer grants: 100,000 ORX
+- Bug bounties: 25,000 ORX
+- Partnership deals: 200,000 ORX
 
-### Method 2: Manual Setup
+**Requirements:**
+- Proposer needs: 10,000 ORX
+- Quorum: 20% of total votes
+- Approval: 66% of votes
+- Timelock: 7 days
 
-#### Step 1: Open Network Settings
+### 3. Protocol Upgrades
 
-1. Open MetaMask
-2. Click network dropdown (top of extension)
-3. Click **"Add network"**
-4. Click **"Add a network manually"**
+Modify smart contracts:
 
-#### Step 2: Enter Network Details
+**Examples:**
+- Add new features
+- Fix security issues
+- Optimize gas costs
+- Integrate new oracles
 
-Fill in the following information:
+**Requirements:**
+- Proposer needs: 50,000 ORX
+- Quorum: 30% of total votes
+- Approval: 75% of votes
+- Timelock: 14 days
+
+### 4. Emergency Actions
+
+Critical situations:
+
+**Examples:**
+- Pause contracts
+- Emergency withdrawals
+- Security patches
+- Oracle failures
+
+**Requirements:**
+- Proposer needs: 100,000 ORX
+- Quorum: 40% of total votes
+- Approval: 80% of votes
+- Timelock: 24 hours (expedited)
+
+##  Creating a Proposal
+
+### Prerequisites
+
+Before creating a proposal:
+
+ **Requirements:**
+- Minimum 10,000 ORX staked
+- Wallet connected
+- BNB for gas fees
+- Well-researched proposal
+
+ **Preparation:**
+- Discuss in forums first
+- Gather community feedback
+- Create detailed specification
+- Calculate impact
+
+### Proposal Creation Process
+
+#### Step 1: Navigate to Governance
+
+1. Go to https://oraclex.com/governance
+2. Click **"Create Proposal"**
+3. Or visit: /governance/create
+
+#### Step 2: Choose Proposal Type
+
+Select from dropdown:
+- Parameter Change
+- Treasury Spending
+- Protocol Upgrade
+- Emergency Action
+
+#### Step 3: Write Title
+
+```typescript
+ Good Titles:
+"Reduce Trading Fees from 2% to 1.5%"
+"Allocate 50,000 ORX for Q1 Marketing Campaign"
+"Upgrade Staking Contract to v2.0"
+
+ Bad Titles:
+"Make fees better"
+"Need money for stuff"
+"Fix the thing"
+```
+
+#### Step 4: Write Description
 
- Field  Value 
+Use markdown formatting:
+
+```markdown
+# Proposal: Reduce Trading Fees
 
- **Network Name**  BNB Smart Chain Testnet 
- **RPC URL**  https://bsctestnetrpc.publicnode.com 
- **Chain ID**  97 
- **Currency Symbol**  tBNB 
- **Block Explorer**  https://testnet.bscscan.com 
+## Summary
+Reduce platform trading fees from 2% to 1.5% to increase competitiveness
+and user adoption.
 
-#### Step 3: Save and Switch
+## Motivation
+- Competitors charge 1-1.5% fees
+- Lower fees = more volume
+- Increased volume = more revenue overall
+- Better user experience
 
-1. Click **"Save"**
-2. MetaMask automatically switches to new network
-3. You should see "BNB Smart Chain Testnet" at top
+## Specification
+- Current fee: 2% (200 basis points)
+- Proposed fee: 1.5% (150 basis points)
+- Implementation: Update MarketFactory.sol parameter
+- Timeline: Effective immediately after execution
 
-### Alternative RPC URLs
+## Expected Impact
+- Volume increase: +40% (estimated)
+- Revenue impact: +5% (40% volume  75% fee)
+- User growth: +20% (more competitive pricing)
+
+## Risks
+- Short-term revenue decrease possible
+- May need to adjust if volume doesn't increase
+- Requires smart contract update
 
-If the primary RPC is slow, try these alternatives:
+## Implementation Steps
+1. DAO approves proposal
+2. 48-hour timelock
+3. Update contract parameter
+4. Monitor impact for 30 days
+5. Reassess if needed
+
+## Budget
+No direct costs. Potential revenue impact in transition period.
 
+## Team
+Lead: @OracleX Core Team
+Support: @Community Marketing Group
 
-https://dataseedprebsc1s1.bnbchain.org:8545
-https://dataseedprebsc2s1.bnbchain.org:8545
-https://bsctestnet.public.blastapi.io
+## Timeline
+- Voting Period: 7 days
+- Timelock: 48 hours
+- Implementation: Immediate
+- Review: 30 days post-launch
+```
 
+#### Step 5: Set Voting Period
 
-## Getting Test BNB
+Choose duration:
+- Minimum: 3 days
+- Recommended: 7 days
+- Maximum: 30 days
 
-You need BNB for gas fees (transaction costs).
+**Considerations:**
+- Urgent matters: 3 days
+- Standard proposals: 7 days
+- Major changes: 14-30 days
 
-### Using BNB Chain Faucet
+#### Step 6: Add Supporting Documents
 
-1. Visit: https://testnet.bnbchain.org/faucetsmart
-2. Connect your MetaMask wallet
-3. Complete reCAPTCHA
-4. Click **"Give me BNB"**
-5. Wait 3060 seconds
-6. Check MetaMask balance (0.1 tBNB received)
+Attach:
+- Technical specifications
+- Financial analysis
+- Community poll results
+- Expert opinions
+- Code changes (if applicable)
 
-**Faucet Limits:**
- Amount: 0.1 tBNB per request
- Cooldown: 24 hours
- Daily limit: May vary
+#### Step 7: Review & Submit
 
-### Alternative Faucets
+```typescript
+Proposal Summary
 
-If the official faucet is down:
+Type: Parameter Change
+Title: Reduce Trading Fees from 2% to 1.5%
+Voting Period: 7 days
+Required Quorum: 10%
+Required Approval: 51%
+Your Stake: 15,000 ORX 
+Cost: ~$0.05 gas
 
-1. **Alchemy BNB Faucet**: https://www.alchemy.com/faucets/bnbsmartchaintestnet
-2. **QuickNode Faucet**: https://faucet.quicknode.com/binancesmartchain/bnbtestnet
+```
 
-## Adding ORX Token to MetaMask
+#### Step 8: Submit Transaction
 
-Once you have test BNB, add ORX token to view your balance.
+1. Click **"Submit Proposal"**
+2. Sign transaction in MetaMask
+3. Wait for confirmation
+4. Proposal is now live!
 
-### Method 1: Automatic Import
+##  Voting on Proposals
 
-1. Visit OracleX faucet: https://oraclex.com/faucet
-2. Claim 1,000 ORX
-3. MetaMask may autodetect the token
-4. Click **"Add token"** in notification
+### Finding Active Proposals
 
-### Method 2: Manual Import
+```typescript
+Governance Dashboard
 
-#### Step 1: Open Token Settings
+Active Proposals (12)
 
-1. Open MetaMask
-2. Ensure you're on BNB Testnet
-3. Scroll down to bottom
-4. Click **"Import tokens"**
 
-#### Step 2: Enter Token Details
+Proposal #47: Reduce Trading Fees to 1.5%
+Status: Active (4 days left)
+Quorum: 12.5% / 10% 
+Yes: 125,000 (68%)
+No: 59,000 (32%)
+Your Vote: Not voted
 
-1. Select **"Custom token"** tab
-2. Enter token contract address:
-   
-   0x7eE4f73bab260C11c68e5560c46E3975E824ed79
-   
-3. Token symbol and decimals autofill:
-    Symbol: ORX
-    Decimals: 18
-4. Click **"Add custom token"**
-5. Click **"Import tokens"**
+Proposal #48: Allocate 50K ORX for Marketing
+Status: Active (6 days left)
+Quorum: 8.2% / 20% 
+Yes: 82,000 (75%)
+No: 28,000 (25%)
+Your Vote: YES 
 
-#### Step 3: Verify
+Proposal #49: Upgrade Staking Contract
+Status: Active (13 days left)
+Quorum: 5.1% / 30% 
+Yes: 51,000 (60%)
+No: 34,000 (40%)
+Your Vote: Not voted
 
-You should now see:
- ORX token in your asset list
- Current balance (0 if you haven't claimed yet)
+```
 
-## Connecting to OracleX
+### How to Vote
 
-### First Time Connection
+#### Step 1: Review Proposal
 
-1. Go to https://oraclex.com
-2. Click **"Connect Wallet"** (top right)
-3. Select **"MetaMask"**
-4. MetaMask popup appears
-5. Select account to connect
-6. Click **"Next"**
-7. Click **"Connect"**
-8. May ask to switch to BNB Testnet (click "Switch")
+Click proposal to see details:
+- Full description
+- Discussion comments
+- Current vote tallies
+- Time remaining
+- Historical context
 
-### Account Display
+#### Step 2: Research
 
-Once connected, you'll see:
- Your wallet address (shortened): 0x1234...5678
- ORX balance
- Account avatar/icon
+Before voting:
+-  Read full proposal
+-  Check discussion forum
+-  Review supporting docs
+-  Consider implications
+-  Verify legitimacy
 
-### Disconnecting
+#### Step 3: Cast Your Vote
 
-1. Click your address (top right)
-2. Click **"Disconnect"**
+```typescript
+Vote on Proposal #47
 
-Or from MetaMask:
-1. Open MetaMask
-2. Click three dots (top right)
-3. Select **"Connected sites"**
-4. Find OracleX
-5. Click **"Disconnect"**
+Your Voting Power: 7,001 votes
 
-## Security Best Practices
+Choose Your Vote:
+[ ] YES - Support this proposal
+[ ] NO - Reject this proposal
+[ ] ABSTAIN - Neither support nor reject
 
-### Seed Phrase Security
+Voting Impact:
+Current: YES 68% / NO 32%
+If you vote YES: 68.1% / 31.9%
+If you vote NO: 67.8% / 32.2%
 
- **DO:**
- Write on paper and store securely
- Use a hardware wallet for large amounts
- Create multiple backups in different locations
- Use a password manager with encryption
- Consider metal seed phrase backup
+Your vote represents 0.7% of total votes needed.
 
- **DON'T:**
- Screenshot or save digitally
- Share with anyone (even "support")
- Store in cloud (Google Drive, Dropbox, etc.)
- Email to yourself
- Save in browser notes
+Gas Cost: ~$0.03
+```
 
-### Transaction Safety
+#### Step 4: Confirm Vote
 
- **DO:**
- Always verify contract addresses
- Check transaction details before signing
- Start with small test amounts
- Use hardware wallet for large sums
- Enable MetaMask security alerts
+1. Select YES, NO, or ABSTAIN
+2. Click **"Cast Vote"**
+3. Sign transaction
+4. Vote recorded on-chain
 
- **DON'T:**
- Sign unknown transactions
- Connect to suspicious websites
- Share your private key
- Ignore security warnings
- Rush through transaction confirmations
+**Important:** 
+- Votes are final (cannot change)
+- Public record (visible to all)
+- Counted immediately
 
-### Phishing Protection
+### Vote Delegation
 
- **Common Phishing Tactics:**
+Can't vote on everything? Delegate!
 
-1. **Fake websites**: Always check URL (https://oraclex.com)
-2. **Impersonation**: Official team never DMs first
-3. **Urgent messages**: "Act now or lose funds"
-4. **Fake support**: We never ask for seed phrases
-5. **Airdrop scams**: Too good to be true offers
+```typescript
+Delegate Your Votes
 
-️ **Protection Steps:**
+Current Voting Power: 7,001 votes
+Delegated To: None
 
- Bookmark official site
- Verify social media accounts
- Check contract addresses on BSCScan
- Enable 2FA where available
- Report suspicious activity
+How Delegation Works:
+1. Choose a trusted delegate
+2. They vote with your power
+3. You can undelegate anytime
+4. You retain ORX ownership
 
-## Troubleshooting
+Top Delegates:
 
-### "Wrong Network" Error
+1. @CryptoExpert (250K votes delegated)
+   - 42 proposals voted
+   - 89% community approval
+   - Focuses on: Technical proposals
 
-**Problem**: MetaMask is on wrong network
+2. @CommunityFirst (180K votes delegated)
+   - 38 proposals voted
+   - 92% community approval
+   - Focuses on: Treasury, marketing
 
-**Solution**:
-1. Open MetaMask
-2. Click network dropdown
-3. Select "BNB Smart Chain Testnet"
-4. If not listed, add manually (see above)
+3. @SecurityFocused (160K votes delegated)
+   - 31 proposals voted
+   - 95% community approval
+   - Focuses on: Protocol security
 
-### "Insufficient Funds" Error
 
-**Problem**: Not enough BNB for gas
+Delegate To: [Enter address or ENS]
+[Delegate Votes] [Cancel]
+```
 
-**Solution**:
-1. Get test BNB from faucet
-2. Wait for transaction to confirm
-3. Check balance in MetaMask
-4. Try transaction again
+##  Proposal Lifecycle
 
-### "Transaction Failed"
+### Stage 1: Discussion (Pre-Proposal)
 
-**Problem**: Transaction reverted
+```
+Duration: Informal
+Platform: Forum, Discord
+Purpose: Gauge community interest
+```
 
-**Possible causes**:
- Insufficient gas
- Contract error
- Slippage too low
- Approval needed first
+**Activities:**
+- Post in forum
+- Discuss pros/cons
+- Refine idea
+- Build support
 
-**Solution**:
-1. Check error message in MetaMask
-2. Ensure sufficient BNB for gas
-3. Try increasing gas limit
-4. Check if token approval needed
+### Stage 2: Formal Proposal
+
+```
+Duration: Voting period (3-30 days)
+Platform: On-chain governance
+Purpose: Official vote
+```
 
-### Can't Connect Wallet
+**Activities:**
+- Submit on-chain
+- Community votes
+- Reach quorum
+- Pass/fail determined
 
-**Problem**: MetaMask won't connect
+### Stage 3: Timelock
 
-**Solution**:
-1. Refresh page
-2. Lock/unlock MetaMask
-3. Clear browser cache
-4. Try different browser
-5. Reinstall MetaMask (last resort  have seed phrase ready!)
+```
+Duration: 48 hours - 14 days
+Platform: Smart contract
+Purpose: Security buffer
+```
 
-### Token Not Showing
+**Activities:**
+- Proposal queued
+- Review period
+- Can be canceled if issues found
+- Emergency pause possible
 
-**Problem**: ORX balance is 0 or not visible
+### Stage 4: Execution
 
-**Solution**:
-1. Verify you're on BNB Testnet
-2. Check if token imported correctly
-3. Verify contract address
-4. Check balance on BSCScan
-5. Refresh MetaMask
+```
+Duration: Immediate
+Platform: Smart contracts
+Purpose: Implement changes
+```
 
-### Pending Transaction Stuck
+**Activities:**
+- Execute transaction
+- Update parameters
+- Deploy changes
+- Monitor impact
 
-**Problem**: Transaction pending for too long
+### Stage 5: Post-Implementation
 
-**Solution**:
-1. Click pending transaction
-2. Click **"Speed Up"** or **"Cancel"**
-3. Pay higher gas fee
-4. Wait for confirmation
+```
+Duration: Ongoing
+Platform: Analytics
+Purpose: Measure success
+```
 
-Or reset account:
-1. MetaMask Settings
-2. Advanced
-3. Reset Account (clears pending transactions)
+**Activities:**
+- Track metrics
+- Gather feedback
+- Adjust if needed
+- Document learnings
 
-## Advanced: Hardware Wallets
+##  Quorum & Approval
 
-For holding significant ORX amounts, use a hardware wallet.
+### Understanding Quorum
 
-### Supported Hardware Wallets
+**Quorum** = Minimum participation needed
 
- **Ledger** (Nano S, Nano X, Nano S Plus)
- **Trezor** (Model One, Model T)
+```typescript
+Example:
+Total Voting Power: 100M ORX
+Quorum Required: 10%
+Minimum Votes Needed: 10M ORX
 
-### Connecting Ledger
+Current Votes: 12M ORX  (Quorum reached)
+YES: 8M (66.7%)
+NO: 4M (33.3%)
+Result: PASSED (>51% approval)
+```
 
-1. Install Ledger Live app
-2. Connect Ledger device
-3. Install Binance Smart Chain app on device
-4. Open MetaMask
-5. Click account icon
-6. Select **"Connect Hardware Wallet"**
-7. Choose **"Ledger"**
-8. Follow prompts
+### Approval Thresholds
 
-### Connecting Trezor
+| Proposal Type | Quorum | Approval |
+|---------------|--------|----------|
+| Parameter Change | 10% | 51% |
+| Treasury Spending | 20% | 66% |
+| Protocol Upgrade | 30% | 75% |
+| Emergency Action | 40% | 80% |
 
-1. Install Trezor Suite
-2. Connect Trezor device
-3. Enable BNB Chain support
-4. Open MetaMask
-5. Click account icon
-6. Select **"Connect Hardware Wallet"**
-7. Choose **"Trezor"**
-8. Follow prompts
+### What Happens if Quorum Not Met?
 
-## MultiChain Support (Future)
+```typescript
+Scenario 1: Quorum not reached
+- Proposal fails
+- No changes made
+- Can be re-submitted
 
-OracleX currently supports BNB Chain Testnet. Mainnet and other chains coming soon:
+Scenario 2: Quorum reached, approval not met
+- Proposal rejected
+- No changes made
+- Community decision respected
 
-  BNB Chain Testnet (Current)
-  BNB Chain Mainnet
-  Ethereum
-  Polygon
-  Arbitrum
+Scenario 3: Both quorum & approval met
+- Proposal passes
+- Enters timelock
+- Will be executed
+```
 
-## Additional Resources
+##  Governance Rewards
 
- **MetaMask Support**: https://support.metamask.io
- **BNB Chain Docs**: https://docs.bnbchain.org
- **BSCScan Testnet**: https://testnet.bscscan.com
- **OracleX Discord**: https://discord.gg/oraclex
+### Earn for Participation
+
+Active voters earn rewards:
+
+```typescript
+Voting Rewards
+
+Your Stats:
+Proposals Voted: 15
+Voting Rate: 75% (15/20 proposals)
+Delegation Status: Self
+
+Rewards Earned:
+Base Reward: 50 ORX
+Consistency Bonus: 15 ORX (+30%)
+Total: 65 ORX
+
+Next Reward: Vote on 5 more proposals
+Unlock: 100 ORX milestone reward
+
+```
+
+### Reward Structure
+
+- **Per Vote**: 2-5 ORX (based on proposal importance)
+- **Consistency Bonus**: +10% for 10+ consecutive votes
+- **Delegation Reward**: 1 ORX per proposal (delegates earn more)
+- **Milestone Rewards**: Bonus at 10, 50, 100, 500 votes
+
+##  Governance Achievements
+
+Unlock badges:
+
+-  **First Vote**: Cast your first vote
+-  **First Proposal**: Create first proposal
+-  **10 Votes**: Voted on 10 proposals
+-  **100% Participation**: Voted on all proposals in a quarter
+-  **Trusted Delegate**: Received 10,000+ delegated votes
+-  **DAO Architect**: Created 10 successful proposals
+-  **Governance Legend**: 1,000+ votes cast
+
+##  Best Practices
+
+### For Voters
+
+** DO:**
+- Read full proposals
+- Participate in discussions
+- Vote consistently
+- Consider long-term impact
+- Delegate if too busy
+
+** DON'T:**
+- Vote blindly
+- Follow whales without thinking
+- Ignore context
+- Vote emotionally
+- Sell votes (against ToS)
+
+### For Proposers
+
+** DO:**
+- Research thoroughly
+- Discuss in forums first
+- Provide detailed specs
+- Address concerns
+- Follow up post-implementation
+
+** DON'T:**
+- Rush proposals
+- Ignore feedback
+- Make unrealistic promises
+- Forget about execution
+- Abandon after approval
+
+##  Resources
+
+- **Governance Dashboard**: https://oraclex.com/governance
+- **Forum**: https://forum.oraclex.com
+- **Proposals Archive**: https://oraclex.com/governance/history
+- **Voting Guide**: https://docs.oraclex.com/governance
 
 ## Next Steps
 
-Now that your wallet is set up:
+Get involved in governance:
 
-1.  [Get Your First ORX ](gettingorx.md)
-2.  [Make Your First Prediction ](makingpredictions.md)
-3.  [Stake ORX for Rewards ](stakingguide.md)
+1.  [View Active Proposals ](https://oraclex.com/governance)
+2.  [Join Discussion Forum ](https://forum.oraclex.com)
+3.  [Increase Voting Power ](staking-guide.md)
 
+---
 
+<div style="background: linear-gradient(135deg, #FFD700, #9333EA); padding: 1.5rem; border-radius: 12px; color: white;">
+  <strong> Your Voice Matters!</strong> Participate in OracleX governance and help shape the future of decentralized prediction markets.
+</div>
 
-div style"background: lineargradient(135deg, #FFD700, #9333EA); padding: 1.5rem; borderradius: 12px; color: white;"
-  strong Wallet Ready!/strong You're all set to start using OracleX. Remember to keep your seed phrase safe and never share it with anyone!
-/div

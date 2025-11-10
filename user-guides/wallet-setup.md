@@ -2,17 +2,17 @@
 
 Complete guide to setting up your wallet for OracleX on BNB Smart Chain Testnet.
 
-## Overview
+##  Overview
 
 To use OracleX, you need a Web3 wallet to:
- Connect to the platform
- Sign transactions
- Store ORX tokens
- Manage your predictions
+- Connect to the platform
+- Sign transactions
+- Store ORX tokens
+- Manage your predictions
 
 **Recommended Wallet**: MetaMask (most widely supported)
 
-## Installing MetaMask
+##  Installing MetaMask
 
 ### Browser Extension (Desktop)
 
@@ -21,10 +21,10 @@ To use OracleX, you need a Web3 wallet to:
 1. Visit **official website**: https://metamask.io
 2. Click **"Download"**
 3. Select your browser:
-    Chrome
-    Firefox
-    Brave
-    Edge
+   - Chrome
+   - Firefox
+   - Brave
+   - Edge
 4. Click **"Install MetaMask"**
 5. Add extension to browser
 
@@ -39,7 +39,7 @@ To use OracleX, you need a Web3 wallet to:
 
 #### Step 3: Secure Your Seed Phrase
 
-️ **CRITICAL: Your seed phrase is the master key to your wallet**
+ **CRITICAL: Your seed phrase is the master key to your wallet**
 
 1. Click **"Reveal Secret Recovery Phrase"**
 2. Write down all 12 words **on paper** (in exact order)
@@ -49,10 +49,10 @@ To use OracleX, you need a Web3 wallet to:
 6. Complete the confirmation test
 
 **Example Seed Phrase:**
-
+```
 word1 word2 word3 word4 word5 word6 
 word7 word8 word9 word10 word11 word12
-
+```
 
 ### Mobile App
 
@@ -72,7 +72,7 @@ word7 word8 word9 word10 word11 word12
 4. Open app
 5. Follow same creation steps as desktop
 
-## Adding BNB Smart Chain Testnet
+##  Adding BNB Smart Chain Testnet
 
 MetaMask defaults to Ethereum. You need to add BNB Chain Testnet for OracleX.
 
@@ -96,13 +96,13 @@ MetaMask defaults to Ethereum. You need to add BNB Chain Testnet for OracleX.
 
 Fill in the following information:
 
- Field  Value 
-
- **Network Name**  BNB Smart Chain Testnet 
- **RPC URL**  https://bsctestnetrpc.publicnode.com 
- **Chain ID**  97 
- **Currency Symbol**  tBNB 
- **Block Explorer**  https://testnet.bscscan.com 
+| Field | Value |
+|-------|-------|
+| **Network Name** | BNB Smart Chain Testnet |
+| **RPC URL** | `https://bsc-testnet-rpc.publicnode.com` |
+| **Chain ID** | `97` |
+| **Currency Symbol** | `tBNB` |
+| **Block Explorer** | `https://testnet.bscscan.com` |
 
 #### Step 3: Save and Switch
 
@@ -114,38 +114,38 @@ Fill in the following information:
 
 If the primary RPC is slow, try these alternatives:
 
+```
+https://data-seed-prebsc-1-s1.bnbchain.org:8545
+https://data-seed-prebsc-2-s1.bnbchain.org:8545
+https://bsc-testnet.public.blastapi.io
+```
 
-https://dataseedprebsc1s1.bnbchain.org:8545
-https://dataseedprebsc2s1.bnbchain.org:8545
-https://bsctestnet.public.blastapi.io
-
-
-## Getting Test BNB
+##  Getting Test BNB
 
 You need BNB for gas fees (transaction costs).
 
 ### Using BNB Chain Faucet
 
-1. Visit: https://testnet.bnbchain.org/faucetsmart
+1. Visit: https://testnet.bnbchain.org/faucet-smart
 2. Connect your MetaMask wallet
 3. Complete reCAPTCHA
 4. Click **"Give me BNB"**
-5. Wait 3060 seconds
-6. Check MetaMask balance (0.1 tBNB received)
+5. Wait 30-60 seconds
+6. Check MetaMask balance (~0.1 tBNB received)
 
 **Faucet Limits:**
- Amount: 0.1 tBNB per request
- Cooldown: 24 hours
- Daily limit: May vary
+- Amount: 0.1 tBNB per request
+- Cooldown: 24 hours
+- Daily limit: May vary
 
 ### Alternative Faucets
 
 If the official faucet is down:
 
-1. **Alchemy BNB Faucet**: https://www.alchemy.com/faucets/bnbsmartchaintestnet
-2. **QuickNode Faucet**: https://faucet.quicknode.com/binancesmartchain/bnbtestnet
+1. **Alchemy BNB Faucet**: https://www.alchemy.com/faucets/bnb-smart-chain-testnet
+2. **QuickNode Faucet**: https://faucet.quicknode.com/binance-smart-chain/bnb-testnet
 
-## Adding ORX Token to MetaMask
+##  Adding ORX Token to MetaMask
 
 Once you have test BNB, add ORX token to view your balance.
 
@@ -153,7 +153,7 @@ Once you have test BNB, add ORX token to view your balance.
 
 1. Visit OracleX faucet: https://oraclex.com/faucet
 2. Claim 1,000 ORX
-3. MetaMask may autodetect the token
+3. MetaMask may auto-detect the token
 4. Click **"Add token"** in notification
 
 ### Method 2: Manual Import
@@ -169,22 +169,22 @@ Once you have test BNB, add ORX token to view your balance.
 
 1. Select **"Custom token"** tab
 2. Enter token contract address:
-   
+   ```
    0x7eE4f73bab260C11c68e5560c46E3975E824ed79
-   
-3. Token symbol and decimals autofill:
-    Symbol: ORX
-    Decimals: 18
+   ```
+3. Token symbol and decimals auto-fill:
+   - Symbol: `ORX`
+   - Decimals: `18`
 4. Click **"Add custom token"**
 5. Click **"Import tokens"**
 
 #### Step 3: Verify
 
 You should now see:
- ORX token in your asset list
- Current balance (0 if you haven't claimed yet)
+- ORX token in your asset list
+- Current balance (0 if you haven't claimed yet)
 
-## Connecting to OracleX
+##  Connecting to OracleX
 
 ### First Time Connection
 
@@ -200,9 +200,9 @@ You should now see:
 ### Account Display
 
 Once connected, you'll see:
- Your wallet address (shortened): 0x1234...5678
- ORX balance
- Account avatar/icon
+- Your wallet address (shortened): `0x1234...5678`
+- ORX balance
+- Account avatar/icon
 
 ### Disconnecting
 
@@ -216,39 +216,39 @@ Or from MetaMask:
 4. Find OracleX
 5. Click **"Disconnect"**
 
-## Security Best Practices
+##  Security Best Practices
 
 ### Seed Phrase Security
 
  **DO:**
- Write on paper and store securely
- Use a hardware wallet for large amounts
- Create multiple backups in different locations
- Use a password manager with encryption
- Consider metal seed phrase backup
+- Write on paper and store securely
+- Use a hardware wallet for large amounts
+- Create multiple backups in different locations
+- Use a password manager with encryption
+- Consider metal seed phrase backup
 
  **DON'T:**
- Screenshot or save digitally
- Share with anyone (even "support")
- Store in cloud (Google Drive, Dropbox, etc.)
- Email to yourself
- Save in browser notes
+- Screenshot or save digitally
+- Share with anyone (even "support")
+- Store in cloud (Google Drive, Dropbox, etc.)
+- Email to yourself
+- Save in browser notes
 
 ### Transaction Safety
 
  **DO:**
- Always verify contract addresses
- Check transaction details before signing
- Start with small test amounts
- Use hardware wallet for large sums
- Enable MetaMask security alerts
+- Always verify contract addresses
+- Check transaction details before signing
+- Start with small test amounts
+- Use hardware wallet for large sums
+- Enable MetaMask security alerts
 
  **DON'T:**
- Sign unknown transactions
- Connect to suspicious websites
- Share your private key
- Ignore security warnings
- Rush through transaction confirmations
+- Sign unknown transactions
+- Connect to suspicious websites
+- Share your private key
+- Ignore security warnings
+- Rush through transaction confirmations
 
 ### Phishing Protection
 
@@ -260,15 +260,15 @@ Or from MetaMask:
 4. **Fake support**: We never ask for seed phrases
 5. **Airdrop scams**: Too good to be true offers
 
-️ **Protection Steps:**
+ **Protection Steps:**
 
- Bookmark official site
- Verify social media accounts
- Check contract addresses on BSCScan
- Enable 2FA where available
- Report suspicious activity
+- Bookmark official site
+- Verify social media accounts
+- Check contract addresses on BSCScan
+- Enable 2FA where available
+- Report suspicious activity
 
-## Troubleshooting
+##  Troubleshooting
 
 ### "Wrong Network" Error
 
@@ -295,10 +295,10 @@ Or from MetaMask:
 **Problem**: Transaction reverted
 
 **Possible causes**:
- Insufficient gas
- Contract error
- Slippage too low
- Approval needed first
+- Insufficient gas
+- Contract error
+- Slippage too low
+- Approval needed first
 
 **Solution**:
 1. Check error message in MetaMask
@@ -315,7 +315,7 @@ Or from MetaMask:
 2. Lock/unlock MetaMask
 3. Clear browser cache
 4. Try different browser
-5. Reinstall MetaMask (last resort  have seed phrase ready!)
+5. Reinstall MetaMask (last resort - have seed phrase ready!)
 
 ### Token Not Showing
 
@@ -343,14 +343,14 @@ Or reset account:
 2. Advanced
 3. Reset Account (clears pending transactions)
 
-## Advanced: Hardware Wallets
+##  Advanced: Hardware Wallets
 
 For holding significant ORX amounts, use a hardware wallet.
 
 ### Supported Hardware Wallets
 
- **Ledger** (Nano S, Nano X, Nano S Plus)
- **Trezor** (Model One, Model T)
+- **Ledger** (Nano S, Nano X, Nano S Plus)
+- **Trezor** (Model One, Model T)
 
 ### Connecting Ledger
 
@@ -374,33 +374,34 @@ For holding significant ORX amounts, use a hardware wallet.
 7. Choose **"Trezor"**
 8. Follow prompts
 
-## MultiChain Support (Future)
+##  Multi-Chain Support (Future)
 
 OracleX currently supports BNB Chain Testnet. Mainnet and other chains coming soon:
 
-  BNB Chain Testnet (Current)
-  BNB Chain Mainnet
-  Ethereum
-  Polygon
-  Arbitrum
+-  BNB Chain Testnet (Current)
+-  BNB Chain Mainnet
+-  Ethereum
+-  Polygon
+-  Arbitrum
 
-## Additional Resources
+##  Additional Resources
 
- **MetaMask Support**: https://support.metamask.io
- **BNB Chain Docs**: https://docs.bnbchain.org
- **BSCScan Testnet**: https://testnet.bscscan.com
- **OracleX Discord**: https://discord.gg/oraclex
+- **MetaMask Support**: https://support.metamask.io
+- **BNB Chain Docs**: https://docs.bnbchain.org
+- **BSCScan Testnet**: https://testnet.bscscan.com
+- **OracleX Discord**: https://discord.gg/oraclex
 
 ## Next Steps
 
 Now that your wallet is set up:
 
-1.  [Get Your First ORX ](gettingorx.md)
-2.  [Make Your First Prediction ](makingpredictions.md)
-3.  [Stake ORX for Rewards ](stakingguide.md)
+1.  [Get Your First ORX ](getting-orx.md)
+2.  [Make Your First Prediction ](making-predictions.md)
+3.  [Stake ORX for Rewards ](staking-guide.md)
 
+---
 
+<div style="background: linear-gradient(135deg, #FFD700, #9333EA); padding: 1.5rem; border-radius: 12px; color: white;">
+  <strong> Wallet Ready!</strong> You're all set to start using OracleX. Remember to keep your seed phrase safe and never share it with anyone!
+</div>
 
-div style"background: lineargradient(135deg, #FFD700, #9333EA); padding: 1.5rem; borderradius: 12px; color: white;"
-  strong Wallet Ready!/strong You're all set to start using OracleX. Remember to keep your seed phrase safe and never share it with anyone!
-/div
