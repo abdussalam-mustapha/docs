@@ -1,714 +1,406 @@
-# Contributing to OracleX
+﻿# Wallet Setup Guide
 
-Thank you for your interest in contributing to OracleX! This guide will help you get started.
+Complete guide to setting up your wallet for OracleX on BNB Smart Chain Testnet.
 
-## 🤝 Ways to Contribute
+## Overview
 
-### 1. Code Contributions
-- Fix bugs
-- Implement new features
-- Improve performance
-- Enhance security
+To use OracleX, you need a Web3 wallet to:
+ Connect to the platform
+ Sign transactions
+ Store ORX tokens
+ Manage your predictions
 
-### 2. Documentation
-- Improve existing docs
-- Write tutorials
-- Translate documentation
-- Create video guides
+**Recommended Wallet**: MetaMask (most widely supported)
 
-### 3. Testing
-- Write unit tests
-- Perform manual testing
-- Report bugs
-- Suggest improvements
+## Installing MetaMask
 
-### 4. Community
-- Answer questions on Discord
-- Help new users
-- Share on social media
-- Organize events
+### Browser Extension (Desktop)
 
-### 5. Design
-- UI/UX improvements
-- Create graphics
-- Design marketing materials
-- Improve accessibility
+#### Step 1: Download MetaMask
 
-## 🚀 Getting Started
+1. Visit **official website**: https://metamask.io
+2. Click **"Download"**
+3. Select your browser:
+    Chrome
+    Firefox
+    Brave
+    Edge
+4. Click **"Install MetaMask"**
+5. Add extension to browser
 
-### Fork and Clone
+#### Step 2: Create New Wallet
 
-```bash
-# 1. Fork the repository on GitHub
-# Click "Fork" button on https://github.com/abdussalam-mustapha/OracleX
+1. Open MetaMask extension
+2. Click **"Get Started"**
+3. Select **"Create a new wallet"**
+4. Agree to terms
+5. Create a strong password (min 8 characters)
+6. Watch the security video (optional but recommended)
 
-# 2. Clone your fork
-git clone https://github.com/YOUR_USERNAME/OracleX.git
-cd OracleX
+#### Step 3: Secure Your Seed Phrase
 
-# 3. Add upstream remote
-git remote add upstream https://github.com/abdussalam-mustapha/OracleX.git
+️ **CRITICAL: Your seed phrase is the master key to your wallet**
 
-# 4. Create a branch
-git checkout -b feature/your-feature-name
-```
+1. Click **"Reveal Secret Recovery Phrase"**
+2. Write down all 12 words **on paper** (in exact order)
+3. Store paper in a secure location
+4. **Never** share with anyone
+5. **Never** store digitally (no screenshots, no cloud)
+6. Complete the confirmation test
 
-### Setup Development Environment
+**Example Seed Phrase:**
 
-```bash
-# Install dependencies
-npm install
+word1 word2 word3 word4 word5 word6 
+word7 word8 word9 word10 word11 word12
 
-# Frontend
-cd frontend
-npm install
 
-# Backend
-cd ../backend
-npm install
-
-# Contracts
-cd ../contracts
-npm install
-```
-
-### Run Locally
-
-```bash
-# Terminal 1: Frontend
-cd frontend
-npm run dev
-# Runs on http://localhost:5173
-
-# Terminal 2: Backend
-cd backend
-npm run dev
-# Runs on http://localhost:3000
-
-# Terminal 3: Hardhat node (for local blockchain)
-cd contracts
-npx hardhat node
-# Runs on http://localhost:8545
-```
-
-## 📝 Development Workflow
-
-### 1. Create an Issue
-
-Before starting work:
-
-```markdown
-# Issue Template
-
-## Description
-Clear description of the bug/feature
-
-## Type
-- [ ] Bug fix
-- [ ] New feature
-- [ ] Documentation
-- [ ] Performance improvement
-
-## Motivation
-Why is this change needed?
-
-## Proposed Solution
-How will you implement it?
-
-## Checklist
-- [ ] Discussed with maintainers
-- [ ] No duplicate issues
-- [ ] Willing to implement
-```
-
-### 2. Branch Naming
-
-```bash
-# Feature branches
-feature/add-nft-predictions
-feature/improve-chart-performance
-
-# Bug fix branches
-fix/staking-calculation-error
-fix/mobile-responsive-issue
-
-# Documentation branches
-docs/update-api-reference
-docs/add-deployment-guide
-
-# Refactor branches
-refactor/optimize-queries
-refactor/clean-up-components
-```
-
-### 3. Coding Standards
-
-#### TypeScript/JavaScript
-
-```typescript
-// ✅ Good: Use TypeScript
-interface Market {
-  id: string;
-  question: string;
-  category: string;
-  endTime: number;
-}
-
-// ✅ Use meaningful names
-const calculateAverageOdds = (predictions: Prediction[]): number => {
-  return predictions.reduce((sum, p) => sum + p.odds, 0) / predictions.length;
-};
-
-// ✅ Add comments for complex logic
-/**
- * Calculates compound rewards using the formula:
- * R = P * (1 + r/n)^(n*t) - P
- * where P = principal, r = APY, n = compound frequency, t = time
- */
-const calculateCompoundReward = (principal, apy, days) => {
-  const rate = apy / 100;
-  const n = 365; // Daily compounding
-  const t = days / 365;
-  return principal * Math.pow(1 + rate / n, n * t) - principal;
-};
-
-// ❌ Bad: Unclear code
-const calc = (p, a, d) => p * Math.pow(1 + a / 36500, d) - p;
-```
-
-#### Solidity
-
-```solidity
-// ✅ Good: Follow Solidity style guide
-contract OracleXMarket {
-    // State variables
-    uint256 public constant PLATFORM_FEE = 250; // 2.5%
-    
-    // Events
-    event MarketCreated(
-        uint256 indexed marketId,
-        string question,
-        uint256 endTime
-    );
-    
-    // Modifiers
-    modifier onlyOracle() {
-        require(msg.sender == oracleAddress, "Not oracle");
-        _;
-    }
-    
-    // External functions
-    function createMarket(
-        string calldata question,
-        string calldata category,
-        uint256 bettingEndTime,
-        uint256 marketEndTime,
-        uint256 minimumBet,
-        string[] calldata outcomes
-    ) external returns (uint256 marketId) {
-        // Implementation
-    }
-    
-    // Public functions
-    function getMarketDetails(uint256 marketId)
-        public
-        view
-        returns (Market memory)
-    {
-        // Implementation
-    }
-    
-    // Internal functions
-    function _calculatePlatformFee(uint256 amount)
-        internal
-        pure
-        returns (uint256)
-    {
-        return (amount * PLATFORM_FEE) / 10000;
-    }
-    
-    // Private functions
-    function _updateMarketState(uint256 marketId)
-        private
-    {
-        // Implementation
-    }
-}
-
-// ✅ Use NatSpec comments
-/**
- * @notice Stakes ORX tokens for a specified lock period
- * @dev Requires prior approval of ORX tokens
- * @param amount Amount of ORX tokens to stake
- * @param lockPeriod Lock period in seconds (30, 90, 180, or 365 days)
- * @return stakeId Unique identifier for the stake
- */
-function stake(uint256 amount, uint256 lockPeriod)
-    external
-    returns (uint256 stakeId)
-{
-    // Implementation
-}
-```
-
-#### React Components
-
-```typescript
-// ✅ Good: Functional components with TypeScript
-interface MarketCardProps {
-  market: Market;
-  onPredict: (marketId: string, outcome: number) => void;
-}
-
-export const MarketCard: React.FC<MarketCardProps> = ({
-  market,
-  onPredict,
-}) => {
-  const [selectedOutcome, setSelectedOutcome] = useState<number | null>(null);
-  
-  const handlePredict = () => {
-    if (selectedOutcome !== null) {
-      onPredict(market.id, selectedOutcome);
-    }
-  };
-  
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{market.question}</CardTitle>
-      </CardHeader>
-      <CardContent>
-        {/* Content */}
-      </CardContent>
-    </Card>
-  );
-};
-
-// ✅ Use custom hooks for logic
-const useMarketData = (marketId: string) => {
-  const [market, setMarket] = useState<Market | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
-  
-  useEffect(() => {
-    fetchMarket(marketId)
-      .then(setMarket)
-      .catch(setError)
-      .finally(() => setLoading(false));
-  }, [marketId]);
-  
-  return { market, loading, error };
-};
-```
-
-### 4. Testing Requirements
-
-#### Unit Tests
-
-```typescript
-// contracts/test/MarketFactory.test.ts
-import { expect } from "chai";
-import { ethers } from "hardhat";
-
-describe("OracleXMarketFactory", () => {
-  let marketFactory;
-  let orxToken;
-  let owner, oracle, user1;
-  
-  beforeEach(async () => {
-    [owner, oracle, user1] = await ethers.getSigners();
-    
-    // Deploy contracts
-    const ORXToken = await ethers.getContractFactory("ORXToken");
-    orxToken = await ORXToken.deploy(owner.address, ethers.parseEther("1000000000"));
-    
-    const MarketFactory = await ethers.getContractFactory("OracleXMarketFactory");
-    marketFactory = await upgrades.deployProxy(
-      MarketFactory,
-      [orxToken.address, oracle.address, 250],
-      { initializer: "initialize" }
-    );
-  });
-  
-  describe("Market Creation", () => {
-    it("should create a market with valid parameters", async () => {
-      const question = "Will Bitcoin reach $100k?";
-      const category = "Bitcoin";
-      const bettingEndTime = Math.floor(Date.now() / 1000) + 86400;
-      const marketEndTime = bettingEndTime + 86400 * 30;
-      const minimumBet = ethers.parseEther("1");
-      const outcomes = ["Yes", "No"];
-      
-      const tx = await marketFactory.createMarket(
-        question,
-        category,
-        bettingEndTime,
-        marketEndTime,
-        minimumBet,
-        outcomes
-      );
-      
-      const receipt = await tx.wait();
-      const event = receipt.events.find(e => e.event === "MarketCreated");
-      
-      expect(event).to.not.be.undefined;
-      expect(event.args.question).to.equal(question);
-      expect(event.args.marketId).to.equal(1);
-    });
-    
-    it("should revert with invalid end times", async () => {
-      const pastTime = Math.floor(Date.now() / 1000) - 1000;
-      
-      await expect(
-        marketFactory.createMarket(
-          "Question",
-          "Category",
-          pastTime, // Invalid: in the past
-          pastTime + 86400,
-          ethers.parseEther("1"),
-          ["Yes", "No"]
-        )
-      ).to.be.revertedWith("Invalid betting end time");
-    });
-  });
-  
-  describe("Predictions", () => {
-    let marketId;
-    
-    beforeEach(async () => {
-      // Create a market
-      const tx = await marketFactory.createMarket(
-        "Test Question",
-        "Test",
-        Math.floor(Date.now() / 1000) + 86400,
-        Math.floor(Date.now() / 1000) + 86400 * 30,
-        ethers.parseEther("1"),
-        ["Yes", "No"]
-      );
-      const receipt = await tx.wait();
-      marketId = receipt.events[0].args.marketId;
-      
-      // Approve and transfer ORX to user1
-      await orxToken.transfer(user1.address, ethers.parseEther("100"));
-      await orxToken.connect(user1).approve(
-        marketFactory.address,
-        ethers.parseEther("100")
-      );
-    });
-    
-    it("should allow predictions on active markets", async () => {
-      const amount = ethers.parseEther("10");
-      const outcome = 0; // "Yes"
-      
-      await expect(
-        marketFactory.connect(user1).predict(marketId, outcome, amount)
-      ).to.emit(marketFactory, "PredictionMade")
-        .withArgs(marketId, user1.address, outcome, amount);
-    });
-    
-    it("should update odds correctly", async () => {
-      const amount = ethers.parseEther("10");
-      await marketFactory.connect(user1).predict(marketId, 0, amount);
-      
-      const market = await marketFactory.getMarketDetails(marketId);
-      expect(market.totalPredictions).to.equal(amount);
-      expect(market.outcomeTotals[0]).to.equal(amount);
-    });
-  });
-});
-```
-
-#### Integration Tests
-
-```typescript
-// backend/test/integration/markets.test.ts
-import request from "supertest";
-import { app } from "../../src/app";
-import { prisma } from "../../src/lib/prisma";
-
-describe("Markets API", () => {
-  beforeAll(async () => {
-    // Setup test database
-    await prisma.$connect();
-  });
-  
-  afterAll(async () => {
-    // Cleanup
-    await prisma.$disconnect();
-  });
-  
-  describe("GET /api/markets", () => {
-    it("should return paginated markets", async () => {
-      const response = await request(app)
-        .get("/api/markets?page=1&limit=10")
-        .expect(200);
-      
-      expect(response.body).toHaveProperty("markets");
-      expect(response.body).toHaveProperty("pagination");
-      expect(response.body.markets).toBeInstanceOf(Array);
-    });
-    
-    it("should filter by category", async () => {
-      const response = await request(app)
-        .get("/api/markets?category=Bitcoin")
-        .expect(200);
-      
-      response.body.markets.forEach(market => {
-        expect(market.category).toBe("Bitcoin");
-      });
-    });
-  });
-  
-  describe("POST /api/markets", () => {
-    it("should create a new market", async () => {
-      const marketData = {
-        question: "Will Ethereum reach $10k?",
-        category: "Ethereum",
-        bettingEndTime: Math.floor(Date.now() / 1000) + 86400,
-        marketEndTime: Math.floor(Date.now() / 1000) + 86400 * 30,
-        minimumBet: "1000000000000000000",
-        outcomes: ["Yes", "No"],
-      };
-      
-      const response = await request(app)
-        .post("/api/markets")
-        .send(marketData)
-        .expect(201);
-      
-      expect(response.body).toHaveProperty("marketId");
-      expect(response.body.question).toBe(marketData.question);
-    });
-  });
-});
-```
-
-### 5. Commit Messages
-
-Follow [Conventional Commits](https://www.conventionalcommits.org/):
-
-```bash
-# Format: <type>(<scope>): <subject>
-
-# Types:
-feat:     # New feature
-fix:      # Bug fix
-docs:     # Documentation
-style:    # Code style (formatting, semicolons, etc.)
-refactor: # Code refactoring
-test:     # Adding/updating tests
-chore:    # Maintenance tasks
-
-# Examples:
-git commit -m "feat(staking): add compound interest rewards"
-git commit -m "fix(market): resolve odds calculation bug"
-git commit -m "docs(api): update endpoint documentation"
-git commit -m "refactor(frontend): optimize market list rendering"
-git commit -m "test(contracts): add market creation tests"
-git commit -m "chore(deps): update dependencies"
-
-# Detailed message with body
-git commit -m "feat(governance): implement quadratic voting
-
-- Add quadratic voting formula
-- Update voting power calculations
-- Add tests for edge cases
-- Update documentation
-
-Closes #123"
-```
-
-### 6. Pull Request Process
-
-#### Create Pull Request
-
-```markdown
-# Pull Request Template
-
-## Description
-Brief description of changes
-
-## Related Issue
-Closes #123
-
-## Type of Change
-- [ ] Bug fix (non-breaking)
-- [ ] New feature (non-breaking)
-- [ ] Breaking change
-- [ ] Documentation update
-
-## Changes Made
-- Added X feature
-- Fixed Y bug
-- Updated Z documentation
-
-## Testing
-- [ ] Unit tests pass
-- [ ] Integration tests pass
-- [ ] Manual testing completed
-- [ ] No console errors
-
-## Screenshots (if applicable)
-[Add screenshots for UI changes]
-
-## Checklist
-- [ ] Code follows style guidelines
-- [ ] Self-review completed
-- [ ] Comments added for complex code
-- [ ] Documentation updated
-- [ ] No new warnings
-- [ ] Tests added/updated
-- [ ] All tests passing
-- [ ] Ready for review
-```
-
-#### Review Process
-
-1. **Automated Checks**: CI/CD runs tests
-2. **Code Review**: Maintainer reviews code
-3. **Feedback**: Address review comments
-4. **Approval**: Get approval from maintainer
-5. **Merge**: Maintainer merges PR
-
-#### After Merge
-
-```bash
-# Sync your fork
-git checkout main
-git pull upstream main
-git push origin main
-
-# Delete branch
-git branch -d feature/your-feature-name
-git push origin --delete feature/your-feature-name
-```
-
-## 🎯 Development Guidelines
-
-### Performance
-
-```typescript
-// ✅ Good: Optimize renders
-const MarketList = React.memo(({ markets }) => {
-  return markets.map(market => (
-    <MarketCard key={market.id} market={market} />
-  ));
-});
-
-// ✅ Use pagination
-const MARKETS_PER_PAGE = 20;
-const markets = await prisma.market.findMany({
-  skip: (page - 1) * MARKETS_PER_PAGE,
-  take: MARKETS_PER_PAGE,
-});
-
-// ✅ Lazy load images
-<img 
-  src={imageUrl} 
-  loading="lazy" 
-  alt="Market category" 
-/>
-
-// ❌ Bad: Load everything at once
-const allMarkets = await prisma.market.findMany(); // Could be thousands!
-```
-
-### Security
-
-```typescript
-// ✅ Good: Validate input
-const createMarket = async (req, res) => {
-  const { question, category, endTime } = req.body;
-  
-  // Validate
-  if (!question || question.length < 10 || question.length > 200) {
-    return res.status(400).json({ error: "Invalid question" });
-  }
-  
-  if (endTime <= Date.now()) {
-    return res.status(400).json({ error: "End time must be in future" });
-  }
-  
-  // Sanitize
-  const sanitizedQuestion = validator.escape(question);
-  
-  // Create market
-  const market = await prisma.market.create({
-    data: {
-      question: sanitizedQuestion,
-      category,
-      endTime,
-    },
-  });
-  
-  res.json(market);
-};
-
-// ✅ Use parameterized queries (Prisma does this automatically)
-const user = await prisma.user.findUnique({
-  where: { address: userAddress }, // Safe from SQL injection
-});
-
-// ❌ Bad: Direct SQL with user input
-const query = `SELECT * FROM users WHERE address = '${userAddress}'`; // SQL injection risk!
-```
-
-### Accessibility
-
-```typescript
-// ✅ Good: Accessible components
-<button
-  onClick={handleClick}
-  aria-label="Place prediction"
-  disabled={isLoading}
->
-  {isLoading ? <Spinner /> : "Predict"}
-</button>
-
-<img 
-  src={icon} 
-  alt="Bitcoin category icon"  // Descriptive alt text
-/>
-
-<label htmlFor="amount">
-  Amount to stake:
-  <input
-    id="amount"
-    type="number"
-    value={amount}
-    onChange={e => setAmount(e.target.value)}
-    aria-describedby="amount-help"
-  />
-  <span id="amount-help">
-    Minimum: 1 ORX
-  </span>
-</label>
-
-// ✅ Keyboard navigation
-const handleKeyDown = (e) => {
-  if (e.key === "Enter" || e.key === " ") {
-    handleClick();
-  }
-};
-```
-
-## 📚 Resources
-
-- **Discord**: https://discord.gg/oraclex (ask questions)
-- **GitHub Issues**: https://github.com/abdussalam-mustapha/OracleX/issues
-- **Documentation**: https://docs.oraclex.com
-- **Style Guide**: Airbnb JavaScript Style Guide
-- **Solidity Guide**: https://docs.soliditylang.org/en/latest/style-guide.html
-
-## 🏆 Recognition
-
-Contributors are recognized in:
-- README.md contributors section
-- Monthly contributor spotlight
-- Special Discord role
-- NFT badges (coming soon)
-
----
-
-<div style="background: linear-gradient(135deg, #FFD700, #9333EA); padding: 1.5rem; border-radius: 12px; color: white;">
-  <strong>🙏 Thank You!</strong> Every contribution, no matter how small, helps make OracleX better. We appreciate your time and effort!
-</div>
+### Mobile App
+
+#### iOS (iPhone/iPad)
+
+1. Open **App Store**
+2. Search **"MetaMask"**
+3. Install app by MetaMask
+4. Open app
+5. Follow same creation steps as desktop
+
+#### Android
+
+1. Open **Google Play Store**
+2. Search **"MetaMask"**
+3. Install app by MetaMask
+4. Open app
+5. Follow same creation steps as desktop
+
+## Adding BNB Smart Chain Testnet
+
+MetaMask defaults to Ethereum. You need to add BNB Chain Testnet for OracleX.
+
+### Method 1: Automatic (Recommended)
+
+1. Visit OracleX: https://oraclex.com
+2. Click **"Connect Wallet"**
+3. MetaMask will prompt to add network
+4. Click **"Approve"** then **"Switch network"**
+
+### Method 2: Manual Setup
+
+#### Step 1: Open Network Settings
+
+1. Open MetaMask
+2. Click network dropdown (top of extension)
+3. Click **"Add network"**
+4. Click **"Add a network manually"**
+
+#### Step 2: Enter Network Details
+
+Fill in the following information:
+
+ Field  Value 
+
+ **Network Name**  BNB Smart Chain Testnet 
+ **RPC URL**  https://bsctestnetrpc.publicnode.com 
+ **Chain ID**  97 
+ **Currency Symbol**  tBNB 
+ **Block Explorer**  https://testnet.bscscan.com 
+
+#### Step 3: Save and Switch
+
+1. Click **"Save"**
+2. MetaMask automatically switches to new network
+3. You should see "BNB Smart Chain Testnet" at top
+
+### Alternative RPC URLs
+
+If the primary RPC is slow, try these alternatives:
+
+
+https://dataseedprebsc1s1.bnbchain.org:8545
+https://dataseedprebsc2s1.bnbchain.org:8545
+https://bsctestnet.public.blastapi.io
+
+
+## Getting Test BNB
+
+You need BNB for gas fees (transaction costs).
+
+### Using BNB Chain Faucet
+
+1. Visit: https://testnet.bnbchain.org/faucetsmart
+2. Connect your MetaMask wallet
+3. Complete reCAPTCHA
+4. Click **"Give me BNB"**
+5. Wait 3060 seconds
+6. Check MetaMask balance (0.1 tBNB received)
+
+**Faucet Limits:**
+ Amount: 0.1 tBNB per request
+ Cooldown: 24 hours
+ Daily limit: May vary
+
+### Alternative Faucets
+
+If the official faucet is down:
+
+1. **Alchemy BNB Faucet**: https://www.alchemy.com/faucets/bnbsmartchaintestnet
+2. **QuickNode Faucet**: https://faucet.quicknode.com/binancesmartchain/bnbtestnet
+
+## Adding ORX Token to MetaMask
+
+Once you have test BNB, add ORX token to view your balance.
+
+### Method 1: Automatic Import
+
+1. Visit OracleX faucet: https://oraclex.com/faucet
+2. Claim 1,000 ORX
+3. MetaMask may autodetect the token
+4. Click **"Add token"** in notification
+
+### Method 2: Manual Import
+
+#### Step 1: Open Token Settings
+
+1. Open MetaMask
+2. Ensure you're on BNB Testnet
+3. Scroll down to bottom
+4. Click **"Import tokens"**
+
+#### Step 2: Enter Token Details
+
+1. Select **"Custom token"** tab
+2. Enter token contract address:
+   
+   0x7eE4f73bab260C11c68e5560c46E3975E824ed79
+   
+3. Token symbol and decimals autofill:
+    Symbol: ORX
+    Decimals: 18
+4. Click **"Add custom token"**
+5. Click **"Import tokens"**
+
+#### Step 3: Verify
+
+You should now see:
+ ORX token in your asset list
+ Current balance (0 if you haven't claimed yet)
+
+## Connecting to OracleX
+
+### First Time Connection
+
+1. Go to https://oraclex.com
+2. Click **"Connect Wallet"** (top right)
+3. Select **"MetaMask"**
+4. MetaMask popup appears
+5. Select account to connect
+6. Click **"Next"**
+7. Click **"Connect"**
+8. May ask to switch to BNB Testnet (click "Switch")
+
+### Account Display
+
+Once connected, you'll see:
+ Your wallet address (shortened): 0x1234...5678
+ ORX balance
+ Account avatar/icon
+
+### Disconnecting
+
+1. Click your address (top right)
+2. Click **"Disconnect"**
+
+Or from MetaMask:
+1. Open MetaMask
+2. Click three dots (top right)
+3. Select **"Connected sites"**
+4. Find OracleX
+5. Click **"Disconnect"**
+
+## Security Best Practices
+
+### Seed Phrase Security
+
+ **DO:**
+ Write on paper and store securely
+ Use a hardware wallet for large amounts
+ Create multiple backups in different locations
+ Use a password manager with encryption
+ Consider metal seed phrase backup
+
+ **DON'T:**
+ Screenshot or save digitally
+ Share with anyone (even "support")
+ Store in cloud (Google Drive, Dropbox, etc.)
+ Email to yourself
+ Save in browser notes
+
+### Transaction Safety
+
+ **DO:**
+ Always verify contract addresses
+ Check transaction details before signing
+ Start with small test amounts
+ Use hardware wallet for large sums
+ Enable MetaMask security alerts
+
+ **DON'T:**
+ Sign unknown transactions
+ Connect to suspicious websites
+ Share your private key
+ Ignore security warnings
+ Rush through transaction confirmations
+
+### Phishing Protection
+
+ **Common Phishing Tactics:**
+
+1. **Fake websites**: Always check URL (https://oraclex.com)
+2. **Impersonation**: Official team never DMs first
+3. **Urgent messages**: "Act now or lose funds"
+4. **Fake support**: We never ask for seed phrases
+5. **Airdrop scams**: Too good to be true offers
+
+️ **Protection Steps:**
+
+ Bookmark official site
+ Verify social media accounts
+ Check contract addresses on BSCScan
+ Enable 2FA where available
+ Report suspicious activity
+
+## Troubleshooting
+
+### "Wrong Network" Error
+
+**Problem**: MetaMask is on wrong network
+
+**Solution**:
+1. Open MetaMask
+2. Click network dropdown
+3. Select "BNB Smart Chain Testnet"
+4. If not listed, add manually (see above)
+
+### "Insufficient Funds" Error
+
+**Problem**: Not enough BNB for gas
+
+**Solution**:
+1. Get test BNB from faucet
+2. Wait for transaction to confirm
+3. Check balance in MetaMask
+4. Try transaction again
+
+### "Transaction Failed"
+
+**Problem**: Transaction reverted
+
+**Possible causes**:
+ Insufficient gas
+ Contract error
+ Slippage too low
+ Approval needed first
+
+**Solution**:
+1. Check error message in MetaMask
+2. Ensure sufficient BNB for gas
+3. Try increasing gas limit
+4. Check if token approval needed
+
+### Can't Connect Wallet
+
+**Problem**: MetaMask won't connect
+
+**Solution**:
+1. Refresh page
+2. Lock/unlock MetaMask
+3. Clear browser cache
+4. Try different browser
+5. Reinstall MetaMask (last resort  have seed phrase ready!)
+
+### Token Not Showing
+
+**Problem**: ORX balance is 0 or not visible
+
+**Solution**:
+1. Verify you're on BNB Testnet
+2. Check if token imported correctly
+3. Verify contract address
+4. Check balance on BSCScan
+5. Refresh MetaMask
+
+### Pending Transaction Stuck
+
+**Problem**: Transaction pending for too long
+
+**Solution**:
+1. Click pending transaction
+2. Click **"Speed Up"** or **"Cancel"**
+3. Pay higher gas fee
+4. Wait for confirmation
+
+Or reset account:
+1. MetaMask Settings
+2. Advanced
+3. Reset Account (clears pending transactions)
+
+## Advanced: Hardware Wallets
+
+For holding significant ORX amounts, use a hardware wallet.
+
+### Supported Hardware Wallets
+
+ **Ledger** (Nano S, Nano X, Nano S Plus)
+ **Trezor** (Model One, Model T)
+
+### Connecting Ledger
+
+1. Install Ledger Live app
+2. Connect Ledger device
+3. Install Binance Smart Chain app on device
+4. Open MetaMask
+5. Click account icon
+6. Select **"Connect Hardware Wallet"**
+7. Choose **"Ledger"**
+8. Follow prompts
+
+### Connecting Trezor
+
+1. Install Trezor Suite
+2. Connect Trezor device
+3. Enable BNB Chain support
+4. Open MetaMask
+5. Click account icon
+6. Select **"Connect Hardware Wallet"**
+7. Choose **"Trezor"**
+8. Follow prompts
+
+## MultiChain Support (Future)
+
+OracleX currently supports BNB Chain Testnet. Mainnet and other chains coming soon:
+
+  BNB Chain Testnet (Current)
+  BNB Chain Mainnet
+  Ethereum
+  Polygon
+  Arbitrum
+
+## Additional Resources
+
+ **MetaMask Support**: https://support.metamask.io
+ **BNB Chain Docs**: https://docs.bnbchain.org
+ **BSCScan Testnet**: https://testnet.bscscan.com
+ **OracleX Discord**: https://discord.gg/oraclex
+
+## Next Steps
+
+Now that your wallet is set up:
+
+1.  [Get Your First ORX ](gettingorx.md)
+2.  [Make Your First Prediction ](makingpredictions.md)
+3.  [Stake ORX for Rewards ](stakingguide.md)
+
+
+
+div style"background: lineargradient(135deg, #FFD700, #9333EA); padding: 1.5rem; borderradius: 12px; color: white;"
+  strong Wallet Ready!/strong You're all set to start using OracleX. Remember to keep your seed phrase safe and never share it with anyone!
+/div

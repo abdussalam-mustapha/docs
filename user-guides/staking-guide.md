@@ -1,632 +1,406 @@
-# Staking Guide
-
-Learn how to stake ORX tokens and earn passive rewards on OracleX.
-
-## 🎯 What is Staking?
-
-Staking allows you to lock up ORX tokens for a fixed period to earn rewards. The longer you lock, the higher your Annual Percentage Yield (APY).
-
-**Benefits:**
-- 💰 Earn passive income (5-72% APY)
-- 🗳️ Increased voting power in governance
-- 🎖️ Build reputation and unlock achievements
-- 🔒 Contribute to platform security
-
-**Requirements:**
-- Minimum: 100 ORX tokens
-- Wallet with BNB for gas fees
-- Choose lock period: 30, 90, 180, or 365 days
-
-## 📊 Staking Pools
-
-### Available Lock Periods
-
-| Lock Period | Base APY | Multiplier | Effective APY | Min Stake |
-|-------------|----------|------------|---------------|-----------|
-| **30 days** | 5% | 1.0x | **5%** | 100 ORX |
-| **90 days** | 12% | 1.2x | **14.4%** | 100 ORX |
-| **180 days** | 25% | 1.5x | **37.5%** | 100 ORX |
-| **365 days** | 40% | 1.8x | **72%** | 100 ORX |
-
-### APY Breakdown
-
-The effective APY includes:
-1. **Base Rewards**: Fixed rate for lock period
-2. **Time Multiplier**: Bonus for longer locks
-3. **Volume Bonus**: Extra rewards from platform fees
-
-```typescript
-// APY Calculation Example
-const calculateAPY = (baseAPY: number, lockDays: number) => {
-  // Get multiplier based on lock period
-  const multipliers = {
-    30: 1.0,
-    90: 1.2,
-    180: 1.5,
-    365: 1.8
-  };
-  
-  const multiplier = multipliers[lockDays] || 1.0;
-  const effectiveAPY = baseAPY * multiplier;
-  
-  return effectiveAPY;
-};
-
-// Example: 90-day lock
-const baseAPY = 0.12; // 12%
-const multiplier = 1.2;
-const effectiveAPY = 0.12 * 1.2; // 14.4%
-```
-
-## 💰 How Much Can You Earn?
-
-### Reward Calculations
-
-```typescript
-// Simple reward formula
-Reward = (Staked Amount × APY × Lock Period) / 365 days
-
-// Examples:
-
-// 30-day stake
-Amount: 1,000 ORX
-APY: 5%
-Period: 30 days
-Reward: (1000 × 0.05 × 30) / 365 = 4.11 ORX
-
-// 90-day stake
-Amount: 5,000 ORX
-APY: 14.4%
-Period: 90 days
-Reward: (5000 × 0.144 × 90) / 365 = 177.53 ORX
-
-// 180-day stake
-Amount: 10,000 ORX
-APY: 37.5%
-Period: 180 days
-Reward: (10000 × 0.375 × 180) / 365 = 1,849.32 ORX
-
-// 365-day stake
-Amount: 20,000 ORX
-APY: 72%
-Period: 365 days
-Reward: 20000 × 0.72 = 14,400 ORX
-```
-
-### ROI Examples
-
-| Stake Amount | Lock Period | APY | Rewards | Total Return | ROI |
-|--------------|-------------|-----|---------|--------------|-----|
-| 1,000 ORX | 30 days | 5% | 4 ORX | 1,004 ORX | 0.4% |
-| 5,000 ORX | 90 days | 14.4% | 178 ORX | 5,178 ORX | 3.6% |
-| 10,000 ORX | 180 days | 37.5% | 1,849 ORX | 11,849 ORX | 18.5% |
-| 20,000 ORX | 365 days | 72% | 14,400 ORX | 34,400 ORX | 72% |
-
-## 🚀 How to Stake
-
-### Step 1: Navigate to Staking Page
-
-1. Go to https://oraclex.com/staking
-2. Connect your wallet
-3. Ensure you're on BNB Chain Testnet
-
-### Step 2: Check Your ORX Balance
-
-```typescript
-// Your available balance is displayed at top
-Available Balance: 10,000 ORX
-Staked Balance: 0 ORX
-Total Balance: 10,000 ORX
-```
-
-**Don't have ORX?** [Get ORX from faucet →](getting-orx.md)
-
-### Step 3: Choose Stake Amount
-
-Enter the amount you want to stake:
-
-**Considerations:**
-- Minimum: 100 ORX
-- Maximum: Your available balance
-- Keep some ORX for predictions and gas fees
-
-```typescript
-// Recommended allocation
-Total ORX: 10,000
-
-Staking: 7,000 ORX (70%)
-Predictions: 2,000 ORX (20%)
-Reserve: 1,000 ORX (10%)
-```
-
-### Step 4: Select Lock Period
-
-Choose based on your goals:
-
-**Short-term (30 days)**
-- ✅ Quick returns
-- ✅ High flexibility
-- ⚠️ Lower APY
-- Best for: Testing staking
-
-**Medium-term (90 days)**
-- ✅ Good APY (14.4%)
-- ✅ Reasonable lock time
-- ✅ Balanced risk/reward
-- Best for: Regular stakers
-
-**Long-term (180 days)**
-- ✅ High APY (37.5%)
-- ✅ Significant rewards
-- ⚠️ Longer commitment
-- Best for: Patient investors
-
-**Maximum (365 days)**
-- ✅ Highest APY (72%)
-- ✅ Maximum rewards
-- ⚠️ Full year lock
-- Best for: Long-term believers
-
-### Step 5: Review & Confirm
-
-Before staking, review:
-
-```typescript
-Staking Summary:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Amount: 5,000 ORX
-Lock Period: 90 days
-APY: 14.4%
-Expected Rewards: 177.53 ORX
-Total Return: 5,177.53 ORX
-Unlock Date: February 8, 2026
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-⚠️ Early withdrawal penalty: 50% of rewards
-⚠️ Tokens locked until unlock date
-✅ Claim rewards anytime after unlock
-```
-
-### Step 6: Approve ORX (First Time Only)
-
-If staking for the first time:
-
-**Transaction 1: Approve**
-1. MetaMask popup appears
-2. Approving ORX spending
-3. Click "Confirm"
-4. Wait ~3 seconds
-5. Gas cost: ~$0.02
-
-```typescript
-// Approval transaction
-Function: approve(address spender, uint256 amount)
-Spender: Staking Contract (0x007Aaa...)
-Amount: Your stake amount or unlimited
-Gas: ~50,000
-```
-
-**💡 Pro Tip:** Approve unlimited amount to avoid approving again for future stakes.
-
-### Step 7: Stake Tokens
-
-**Transaction 2: Stake**
-1. Second MetaMask popup
-2. Staking transaction
-3. Click "Confirm"
-4. Wait ~3 seconds
-5. Gas cost: ~$0.04
-
-```typescript
-// Staking transaction
-Function: stake(uint256 amount, uint256 lockPeriod)
-Amount: 5,000 ORX (in wei)
-Lock Period: 7776000 seconds (90 days)
-Gas: ~100,000
-```
-
-### Step 8: Confirmation
-
-Success! Your stake is now active:
-- ✅ Transaction confirmed
-- ✅ Tokens locked in contract
-- ✅ Rewards accumulating
-- ✅ Visible in "My Stakes" section
-
-## 📊 Managing Your Stakes
-
-### View Active Stakes
-
-Navigate to **Staking Dashboard** to see:
-
-```typescript
-My Stakes
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Stake #1
-Amount: 5,000 ORX
-Lock Period: 90 days
-APY: 14.4%
-Staked On: Nov 10, 2025
-Unlock Date: Feb 8, 2026
-Time Remaining: 90 days
-Earned Rewards: 0.49 ORX (updating daily)
-Status: 🔒 Locked
-
-Stake #2
-Amount: 2,000 ORX
-Lock Period: 30 days
-APY: 5%
-Staked On: Oct 10, 2025
-Unlock Date: Nov 9, 2025
-Time Remaining: 0 days
-Earned Rewards: 2.74 ORX
-Status: ✅ Unlocked - Ready to Claim!
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-```
-
-### Real-Time Rewards Tracking
-
-Watch your rewards accumulate:
-
-```typescript
-// Rewards update every block (~3 seconds)
-Current Rewards: 0.49 ORX
-Projected Final: 177.53 ORX
-Progress: 1% (1/90 days)
-
-// Daily accrual
-Daily Rewards: 1.97 ORX/day
-Weekly Rewards: 13.79 ORX/week
-Monthly Rewards: 59.18 ORX/month
-```
-
-### Stake Details
-
-Click any stake to view:
-- Stake amount
-- Lock period
-- Start/end dates
-- APY rate
-- Earned rewards
-- Transaction hash
-- Contract address
-
-## 💎 Claiming Rewards
-
-### When Lock Period Ends
-
-After your lock period expires:
-
-1. Stake status changes to **"Unlocked"**
-2. **"Claim"** button appears
-3. You can claim anytime (no rush)
-4. Rewards continue earning until claimed
-
-### Claiming Process
-
-**Step 1: Navigate to Claims**
-1. Go to Staking page
-2. Find unlocked stake
-3. Click **"Claim Rewards"**
-
-**Step 2: Confirm Transaction**
-```typescript
-Claim Summary:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Original Stake: 5,000 ORX
-Earned Rewards: 177.53 ORX
-Total Claim: 5,177.53 ORX
-Gas Fee: ~$0.03
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-```
-
-**Step 3: Sign Transaction**
-1. MetaMask popup
-2. Click "Confirm"
-3. Wait for confirmation
-4. Tokens sent to wallet
-
-**Step 4: Success**
-- ✅ Stake + rewards in wallet
-- ✅ Available for predictions or restaking
-- ✅ Transaction complete
-
-## ⚠️ Early Withdrawal
-
-### Penalty for Early Exit
-
-If you withdraw before lock period ends:
-
-```typescript
-Penalty: 50% of earned rewards
-
-Example:
-Stake: 5,000 ORX
-Lock: 90 days
-Exit after: 45 days (halfway)
-Earned so far: 88.76 ORX
-Penalty: 44.38 ORX (50%)
-You receive: 5,044.38 ORX
-Lost rewards: 44.38 ORX
-```
-
-### When to Consider Early Withdrawal
-
-**Good Reasons:**
-- Emergency need for funds
-- Better opportunity elsewhere
-- Market conditions changed drastically
-
-**Bad Reasons:**
-- Impatience
-- Minor price movements
-- FOMO on other investments
-
-### How to Withdraw Early
-
-1. Find your stake
-2. Click **"Emergency Unstake"**
-3. Review penalty warning
-4. Confirm if certain
-5. Receive stake minus penalty
-
-**⚠️ Warning:** This action cannot be undone!
-
-## 📈 Staking Strategies
-
-### 1. Ladder Strategy
-
-Spread stakes across multiple lock periods:
-
-```typescript
-Total: 10,000 ORX
-
-Stake 1: 2,500 ORX × 30 days = 3.42 ORX
-Stake 2: 2,500 ORX × 90 days = 88.76 ORX
-Stake 3: 2,500 ORX × 180 days = 462.33 ORX
-Stake 4: 2,500 ORX × 365 days = 1,800 ORX
+﻿# Wallet Setup Guide
 
-Benefits:
-- Regular unlock schedule
-- Access to funds periodically
-- Diversified risk
-- Average APY: ~24%
-```
-
-### 2. All-In Long-Term
-
-Maximum returns strategy:
-
-```typescript
-Total: 10,000 ORX × 365 days @ 72% APY
-Rewards: 7,200 ORX
-Final: 17,200 ORX after 1 year
-
-Benefits:
-- Highest possible returns
-- Simple management
-- Maximum voting power
-
-Risks:
-- All funds locked 1 year
-- No flexibility
-- Opportunity cost
-```
-
-### 3. Auto-Compound
-
-Reinvest rewards immediately:
-
-```typescript
-Cycle 1: Stake 5,000 ORX × 90 days
-Unlock: Receive 5,177.53 ORX
-
-Cycle 2: Stake 5,177.53 ORX × 90 days
-Unlock: Receive 5,364.05 ORX
-
-Cycle 3: Stake 5,364.05 ORX × 90 days
-Unlock: Receive 5,559.96 ORX
-
-After 1 year: ~5,900 ORX (18% compound APY)
-```
-
-### 4. Hybrid Approach
-
-Balance staking with active predictions:
-
-```typescript
-Total Portfolio: 10,000 ORX
-
-Staking (70%): 7,000 ORX
-- 365-day stake for high APY
-- Passive income source
-- Voting power
-
-Active Trading (30%): 3,000 ORX
-- Make predictions
-- Capture opportunities
-- Stay liquid
+Complete guide to setting up your wallet for OracleX on BNB Smart Chain Testnet.
 
-Expected Annual Return:
-Staking: 7,000 × 0.72 = 5,040 ORX
-Predictions: 3,000 × 0.30 = 900 ORX (est.)
-Total: 5,940 ORX (59.4% combined return)
-```
-
-## 🎮 Staking Achievements
-
-### Unlock Badges
+## Overview
 
-Earn achievements through staking:
-
-- 🥉 **First Stake**: Complete first stake
-- 🏦 **Diamond Hands**: Stake 10,000+ ORX
-- ⏰ **Long-Term Believer**: Complete 365-day stake
-- 🔄 **Serial Staker**: 10 completed stakes
-- 💎 **Whale Staker**: Stake 100,000+ ORX
-- 👑 **Staking Legend**: 1M+ ORX total staked
-
-### Level Up
-
-Staking contributes to your level:
-- Stake ORX: +5 XP per 100 ORX
-- Complete stake: +50 XP
-- Long-term stakes: +bonus XP
-
-### Leaderboards
-
-Compete on staking leaderboards:
-- **Most Staked**: Total amount
-- **Longest Lock**: Duration champions
-- **Highest Rewards**: Earnings leaders
-- **Most Stakes**: Volume leaders
-
-## 📊 Staking Analytics
-
-### Track Performance
-
-Monitor your staking performance:
-
-```typescript
-Staking Dashboard
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Total Staked: 15,000 ORX
-Total Rewards Earned: 2,500 ORX
-Active Stakes: 3
-Completed Stakes: 7
-Average APY: 28%
-Total ROI: 16.67%
-Voting Power: 18,000
-Rank: #145 / 5,000 stakers
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-```
-
-### Historical Data
-
-View past stakes:
-- Stake dates
-- Lock periods
-- Rewards earned
-- APY achieved
-- Transaction hashes
-
-## 🗳️ Governance Benefits
-
-### Increased Voting Power
-
-Staked ORX gives you more governance influence:
-
-```typescript
-Voting Power = Staked Amount × Time Multiplier
-
-Examples:
-1,000 ORX staked 30 days = 1,083 voting power
-1,000 ORX staked 90 days = 1,333 voting power
-1,000 ORX staked 180 days = 1,667 voting power
-1,000 ORX staked 365 days = 2,000 voting power
-
-Longer stakes = More governance influence
-```
-
-### Proposal Creation
-
-High stakers can create proposals:
-- Minimum: 10,000 ORX staked
-- Propose protocol changes
-- Shape platform future
-
-### Vote on Proposals
-
-Participate in governance:
-- Vote with staked ORX
-- Delegate voting power
-- Earn reputation for participation
-
-## 🔒 Security & Safety
-
-### Smart Contract Security
-
-Staking contract features:
-- ✅ Audited by CertiK
-- ✅ Time-locked withdrawals
-- ✅ No admin keys
-- ✅ Immutable logic
-- ✅ Non-custodial (you control keys)
-
-### Best Practices
-
-**✅ DO:**
-- Start with small amounts
-- Understand lock periods
-- Keep seed phrase safe
-- Diversify lock periods
-- Monitor rewards regularly
-
-**❌ DON'T:**
-- Stake more than you can afford to lock
-- Share your private keys
-- Use exchange wallets for staking
-- Ignore security warnings
-- Rush transactions
-
-## 🔧 Troubleshooting
-
-### Common Issues
-
-**"Insufficient Balance"**
-- Ensure you have enough ORX
-- Keep BNB for gas fees
-- Check minimum stake (100 ORX)
-
-**"Approval Failed"**
-- Increase gas limit
-- Check network connection
-- Retry transaction
-
-**"Transaction Failed"**
-- Verify correct network (BSC Testnet)
-- Ensure sufficient gas
-- Check contract status
-
-**"Can't Claim Rewards"**
-- Verify lock period ended
-- Check unlock date
-- Refresh page
-
-## 📱 Mobile Staking
-
-Stake from mobile using MetaMask app:
-
-1. Open MetaMask mobile app
-2. Visit oraclex.com in DApp browser
-3. Connect wallet
-4. Navigate to Staking
-5. Follow same steps as desktop
-
-**Mobile Tips:**
-- Ensure stable internet
-- Double-check amounts
-- Save transaction hashes
-- Enable notifications
-
-## 🔗 Resources
-
-- **Stake Now**: https://oraclex.com/staking
-- **Staking Contract**: https://testnet.bscscan.com/address/0x007Aaa...
-- **APY Calculator**: https://oraclex.com/calculator
-- **Support**: https://discord.gg/oraclex
+To use OracleX, you need a Web3 wallet to:
+ Connect to the platform
+ Sign transactions
+ Store ORX tokens
+ Manage your predictions
+
+**Recommended Wallet**: MetaMask (most widely supported)
+
+## Installing MetaMask
+
+### Browser Extension (Desktop)
+
+#### Step 1: Download MetaMask
+
+1. Visit **official website**: https://metamask.io
+2. Click **"Download"**
+3. Select your browser:
+    Chrome
+    Firefox
+    Brave
+    Edge
+4. Click **"Install MetaMask"**
+5. Add extension to browser
+
+#### Step 2: Create New Wallet
+
+1. Open MetaMask extension
+2. Click **"Get Started"**
+3. Select **"Create a new wallet"**
+4. Agree to terms
+5. Create a strong password (min 8 characters)
+6. Watch the security video (optional but recommended)
+
+#### Step 3: Secure Your Seed Phrase
+
+️ **CRITICAL: Your seed phrase is the master key to your wallet**
+
+1. Click **"Reveal Secret Recovery Phrase"**
+2. Write down all 12 words **on paper** (in exact order)
+3. Store paper in a secure location
+4. **Never** share with anyone
+5. **Never** store digitally (no screenshots, no cloud)
+6. Complete the confirmation test
+
+**Example Seed Phrase:**
+
+word1 word2 word3 word4 word5 word6 
+word7 word8 word9 word10 word11 word12
+
+
+### Mobile App
+
+#### iOS (iPhone/iPad)
+
+1. Open **App Store**
+2. Search **"MetaMask"**
+3. Install app by MetaMask
+4. Open app
+5. Follow same creation steps as desktop
+
+#### Android
+
+1. Open **Google Play Store**
+2. Search **"MetaMask"**
+3. Install app by MetaMask
+4. Open app
+5. Follow same creation steps as desktop
+
+## Adding BNB Smart Chain Testnet
+
+MetaMask defaults to Ethereum. You need to add BNB Chain Testnet for OracleX.
+
+### Method 1: Automatic (Recommended)
+
+1. Visit OracleX: https://oraclex.com
+2. Click **"Connect Wallet"**
+3. MetaMask will prompt to add network
+4. Click **"Approve"** then **"Switch network"**
+
+### Method 2: Manual Setup
+
+#### Step 1: Open Network Settings
+
+1. Open MetaMask
+2. Click network dropdown (top of extension)
+3. Click **"Add network"**
+4. Click **"Add a network manually"**
+
+#### Step 2: Enter Network Details
+
+Fill in the following information:
+
+ Field  Value 
+
+ **Network Name**  BNB Smart Chain Testnet 
+ **RPC URL**  https://bsctestnetrpc.publicnode.com 
+ **Chain ID**  97 
+ **Currency Symbol**  tBNB 
+ **Block Explorer**  https://testnet.bscscan.com 
+
+#### Step 3: Save and Switch
+
+1. Click **"Save"**
+2. MetaMask automatically switches to new network
+3. You should see "BNB Smart Chain Testnet" at top
+
+### Alternative RPC URLs
+
+If the primary RPC is slow, try these alternatives:
+
+
+https://dataseedprebsc1s1.bnbchain.org:8545
+https://dataseedprebsc2s1.bnbchain.org:8545
+https://bsctestnet.public.blastapi.io
+
+
+## Getting Test BNB
+
+You need BNB for gas fees (transaction costs).
+
+### Using BNB Chain Faucet
+
+1. Visit: https://testnet.bnbchain.org/faucetsmart
+2. Connect your MetaMask wallet
+3. Complete reCAPTCHA
+4. Click **"Give me BNB"**
+5. Wait 3060 seconds
+6. Check MetaMask balance (0.1 tBNB received)
+
+**Faucet Limits:**
+ Amount: 0.1 tBNB per request
+ Cooldown: 24 hours
+ Daily limit: May vary
+
+### Alternative Faucets
+
+If the official faucet is down:
+
+1. **Alchemy BNB Faucet**: https://www.alchemy.com/faucets/bnbsmartchaintestnet
+2. **QuickNode Faucet**: https://faucet.quicknode.com/binancesmartchain/bnbtestnet
+
+## Adding ORX Token to MetaMask
+
+Once you have test BNB, add ORX token to view your balance.
+
+### Method 1: Automatic Import
+
+1. Visit OracleX faucet: https://oraclex.com/faucet
+2. Claim 1,000 ORX
+3. MetaMask may autodetect the token
+4. Click **"Add token"** in notification
+
+### Method 2: Manual Import
+
+#### Step 1: Open Token Settings
+
+1. Open MetaMask
+2. Ensure you're on BNB Testnet
+3. Scroll down to bottom
+4. Click **"Import tokens"**
+
+#### Step 2: Enter Token Details
+
+1. Select **"Custom token"** tab
+2. Enter token contract address:
+   
+   0x7eE4f73bab260C11c68e5560c46E3975E824ed79
+   
+3. Token symbol and decimals autofill:
+    Symbol: ORX
+    Decimals: 18
+4. Click **"Add custom token"**
+5. Click **"Import tokens"**
+
+#### Step 3: Verify
+
+You should now see:
+ ORX token in your asset list
+ Current balance (0 if you haven't claimed yet)
+
+## Connecting to OracleX
+
+### First Time Connection
+
+1. Go to https://oraclex.com
+2. Click **"Connect Wallet"** (top right)
+3. Select **"MetaMask"**
+4. MetaMask popup appears
+5. Select account to connect
+6. Click **"Next"**
+7. Click **"Connect"**
+8. May ask to switch to BNB Testnet (click "Switch")
+
+### Account Display
+
+Once connected, you'll see:
+ Your wallet address (shortened): 0x1234...5678
+ ORX balance
+ Account avatar/icon
+
+### Disconnecting
+
+1. Click your address (top right)
+2. Click **"Disconnect"**
+
+Or from MetaMask:
+1. Open MetaMask
+2. Click three dots (top right)
+3. Select **"Connected sites"**
+4. Find OracleX
+5. Click **"Disconnect"**
+
+## Security Best Practices
+
+### Seed Phrase Security
+
+ **DO:**
+ Write on paper and store securely
+ Use a hardware wallet for large amounts
+ Create multiple backups in different locations
+ Use a password manager with encryption
+ Consider metal seed phrase backup
+
+ **DON'T:**
+ Screenshot or save digitally
+ Share with anyone (even "support")
+ Store in cloud (Google Drive, Dropbox, etc.)
+ Email to yourself
+ Save in browser notes
+
+### Transaction Safety
+
+ **DO:**
+ Always verify contract addresses
+ Check transaction details before signing
+ Start with small test amounts
+ Use hardware wallet for large sums
+ Enable MetaMask security alerts
+
+ **DON'T:**
+ Sign unknown transactions
+ Connect to suspicious websites
+ Share your private key
+ Ignore security warnings
+ Rush through transaction confirmations
+
+### Phishing Protection
+
+ **Common Phishing Tactics:**
+
+1. **Fake websites**: Always check URL (https://oraclex.com)
+2. **Impersonation**: Official team never DMs first
+3. **Urgent messages**: "Act now or lose funds"
+4. **Fake support**: We never ask for seed phrases
+5. **Airdrop scams**: Too good to be true offers
+
+️ **Protection Steps:**
+
+ Bookmark official site
+ Verify social media accounts
+ Check contract addresses on BSCScan
+ Enable 2FA where available
+ Report suspicious activity
+
+## Troubleshooting
+
+### "Wrong Network" Error
+
+**Problem**: MetaMask is on wrong network
+
+**Solution**:
+1. Open MetaMask
+2. Click network dropdown
+3. Select "BNB Smart Chain Testnet"
+4. If not listed, add manually (see above)
+
+### "Insufficient Funds" Error
+
+**Problem**: Not enough BNB for gas
+
+**Solution**:
+1. Get test BNB from faucet
+2. Wait for transaction to confirm
+3. Check balance in MetaMask
+4. Try transaction again
+
+### "Transaction Failed"
+
+**Problem**: Transaction reverted
+
+**Possible causes**:
+ Insufficient gas
+ Contract error
+ Slippage too low
+ Approval needed first
+
+**Solution**:
+1. Check error message in MetaMask
+2. Ensure sufficient BNB for gas
+3. Try increasing gas limit
+4. Check if token approval needed
+
+### Can't Connect Wallet
+
+**Problem**: MetaMask won't connect
+
+**Solution**:
+1. Refresh page
+2. Lock/unlock MetaMask
+3. Clear browser cache
+4. Try different browser
+5. Reinstall MetaMask (last resort  have seed phrase ready!)
+
+### Token Not Showing
+
+**Problem**: ORX balance is 0 or not visible
+
+**Solution**:
+1. Verify you're on BNB Testnet
+2. Check if token imported correctly
+3. Verify contract address
+4. Check balance on BSCScan
+5. Refresh MetaMask
+
+### Pending Transaction Stuck
+
+**Problem**: Transaction pending for too long
+
+**Solution**:
+1. Click pending transaction
+2. Click **"Speed Up"** or **"Cancel"**
+3. Pay higher gas fee
+4. Wait for confirmation
+
+Or reset account:
+1. MetaMask Settings
+2. Advanced
+3. Reset Account (clears pending transactions)
+
+## Advanced: Hardware Wallets
+
+For holding significant ORX amounts, use a hardware wallet.
+
+### Supported Hardware Wallets
+
+ **Ledger** (Nano S, Nano X, Nano S Plus)
+ **Trezor** (Model One, Model T)
+
+### Connecting Ledger
+
+1. Install Ledger Live app
+2. Connect Ledger device
+3. Install Binance Smart Chain app on device
+4. Open MetaMask
+5. Click account icon
+6. Select **"Connect Hardware Wallet"**
+7. Choose **"Ledger"**
+8. Follow prompts
+
+### Connecting Trezor
+
+1. Install Trezor Suite
+2. Connect Trezor device
+3. Enable BNB Chain support
+4. Open MetaMask
+5. Click account icon
+6. Select **"Connect Hardware Wallet"**
+7. Choose **"Trezor"**
+8. Follow prompts
+
+## MultiChain Support (Future)
+
+OracleX currently supports BNB Chain Testnet. Mainnet and other chains coming soon:
+
+  BNB Chain Testnet (Current)
+  BNB Chain Mainnet
+  Ethereum
+  Polygon
+  Arbitrum
+
+## Additional Resources
+
+ **MetaMask Support**: https://support.metamask.io
+ **BNB Chain Docs**: https://docs.bnbchain.org
+ **BSCScan Testnet**: https://testnet.bscscan.com
+ **OracleX Discord**: https://discord.gg/oraclex
 
 ## Next Steps
 
-Now that you know how to stake:
+Now that your wallet is set up:
 
-1. ✅ [Participate in Governance →](governance.md)
-2. ✅ [View Your Rewards →](https://oraclex.com/staking)
-3. ✅ [Join Staking Community →](https://discord.gg/oraclex)
+1.  [Get Your First ORX ](gettingorx.md)
+2.  [Make Your First Prediction ](makingpredictions.md)
+3.  [Stake ORX for Rewards ](stakingguide.md)
 
----
 
-<div style="background: linear-gradient(135deg, #FFD700, #9333EA); padding: 1.5rem; border-radius: 12px; color: white;">
-  <strong>💎 Start Earning Today!</strong> Stake your ORX tokens now and earn up to 72% APY while supporting the OracleX ecosystem.
-</div>
+
+div style"background: lineargradient(135deg, #FFD700, #9333EA); padding: 1.5rem; borderradius: 12px; color: white;"
+  strong Wallet Ready!/strong You're all set to start using OracleX. Remember to keep your seed phrase safe and never share it with anyone!
+/div

@@ -1,356 +1,406 @@
-# Documentation Generation Guide
-
-This guide explains the OracleX documentation structure and how to generate/update documentation pages.
-
-## 📚 Documentation Structure
-
-The documentation is organized into the following sections:
-
-###  Getting Started (✅ Complete)
-- ✅ `getting-started/introduction.md` - Overview of OracleX
-- ✅ `getting-started/quick-start.md` - 5-minute getting started guide
-- ✅ `getting-started/core-concepts.md` - Fundamental concepts
-- ✅ `getting-started/architecture.md` - System architecture overview
-
-### 📖 User Guides (To Create)
-- `user-guides/wallet-setup.md` - Setting up MetaMask
-- `user-guides/getting-orx.md` - How to get ORX tokens
-- `user-guides/create-market.md` - Creating prediction markets
-- `user-guides/make-predictions.md` - How to stake on outcomes
-- `user-guides/staking.md` - Staking for rewards
-- `user-guides/governance.md` - Participating in DAO governance
-- `user-guides/rewards.md` - Claiming rewards
-- `user-guides/profile.md` - Managing your profile
-
-### 👨‍💻 Smart Contract Documentation (To Create)
-- `developers/smart-contracts/README.md` - Overview
-- `developers/smart-contracts/orx-token.md` - ORX Token contract
-- `developers/smart-contracts/market-factory.md` - Market Factory
-- `developers/smart-contracts/prediction-markets.md` - Individual markets
-- `developers/smart-contracts/staking-contract.md` - Staking mechanics
-- `developers/smart-contracts/governance-dao.md` - Governance system
-- `developers/smart-contracts/dispute-resolution.md` - Dispute handling
-- `developers/smart-contracts/oracle-bridge.md` - Oracle integration
-- `developers/smart-contracts/ai-oracle.md` - AI Oracle contract
-
-### 🔌 Backend API (To Create)
-- `developers/backend-api/README.md` - API overview
-- `developers/backend-api/authentication.md` - Auth methods
-- `developers/backend-api/markets.md` - Markets endpoints
-- `developers/backend-api/users.md` - User endpoints
-- `developers/backend-api/predictions.md` - Predictions API
-- `developers/backend-api/analytics.md` - Analytics endpoints
-- `developers/backend-api/staking.md` - Staking API
-- `developers/backend-api/faucet.md` - Faucet endpoints
-- `developers/backend-api/websockets.md` - Real-time events
-
-### 🤖 AI Oracle System (To Create)
-- `developers/ai-oracle/README.md` - TruthMesh overview
-- `developers/ai-oracle/agent-architecture.md` - Agent system
-- `developers/ai-oracle/data-sources.md` - Data integration
-- `developers/ai-oracle/consensus.md` - Consensus mechanism
-- `developers/ai-oracle/confidence-scoring.md` - Scoring system
-- `developers/ai-oracle/dispute-resolution.md` - Dispute handling
-- `developers/ai-oracle/custom-oracles.md` - Building custom oracles
-
-### 💎 Token Economics (To Create)
-- `tokenomics/orx-token.md` - ORX token details
-- `tokenomics/distribution.md` - Token distribution
-- `tokenomics/staking.md` - Staking mechanics
-- `tokenomics/rewards.md` - Reward system
-- `tokenomics/governance.md` - Governance model
-- `tokenomics/fees.md` - Fee structure
-- `tokenomics/metrics.md` - Economic metrics
-
-### 📘 Reference (To Create)
-- `reference/contract-addresses.md` - Deployed contracts
-- `reference/network-config.md` - Network configuration
-- `reference/api-reference.md` - Complete API reference
-- `reference/error-codes.md` - Error codes & solutions
-- `reference/events.md` - Contract events
-- `reference/glossary.md` - Terms and definitions
-- `reference/faq.md` - Frequently asked questions
-
-### 🎓 Tutorials (To Create)
-- `tutorials/deployment.md` - Deploy local instance
-- `tutorials/first-market.md` - Create first market tutorial
-- `tutorials/custom-oracle.md` - Build custom oracle
-- `tutorials/integrations.md` - Integration examples
-- `tutorials/trading-strategies.md` - Trading strategies
-- `tutorials/bot-development.md` - Bot development guide
-
-### 🔐 Security (To Create)
-- `security/overview.md` - Security overview
-- `security/best-practices.md` - Best practices
-- `security/audits.md` - Audit reports
-- `security/bug-bounty.md` - Bug bounty program
-- `security/incident-response.md` - Incident handling
-
-### 🤝 Contributing (To Create)
-- `contributing/contributing-guide.md` - How to contribute
-- `contributing/code-of-conduct.md` - Community guidelines
-- `contributing/development-setup.md` - Local development
-- `contributing/coding-standards.md` - Code standards
-- `contributing/pull-requests.md` - PR process
-- `contributing/testing.md` - Testing guidelines
-
-### 📦 Resources (To Create)
-- `resources/changelog.md` - Version history
-- `resources/roadmap.md` - Product roadmap
-- `resources/brand-assets.md` - Branding assets
-- `resources/community.md` - Community resources
-- `resources/legal.md` - Legal documents
-
-## 🎨 Documentation Style Guide
-
-### Colors & Branding
-
-Use OracleX brand colors in documentation:
+﻿# Wallet Setup Guide
 
-- **Primary Gold**: `#FFD700` - Main brand color
-- **Purple**: `#9333EA` - Secondary brand color
-- **Blue**: `#3B82F6` - Accent color
-- **Dark**: `#0F172A` - Dark backgrounds
-- **Text**: `#E2E8F0` - Light text
+Complete guide to setting up your wallet for OracleX on BNB Smart Chain Testnet.
 
-### Gradients
+## Overview
 
-```css
-/* Primary Gradient */
-background: linear-gradient(135deg, #FFD700, #9333EA);
+To use OracleX, you need a Web3 wallet to:
+ Connect to the platform
+ Sign transactions
+ Store ORX tokens
+ Manage your predictions
 
-/* Card Gradient */
-background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(147,51,234,0.1));
-```
+**Recommended Wallet**: MetaMask (most widely supported)
 
-### Icons & Emojis
+## Installing MetaMask
 
-Use consistent emojis for sections:
+### Browser Extension (Desktop)
 
-- 🎯 Prediction markets
-- 💎 $ORX Token
-- 🤖 AI/Oracle system
-- 🏛️ Governance
-- 📊 Analytics
-- 🔐 Security
-- ⚡ Performance
-- 🚀 Deployment
-- 📚 Documentation
-- 💡 Tips/Pro-tips
-- ⚠️ Warnings
-- ✅ Success/Completed
-- ❌ Error/Failed
-- 🔄 In Progress
+#### Step 1: Download MetaMask
 
-### Code Blocks
+1. Visit **official website**: https://metamask.io
+2. Click **"Download"**
+3. Select your browser:
+    Chrome
+    Firefox
+    Brave
+    Edge
+4. Click **"Install MetaMask"**
+5. Add extension to browser
 
-Use proper syntax highlighting:
+#### Step 2: Create New Wallet
 
-```typescript
-// TypeScript/JavaScript
-const contract = new ethers.Contract(address, abi, signer);
-```
+1. Open MetaMask extension
+2. Click **"Get Started"**
+3. Select **"Create a new wallet"**
+4. Agree to terms
+5. Create a strong password (min 8 characters)
+6. Watch the security video (optional but recommended)
 
-```solidity
-// Solidity smart contracts
-function stakeTokens(uint256 amount) external {
-    // Implementation
-}
-```
+#### Step 3: Secure Your Seed Phrase
 
-```python
-# Python (AI Oracle)
-async def resolve_market(market_id: str):
-    # Implementation
-```
+️ **CRITICAL: Your seed phrase is the master key to your wallet**
 
-```bash
-# Shell commands
-npm install
-npm run dev
-```
+1. Click **"Reveal Secret Recovery Phrase"**
+2. Write down all 12 words **on paper** (in exact order)
+3. Store paper in a secure location
+4. **Never** share with anyone
+5. **Never** store digitally (no screenshots, no cloud)
+6. Complete the confirmation test
 
-### Call-out Boxes
+**Example Seed Phrase:**
 
-```html
-<!-- Info Box -->
-<div style="background: linear-gradient(135deg, #3B82F6, #1E40AF); padding: 1rem; border-radius: 8px; color: white; margin: 1rem 0;">
-  <strong>ℹ️ Info:</strong> Important information here
-</div>
+word1 word2 word3 word4 word5 word6 
+word7 word8 word9 word10 word11 word12
 
-<!-- Warning Box -->
-<div style="background: linear-gradient(135deg, #F59E0B, #D97706); padding: 1rem; border-radius: 8px; color: white; margin: 1rem 0;">
-  <strong>⚠️ Warning:</strong> Caution message here
-</div>
 
-<!-- Success Box -->
-<div style="background: linear-gradient(135deg, #10B981, #059669); padding: 1rem; border-radius: 8px; color: white; margin: 1rem 0;">
-  <strong>✅ Success:</strong> Success message here
-</div>
+### Mobile App
 
-<!-- Pro Tip Box -->
-<div style="background: linear-gradient(135deg, #FFD700, #9333EA); padding: 1rem; border-radius: 8px; color: white; margin: 1rem 0;">
-  <strong>💡 Pro Tip:</strong> Expert advice here
-</div>
-```
+#### iOS (iPhone/iPad)
 
-## 📝 Page Template
+1. Open **App Store**
+2. Search **"MetaMask"**
+3. Install app by MetaMask
+4. Open app
+5. Follow same creation steps as desktop
 
-Use this template for new pages:
+#### Android
 
-```markdown
-# Page Title
+1. Open **Google Play Store**
+2. Search **"MetaMask"**
+3. Install app by MetaMask
+4. Open app
+5. Follow same creation steps as desktop
 
-Brief introduction paragraph explaining what this page covers.
+## Adding BNB Smart Chain Testnet
 
-## Section 1
+MetaMask defaults to Ethereum. You need to add BNB Chain Testnet for OracleX.
 
-Content for section 1...
+### Method 1: Automatic (Recommended)
 
-### Subsection 1.1
+1. Visit OracleX: https://oraclex.com
+2. Click **"Connect Wallet"**
+3. MetaMask will prompt to add network
+4. Click **"Approve"** then **"Switch network"**
 
-Detailed content...
+### Method 2: Manual Setup
 
-## Code Examples
+#### Step 1: Open Network Settings
 
-\`\`\`typescript
-// Code example with syntax highlighting
-const example = "value";
-\`\`\`
+1. Open MetaMask
+2. Click network dropdown (top of extension)
+3. Click **"Add network"**
+4. Click **"Add a network manually"**
 
-## Diagrams
+#### Step 2: Enter Network Details
 
-Use mermaid for diagrams:
+Fill in the following information:
 
-\`\`\`mermaid
-graph TD
-    A[Start] --> B[Process]
-    B --> C[End]
-\`\`\`
+ Field  Value 
 
-## See Also
+ **Network Name**  BNB Smart Chain Testnet 
+ **RPC URL**  https://bsctestnetrpc.publicnode.com 
+ **Chain ID**  97 
+ **Currency Symbol**  tBNB 
+ **Block Explorer**  https://testnet.bscscan.com 
 
-- [Related Page 1](link)
-- [Related Page 2](link)
+#### Step 3: Save and Switch
 
----
+1. Click **"Save"**
+2. MetaMask automatically switches to new network
+3. You should see "BNB Smart Chain Testnet" at top
 
-<div style="background: linear-gradient(135deg, #FFD700, #9333EA); padding: 1.5rem; border-radius: 12px; color: white;">
-  <strong>💡 Next Steps:</strong> Links to next recommended pages
-</div>
-```
+### Alternative RPC URLs
 
-## 🔨 Building the Documentation
+If the primary RPC is slow, try these alternatives:
 
-### Local Development
 
-```bash
-# Install GitBook CLI
-npm install -g gitbook-cli
+https://dataseedprebsc1s1.bnbchain.org:8545
+https://dataseedprebsc2s1.bnbchain.org:8545
+https://bsctestnet.public.blastapi.io
 
-# Initialize GitBook
-cd docs
-gitbook init
 
-# Serve locally
-gitbook serve
+## Getting Test BNB
 
-# Visit http://localhost:4000
-```
+You need BNB for gas fees (transaction costs).
 
-### Building for Production
+### Using BNB Chain Faucet
 
-```bash
-# Build static site
-gitbook build
+1. Visit: https://testnet.bnbchain.org/faucetsmart
+2. Connect your MetaMask wallet
+3. Complete reCAPTCHA
+4. Click **"Give me BNB"**
+5. Wait 3060 seconds
+6. Check MetaMask balance (0.1 tBNB received)
 
-# Output to _book/ directory
-ls _book/
-```
+**Faucet Limits:**
+ Amount: 0.1 tBNB per request
+ Cooldown: 24 hours
+ Daily limit: May vary
 
-### Deploy to GitBook.com
+### Alternative Faucets
 
-1. Sign up at [gitbook.com](https://gitbook.com)
-2. Connect GitHub repository
-3. Configure build settings:
-   - Root path: `/docs`
-   - Config file: `.gitbook.yaml`
-4. Auto-deploy on push to `main` branch
+If the official faucet is down:
 
-### Deploy to Custom Domain
+1. **Alchemy BNB Faucet**: https://www.alchemy.com/faucets/bnbsmartchaintestnet
+2. **QuickNode Faucet**: https://faucet.quicknode.com/binancesmartchain/bnbtestnet
 
-```yaml
-# .gitbook.yaml
-url: https://docs.oraclex.ai
+## Adding ORX Token to MetaMask
 
-# Configure DNS:
-# CNAME docs.oraclex.ai -> your-space.gitbook.io
-```
+Once you have test BNB, add ORX token to view your balance.
 
-## 📦 Assets
+### Method 1: Automatic Import
 
-### Images
+1. Visit OracleX faucet: https://oraclex.com/faucet
+2. Claim 1,000 ORX
+3. MetaMask may autodetect the token
+4. Click **"Add token"** in notification
 
-Store images in `docs/assets/`:
+### Method 2: Manual Import
 
-```
-docs/assets/
-├── logo.png           # OracleX logo
-├── banner.png         # Hero banner
-├── favicon.ico        # Favicon
-├── screenshots/       # App screenshots
-├── diagrams/          # Architecture diagrams
-└── icons/             # UI icons
-```
+#### Step 1: Open Token Settings
 
-### Using Images
+1. Open MetaMask
+2. Ensure you're on BNB Testnet
+3. Scroll down to bottom
+4. Click **"Import tokens"**
 
-```markdown
-![Logo](../assets/logo.png)
-![Banner](assets/banner.png)
-```
+#### Step 2: Enter Token Details
 
-## ✅ Documentation Checklist
+1. Select **"Custom token"** tab
+2. Enter token contract address:
+   
+   0x7eE4f73bab260C11c68e5560c46E3975E824ed79
+   
+3. Token symbol and decimals autofill:
+    Symbol: ORX
+    Decimals: 18
+4. Click **"Add custom token"**
+5. Click **"Import tokens"**
 
-### For Each Page
+#### Step 3: Verify
 
-- [ ] Clear title and introduction
-- [ ] Consistent formatting
-- [ ] Code examples with proper syntax highlighting
-- [ ] Screenshots/diagrams where helpful
-- [ ] Internal links to related pages
-- [ ] External links to relevant resources
-- [ ] Call-out boxes for important info
-- [ ] "See Also" section at bottom
-- [ ] Brand colors and styling
-- [ ] Proofread for typos
+You should now see:
+ ORX token in your asset list
+ Current balance (0 if you haven't claimed yet)
 
-### For New Sections
+## Connecting to OracleX
 
-- [ ] Update `SUMMARY.md` table of contents
-- [ ] Add to `.gitbook.yaml` if needed
-- [ ] Create index/README.md for section
-- [ ] Link from parent pages
-- [ ] Add to search keywords
+### First Time Connection
 
-## 🚀 Next Steps
+1. Go to https://oraclex.com
+2. Click **"Connect Wallet"** (top right)
+3. Select **"MetaMask"**
+4. MetaMask popup appears
+5. Select account to connect
+6. Click **"Next"**
+7. Click **"Connect"**
+8. May ask to switch to BNB Testnet (click "Switch")
 
-1. **Review existing pages** - Introduction, Quick Start, Core Concepts, Architecture
-2. **Create remaining pages** - Use the page list above
-3. **Add screenshots** - Capture app screenshots for guides
-4. **Create diagrams** - Use mermaid or draw.io
-5. **Review and edit** - Proofread all content
-6. **Test locally** - Build and test with GitBook
-7. **Deploy** - Push to GitHub and deploy to GitBook.com
+### Account Display
 
-## 📧 Questions?
+Once connected, you'll see:
+ Your wallet address (shortened): 0x1234...5678
+ ORX balance
+ Account avatar/icon
 
-- Discord: [discord.gg/oraclex](https://discord.gg/oraclex)
-- Email: docs@oraclex.ai
-- GitHub: [github.com/oraclex/OracleX](https://github.com/oraclex/OracleX)
+### Disconnecting
 
----
+1. Click your address (top right)
+2. Click **"Disconnect"**
 
-**Status**: 4/150+ pages complete  
-**Last Updated**: November 9, 2025  
-**Contributors**: OracleX Team
+Or from MetaMask:
+1. Open MetaMask
+2. Click three dots (top right)
+3. Select **"Connected sites"**
+4. Find OracleX
+5. Click **"Disconnect"**
+
+## Security Best Practices
+
+### Seed Phrase Security
+
+ **DO:**
+ Write on paper and store securely
+ Use a hardware wallet for large amounts
+ Create multiple backups in different locations
+ Use a password manager with encryption
+ Consider metal seed phrase backup
+
+ **DON'T:**
+ Screenshot or save digitally
+ Share with anyone (even "support")
+ Store in cloud (Google Drive, Dropbox, etc.)
+ Email to yourself
+ Save in browser notes
+
+### Transaction Safety
+
+ **DO:**
+ Always verify contract addresses
+ Check transaction details before signing
+ Start with small test amounts
+ Use hardware wallet for large sums
+ Enable MetaMask security alerts
+
+ **DON'T:**
+ Sign unknown transactions
+ Connect to suspicious websites
+ Share your private key
+ Ignore security warnings
+ Rush through transaction confirmations
+
+### Phishing Protection
+
+ **Common Phishing Tactics:**
+
+1. **Fake websites**: Always check URL (https://oraclex.com)
+2. **Impersonation**: Official team never DMs first
+3. **Urgent messages**: "Act now or lose funds"
+4. **Fake support**: We never ask for seed phrases
+5. **Airdrop scams**: Too good to be true offers
+
+️ **Protection Steps:**
+
+ Bookmark official site
+ Verify social media accounts
+ Check contract addresses on BSCScan
+ Enable 2FA where available
+ Report suspicious activity
+
+## Troubleshooting
+
+### "Wrong Network" Error
+
+**Problem**: MetaMask is on wrong network
+
+**Solution**:
+1. Open MetaMask
+2. Click network dropdown
+3. Select "BNB Smart Chain Testnet"
+4. If not listed, add manually (see above)
+
+### "Insufficient Funds" Error
+
+**Problem**: Not enough BNB for gas
+
+**Solution**:
+1. Get test BNB from faucet
+2. Wait for transaction to confirm
+3. Check balance in MetaMask
+4. Try transaction again
+
+### "Transaction Failed"
+
+**Problem**: Transaction reverted
+
+**Possible causes**:
+ Insufficient gas
+ Contract error
+ Slippage too low
+ Approval needed first
+
+**Solution**:
+1. Check error message in MetaMask
+2. Ensure sufficient BNB for gas
+3. Try increasing gas limit
+4. Check if token approval needed
+
+### Can't Connect Wallet
+
+**Problem**: MetaMask won't connect
+
+**Solution**:
+1. Refresh page
+2. Lock/unlock MetaMask
+3. Clear browser cache
+4. Try different browser
+5. Reinstall MetaMask (last resort  have seed phrase ready!)
+
+### Token Not Showing
+
+**Problem**: ORX balance is 0 or not visible
+
+**Solution**:
+1. Verify you're on BNB Testnet
+2. Check if token imported correctly
+3. Verify contract address
+4. Check balance on BSCScan
+5. Refresh MetaMask
+
+### Pending Transaction Stuck
+
+**Problem**: Transaction pending for too long
+
+**Solution**:
+1. Click pending transaction
+2. Click **"Speed Up"** or **"Cancel"**
+3. Pay higher gas fee
+4. Wait for confirmation
+
+Or reset account:
+1. MetaMask Settings
+2. Advanced
+3. Reset Account (clears pending transactions)
+
+## Advanced: Hardware Wallets
+
+For holding significant ORX amounts, use a hardware wallet.
+
+### Supported Hardware Wallets
+
+ **Ledger** (Nano S, Nano X, Nano S Plus)
+ **Trezor** (Model One, Model T)
+
+### Connecting Ledger
+
+1. Install Ledger Live app
+2. Connect Ledger device
+3. Install Binance Smart Chain app on device
+4. Open MetaMask
+5. Click account icon
+6. Select **"Connect Hardware Wallet"**
+7. Choose **"Ledger"**
+8. Follow prompts
+
+### Connecting Trezor
+
+1. Install Trezor Suite
+2. Connect Trezor device
+3. Enable BNB Chain support
+4. Open MetaMask
+5. Click account icon
+6. Select **"Connect Hardware Wallet"**
+7. Choose **"Trezor"**
+8. Follow prompts
+
+## MultiChain Support (Future)
+
+OracleX currently supports BNB Chain Testnet. Mainnet and other chains coming soon:
+
+  BNB Chain Testnet (Current)
+  BNB Chain Mainnet
+  Ethereum
+  Polygon
+  Arbitrum
+
+## Additional Resources
+
+ **MetaMask Support**: https://support.metamask.io
+ **BNB Chain Docs**: https://docs.bnbchain.org
+ **BSCScan Testnet**: https://testnet.bscscan.com
+ **OracleX Discord**: https://discord.gg/oraclex
+
+## Next Steps
+
+Now that your wallet is set up:
+
+1.  [Get Your First ORX ](gettingorx.md)
+2.  [Make Your First Prediction ](makingpredictions.md)
+3.  [Stake ORX for Rewards ](stakingguide.md)
+
+
+
+div style"background: lineargradient(135deg, #FFD700, #9333EA); padding: 1.5rem; borderradius: 12px; color: white;"
+  strong Wallet Ready!/strong You're all set to start using OracleX. Remember to keep your seed phrase safe and never share it with anyone!
+/div

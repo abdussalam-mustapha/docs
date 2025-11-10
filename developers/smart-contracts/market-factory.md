@@ -1,651 +1,406 @@
-# Market Factory Contract
-
-The Market Factory contract is responsible for creating and managing all prediction markets on OracleX.
-
-## 📝 Contract Details
-
-| Property | Value |
-|----------|-------|
-| **Name** | OracleXMarketFactory |
-| **Address** | `0x273C8Dde70897069BeC84394e235feF17e7c5E1b` |
-| **Network** | BNB Chain Testnet (97) |
-| **Upgradeable** | Yes (UUPS Proxy) |
-| **Admin** | Governance DAO |
-
-## 🎯 Core Functions
-
-### Market Creation
-
-#### `createMarket`
-
-Create a new prediction market.
-
-```solidity
-function createMarket(
-    string memory question,
-    string memory category,
-    uint256 endTime,
-    string memory resolutionSource,
-    string[] memory outcomes
-) external payable returns (uint256 marketId)
-```
-
-**Parameters:**
-- `question` - Market question (max 500 chars)
-- `category` - Category slug (sports, crypto, etc.)
-- `endTime` - Unix timestamp when betting closes
-- `resolutionSource` - URL or description of resolution source
-- `outcomes` - Array of outcome names (2-6 outcomes)
-
-**Requirements:**
-- Caller must stake 1,000 ORX (sent as value)
-- End time must be at least 24 hours in future
-- Question must be unique
-- Outcomes must be 2-6 items
-
-**Returns:**
-- `marketId` - Unique identifier for the market
-
-**Events Emitted:**
-- `MarketCreated(uint256 marketId, address creator, string question)`
-
-**Example:**
-```typescript
-const tx = await marketFactory.createMarket(
-  "Will Bitcoin reach $100,000 in 2025?",
-  "crypto",
-  1735689600, // Dec 31, 2025 23:59:59 UTC
-  "https://www.coingecko.com/en/coins/bitcoin",
-  ["YES", "NO"],
-  { value: ethers.parseEther("1000") }
-);
-
-const receipt = await tx.wait();
-const marketId = receipt.logs[0].args.marketId;
-console.log('Market created:', marketId);
-```
-
-**Gas Estimate:** ~350,000
-
-### Market Information
-
-#### `getMarket`
-
-Get detailed market information.
-
-```solidity
-function getMarket(uint256 marketId) 
-    external 
-    view 
-    returns (Market memory)
-```
-
-**Returns:**
-```solidity
-struct Market {
-    uint256 id;
-    string question;
-    string category;
-    address creator;
-    uint256 endTime;
-    uint256 createdAt;
-    string resolutionSource;
-    MarketStatus status;
-    uint256 totalVolume;
-    Outcome[] outcomes;
-}
-```
-
-**Example:**
-```typescript
-const market = await marketFactory.getMarket(1);
-console.log('Question:', market.question);
-console.log('Creator:', market.creator);
-console.log('Status:', market.status);
-console.log('Volume:', ethers.formatEther(market.totalVolume));
-```
-
-#### `getMarkets`
-
-Get multiple markets with pagination.
-
-```solidity
-function getMarkets(
-    uint256 offset,
-    uint256 limit
-) external view returns (Market[] memory)
-```
-
-**Parameters:**
-- `offset` - Starting index
-- `limit` - Number of markets to return (max 100)
-
-**Example:**
-```typescript
-// Get first 20 markets
-const markets = await marketFactory.getMarkets(0, 20);
-
-markets.forEach(market => {
-  console.log(`${market.id}: ${market.question}`);
-});
-```
-
-#### `getMarketsByCategory`
-
-Filter markets by category.
-
-```solidity
-function getMarketsByCategory(
-    string memory category,
-    uint256 offset,
-    uint256 limit
-) external view returns (Market[] memory)
-```
-
-**Example:**
-```typescript
-// Get crypto markets
-const cryptoMarkets = await marketFactory.getMarketsByCategory(
-  "crypto",
-  0,
-  20
-);
-```
-
-#### `getMarketsByStatus`
-
-Filter markets by status.
-
-```solidity
-function getMarketsByStatus(
-    MarketStatus status,
-    uint256 offset,
-    uint256 limit
-) external view returns (Market[] memory)
-```
-
-**Status Enum:**
-```solidity
-enum MarketStatus {
-    Active,      // 0 - Accepting predictions
-    Pending,     // 1 - Ended, awaiting resolution
-    Resolved,    // 2 - Outcome determined
-    Disputed,    // 3 - Under dispute
-    Cancelled    // 4 - Cancelled/Invalid
-}
-```
-
-**Example:**
-```typescript
-// Get active markets
-const activeMarkets = await marketFactory.getMarketsByStatus(0, 0, 50);
-```
-
-### Making Predictions
-
-#### `predict`
-
-Place a prediction on a market outcome.
-
-```solidity
-function predict(
-    uint256 marketId,
-    uint256 outcomeId,
-    uint256 amount
-) external returns (uint256 predictionId)
-```
-
-**Parameters:**
-- `marketId` - ID of the market
-- `outcomeId` - Index of the outcome (0, 1, 2, etc.)
-- `amount` - Amount of ORX to stake (in wei)
-
-**Requirements:**
-- Market must be Active
-- Current time < market.endTime
-- Amount >= minimum stake (10 ORX)
-- Caller must have sufficient ORX and approval
-
-**Returns:**
-- `predictionId` - Unique identifier for the prediction
-
-**Events Emitted:**
-- `PredictionMade(uint256 marketId, address predictor, uint256 outcomeId, uint256 amount)`
-
-**Example:**
-```typescript
-// First approve ORX spending
-await orxToken.approve(
-  marketFactoryAddress,
-  ethers.parseEther("1000")
-);
-
-// Make prediction
-const tx = await marketFactory.predict(
-  1, // marketId
-  0, // outcomeId (YES)
-  ethers.parseEther("1000") // 1,000 ORX
-);
-
-await tx.wait();
-console.log('Prediction placed!');
-```
-
-**Gas Estimate:** ~120,000
-
-#### `getPrediction`
-
-Get prediction details.
-
-```solidity
-function getPrediction(uint256 predictionId)
-    external
-    view
-    returns (Prediction memory)
-```
-
-**Returns:**
-```solidity
-struct Prediction {
-    uint256 id;
-    uint256 marketId;
-    uint256 outcomeId;
-    address predictor;
-    uint256 amount;
-    uint256 timestamp;
-    bool claimed;
-    uint256 payout;
-}
-```
-
-**Example:**
-```typescript
-const prediction = await marketFactory.getPrediction(123);
-console.log('Staked:', ethers.formatEther(prediction.amount), 'ORX');
-console.log('Outcome:', prediction.outcomeId);
-console.log('Claimed:', prediction.claimed);
-```
-
-#### `getUserPredictions`
-
-Get all predictions by a user.
-
-```solidity
-function getUserPredictions(address user)
-    external
-    view
-    returns (Prediction[] memory)
-```
-
-**Example:**
-```typescript
-const myPredictions = await marketFactory.getUserPredictions(
-  userAddress
-);
-
-console.log('Total predictions:', myPredictions.length);
-```
-
-### Market Resolution
-
-#### `resolveMarket`
-
-Resolve a market with winning outcome.
-
-```solidity
-function resolveMarket(
-    uint256 marketId,
-    uint256 winningOutcomeId
-) external onlyOracle
-```
-
-**Parameters:**
-- `marketId` - ID of the market to resolve
-- `winningOutcomeId` - Index of winning outcome
-
-**Requirements:**
-- Caller must be authorized oracle
-- Market must be in Pending status
-- Current time > market.endTime
-
-**Events Emitted:**
-- `MarketResolved(uint256 marketId, uint256 winningOutcomeId)`
-
-**Example:**
-```typescript
-// Only callable by oracle contract
-const tx = await marketFactory.resolveMarket(
-  1, // marketId
-  0  // YES wins
-);
-
-await tx.wait();
-```
-
-#### `claimWinnings`
-
-Claim rewards from winning predictions.
-
-```solidity
-function claimWinnings(uint256 predictionId)
-    external
-    returns (uint256 payout)
-```
-
-**Parameters:**
-- `predictionId` - ID of the prediction to claim
-
-**Requirements:**
-- Market must be Resolved
-- Prediction must be on winning outcome
-- Not already claimed
-
-**Returns:**
-- `payout` - Amount of ORX received (stake + winnings)
-
-**Events Emitted:**
-- `WinningsClaimed(uint256 predictionId, address claimer, uint256 payout)`
-
-**Example:**
-```typescript
-const tx = await marketFactory.claimWinnings(123);
-const receipt = await tx.wait();
-
-const payout = receipt.logs[0].args.payout;
-console.log('Claimed:', ethers.formatEther(payout), 'ORX');
-```
-
-**Gas Estimate:** ~90,000
-
-#### `claimMultiple`
-
-Claim multiple predictions in one transaction.
-
-```solidity
-function claimMultiple(uint256[] memory predictionIds)
-    external
-    returns (uint256 totalPayout)
-```
-
-**Example:**
-```typescript
-// Claim 5 predictions at once
-const tx = await marketFactory.claimMultiple([101, 102, 103, 104, 105]);
-const receipt = await tx.wait();
-
-console.log('Total claimed:', ethers.formatEther(receipt.logs[0].args.totalPayout));
-```
-
-**Gas Estimate:** ~250,000 (for 5 predictions)
-
-### Market Statistics
-
-#### `getMarketStats`
-
-Get detailed market statistics.
-
-```solidity
-function getMarketStats(uint256 marketId)
-    external
-    view
-    returns (MarketStats memory)
-```
-
-**Returns:**
-```solidity
-struct MarketStats {
-    uint256 totalVolume;
-    uint256 totalPredictors;
-    uint256[] outcomeTotals;
-    uint256[] outcomeCounts;
-    uint256 creatorStake;
-}
-```
-
-**Example:**
-```typescript
-const stats = await marketFactory.getMarketStats(1);
-
-console.log('Total Volume:', ethers.formatEther(stats.totalVolume));
-console.log('Predictors:', stats.totalPredictors.toString());
-
-stats.outcomeTotals.forEach((total, i) => {
-  const percentage = (Number(total) / Number(stats.totalVolume)) * 100;
-  console.log(`Outcome ${i}: ${percentage.toFixed(2)}%`);
-});
-```
-
-#### `getOutcomeOdds`
-
-Calculate current odds for all outcomes.
-
-```solidity
-function getOutcomeOdds(uint256 marketId)
-    external
-    view
-    returns (uint256[] memory odds)
-```
-
-**Returns:**
-- Array of odds in basis points (10000 = 100%)
-
-**Example:**
-```typescript
-const odds = await marketFactory.getOutcomeOdds(1);
-
-odds.forEach((odd, i) => {
-  const percentage = Number(odd) / 100;
-  console.log(`Outcome ${i}: ${percentage}%`);
-});
-
-// Output:
-// Outcome 0: 67.5%
-// Outcome 1: 32.5%
-```
-
-## 📡 Events
-
-### MarketCreated
-```solidity
-event MarketCreated(
-    uint256 indexed marketId,
-    address indexed creator,
-    string question,
-    string category,
-    uint256 endTime
-)
-```
-
-**Listen for new markets:**
-```typescript
-marketFactory.on('MarketCreated', (marketId, creator, question) => {
-  console.log(`New market #${marketId}: ${question}`);
-  console.log(`Created by: ${creator}`);
-});
-```
-
-### PredictionMade
-```solidity
-event PredictionMade(
-    uint256 indexed marketId,
-    uint256 indexed predictionId,
-    address indexed predictor,
-    uint256 outcomeId,
-    uint256 amount
-)
-```
-
-**Listen for predictions:**
-```typescript
-// All predictions
-marketFactory.on('PredictionMade', (marketId, predictionId, predictor, outcomeId, amount) => {
-  console.log(`Prediction on market ${marketId}`);
-  console.log(`${predictor} bet ${ethers.formatEther(amount)} on outcome ${outcomeId}`);
-});
-
-// Filter by market
-const filter = marketFactory.filters.PredictionMade(1); // marketId = 1
-marketFactory.on(filter, (marketId, predictionId, predictor, outcomeId, amount) => {
-  console.log(`New bet: ${ethers.formatEther(amount)} ORX`);
-});
-```
-
-### MarketResolved
-```solidity
-event MarketResolved(
-    uint256 indexed marketId,
-    uint256 winningOutcomeId,
-    uint256 totalWinners,
-    uint256 totalPayout
-)
-```
-
-**Listen for resolutions:**
-```typescript
-marketFactory.on('MarketResolved', (marketId, winningOutcomeId, totalWinners, totalPayout) => {
-  console.log(`Market ${marketId} resolved!`);
-  console.log(`Winning outcome: ${winningOutcomeId}`);
-  console.log(`Winners: ${totalWinners}`);
-  console.log(`Total payout: ${ethers.formatEther(totalPayout)} ORX`);
-});
-```
-
-### WinningsClaimed
-```solidity
-event WinningsClaimed(
-    uint256 indexed predictionId,
-    address indexed claimer,
-    uint256 payout
-)
-```
-
-**Track claims:**
-```typescript
-marketFactory.on('WinningsClaimed', (predictionId, claimer, payout) => {
-  console.log(`${claimer} claimed ${ethers.formatEther(payout)} ORX`);
-});
-```
-
-## 🔧 Admin Functions
-
-### `setOracleAddress`
-
-Update the oracle contract address.
-
-```solidity
-function setOracleAddress(address newOracle) external onlyOwner
-```
-
-### `setMinimumStake`
-
-Update minimum stake requirement.
-
-```solidity
-function setMinimumStake(uint256 newMinimum) external onlyOwner
-```
-
-### `setCreatorStake`
-
-Update creator stake requirement.
-
-```solidity
-function setCreatorStake(uint256 newStake) external onlyOwner
-```
-
-### `setPlatformFee`
-
-Update platform fee percentage.
-
-```solidity
-function setPlatformFee(uint256 newFee) external onlyOwner
-```
-
-## 💾 Storage Layout
-
-```solidity
-contract OracleXMarketFactory {
-    // State variables
-    uint256 public marketCount;
-    uint256 public predictionCount;
-    uint256 public minimumStake; // 10 ORX
-    uint256 public creatorStake;  // 1,000 ORX
-    uint256 public platformFee;   // 200 basis points (2%)
-    
-    address public orxToken;
-    address public oracleContract;
-    address public treasury;
-    
-    mapping(uint256 => Market) public markets;
-    mapping(uint256 => Prediction) public predictions;
-    mapping(address => uint256[]) public userPredictions;
-    mapping(address => uint256[]) public userMarkets;
-}
-```
-
-## 🧪 Testing Examples
-
-```typescript
-describe('MarketFactory', () => {
-  it('Should create a market', async () => {
-    const tx = await marketFactory.createMarket(
-      "Test question?",
-      "test",
-      futureTimestamp,
-      "test source",
-      ["YES", "NO"],
-      { value: ethers.parseEther("1000") }
-    );
-    
-    const receipt = await tx.wait();
-    const marketId = receipt.logs[0].args.marketId;
-    
-    expect(marketId).to.equal(1);
-  });
-
-  it('Should place a prediction', async () => {
-    await orxToken.approve(marketFactory.address, ethers.parseEther("1000"));
-    
-    const tx = await marketFactory.predict(
-      1, // marketId
-      0, // YES
-      ethers.parseEther("1000")
-    );
-    
-    await tx.wait();
-    
-    const prediction = await marketFactory.getPrediction(1);
-    expect(prediction.amount).to.equal(ethers.parseEther("1000"));
-  });
-
-  it('Should resolve market and claim winnings', async () => {
-    // Resolve as oracle
-    await marketFactory.connect(oracle).resolveMarket(1, 0);
-    
-    // Claim as winner
-    const balanceBefore = await orxToken.balanceOf(user.address);
-    await marketFactory.claimWinnings(1);
-    const balanceAfter = await orxToken.balanceOf(user.address);
-    
-    expect(balanceAfter).to.be.gt(balanceBefore);
-  });
-});
-```
-
-## 🔗 Resources
-
-- **Contract**: https://testnet.bscscan.com/address/0x273C8Dde70897069BeC84394e235feF17e7c5E1b
-- **Source Code**: `/contracts/contracts/MarketFactory.sol`
-- **Tests**: `/contracts/test/MarketFactory.test.ts`
-- **ABI**: `/frontend/src/abis/MarketFactory.json`
-
-## See Also
-
-- [ORX Token Contract →](orx-token.md)
-- [Oracle Bridge →](oracle-bridge.md)
-- [Creating Markets Guide →](../../user-guides/creating-markets.md)
-
----
-
-<div style="background: linear-gradient(135deg, #FFD700, #9333EA); padding: 1.5rem; border-radius: 12px; color: white;">
-  <strong>🏭 Market Factory:</strong> The heart of OracleX - where all prediction markets are born and managed on-chain.
-</div>
+﻿# Wallet Setup Guide
+
+Complete guide to setting up your wallet for OracleX on BNB Smart Chain Testnet.
+
+## Overview
+
+To use OracleX, you need a Web3 wallet to:
+ Connect to the platform
+ Sign transactions
+ Store ORX tokens
+ Manage your predictions
+
+**Recommended Wallet**: MetaMask (most widely supported)
+
+## Installing MetaMask
+
+### Browser Extension (Desktop)
+
+#### Step 1: Download MetaMask
+
+1. Visit **official website**: https://metamask.io
+2. Click **"Download"**
+3. Select your browser:
+    Chrome
+    Firefox
+    Brave
+    Edge
+4. Click **"Install MetaMask"**
+5. Add extension to browser
+
+#### Step 2: Create New Wallet
+
+1. Open MetaMask extension
+2. Click **"Get Started"**
+3. Select **"Create a new wallet"**
+4. Agree to terms
+5. Create a strong password (min 8 characters)
+6. Watch the security video (optional but recommended)
+
+#### Step 3: Secure Your Seed Phrase
+
+️ **CRITICAL: Your seed phrase is the master key to your wallet**
+
+1. Click **"Reveal Secret Recovery Phrase"**
+2. Write down all 12 words **on paper** (in exact order)
+3. Store paper in a secure location
+4. **Never** share with anyone
+5. **Never** store digitally (no screenshots, no cloud)
+6. Complete the confirmation test
+
+**Example Seed Phrase:**
+
+word1 word2 word3 word4 word5 word6 
+word7 word8 word9 word10 word11 word12
+
+
+### Mobile App
+
+#### iOS (iPhone/iPad)
+
+1. Open **App Store**
+2. Search **"MetaMask"**
+3. Install app by MetaMask
+4. Open app
+5. Follow same creation steps as desktop
+
+#### Android
+
+1. Open **Google Play Store**
+2. Search **"MetaMask"**
+3. Install app by MetaMask
+4. Open app
+5. Follow same creation steps as desktop
+
+## Adding BNB Smart Chain Testnet
+
+MetaMask defaults to Ethereum. You need to add BNB Chain Testnet for OracleX.
+
+### Method 1: Automatic (Recommended)
+
+1. Visit OracleX: https://oraclex.com
+2. Click **"Connect Wallet"**
+3. MetaMask will prompt to add network
+4. Click **"Approve"** then **"Switch network"**
+
+### Method 2: Manual Setup
+
+#### Step 1: Open Network Settings
+
+1. Open MetaMask
+2. Click network dropdown (top of extension)
+3. Click **"Add network"**
+4. Click **"Add a network manually"**
+
+#### Step 2: Enter Network Details
+
+Fill in the following information:
+
+ Field  Value 
+
+ **Network Name**  BNB Smart Chain Testnet 
+ **RPC URL**  https://bsctestnetrpc.publicnode.com 
+ **Chain ID**  97 
+ **Currency Symbol**  tBNB 
+ **Block Explorer**  https://testnet.bscscan.com 
+
+#### Step 3: Save and Switch
+
+1. Click **"Save"**
+2. MetaMask automatically switches to new network
+3. You should see "BNB Smart Chain Testnet" at top
+
+### Alternative RPC URLs
+
+If the primary RPC is slow, try these alternatives:
+
+
+https://dataseedprebsc1s1.bnbchain.org:8545
+https://dataseedprebsc2s1.bnbchain.org:8545
+https://bsctestnet.public.blastapi.io
+
+
+## Getting Test BNB
+
+You need BNB for gas fees (transaction costs).
+
+### Using BNB Chain Faucet
+
+1. Visit: https://testnet.bnbchain.org/faucetsmart
+2. Connect your MetaMask wallet
+3. Complete reCAPTCHA
+4. Click **"Give me BNB"**
+5. Wait 3060 seconds
+6. Check MetaMask balance (0.1 tBNB received)
+
+**Faucet Limits:**
+ Amount: 0.1 tBNB per request
+ Cooldown: 24 hours
+ Daily limit: May vary
+
+### Alternative Faucets
+
+If the official faucet is down:
+
+1. **Alchemy BNB Faucet**: https://www.alchemy.com/faucets/bnbsmartchaintestnet
+2. **QuickNode Faucet**: https://faucet.quicknode.com/binancesmartchain/bnbtestnet
+
+## Adding ORX Token to MetaMask
+
+Once you have test BNB, add ORX token to view your balance.
+
+### Method 1: Automatic Import
+
+1. Visit OracleX faucet: https://oraclex.com/faucet
+2. Claim 1,000 ORX
+3. MetaMask may autodetect the token
+4. Click **"Add token"** in notification
+
+### Method 2: Manual Import
+
+#### Step 1: Open Token Settings
+
+1. Open MetaMask
+2. Ensure you're on BNB Testnet
+3. Scroll down to bottom
+4. Click **"Import tokens"**
+
+#### Step 2: Enter Token Details
+
+1. Select **"Custom token"** tab
+2. Enter token contract address:
+   
+   0x7eE4f73bab260C11c68e5560c46E3975E824ed79
+   
+3. Token symbol and decimals autofill:
+    Symbol: ORX
+    Decimals: 18
+4. Click **"Add custom token"**
+5. Click **"Import tokens"**
+
+#### Step 3: Verify
+
+You should now see:
+ ORX token in your asset list
+ Current balance (0 if you haven't claimed yet)
+
+## Connecting to OracleX
+
+### First Time Connection
+
+1. Go to https://oraclex.com
+2. Click **"Connect Wallet"** (top right)
+3. Select **"MetaMask"**
+4. MetaMask popup appears
+5. Select account to connect
+6. Click **"Next"**
+7. Click **"Connect"**
+8. May ask to switch to BNB Testnet (click "Switch")
+
+### Account Display
+
+Once connected, you'll see:
+ Your wallet address (shortened): 0x1234...5678
+ ORX balance
+ Account avatar/icon
+
+### Disconnecting
+
+1. Click your address (top right)
+2. Click **"Disconnect"**
+
+Or from MetaMask:
+1. Open MetaMask
+2. Click three dots (top right)
+3. Select **"Connected sites"**
+4. Find OracleX
+5. Click **"Disconnect"**
+
+## Security Best Practices
+
+### Seed Phrase Security
+
+ **DO:**
+ Write on paper and store securely
+ Use a hardware wallet for large amounts
+ Create multiple backups in different locations
+ Use a password manager with encryption
+ Consider metal seed phrase backup
+
+ **DON'T:**
+ Screenshot or save digitally
+ Share with anyone (even "support")
+ Store in cloud (Google Drive, Dropbox, etc.)
+ Email to yourself
+ Save in browser notes
+
+### Transaction Safety
+
+ **DO:**
+ Always verify contract addresses
+ Check transaction details before signing
+ Start with small test amounts
+ Use hardware wallet for large sums
+ Enable MetaMask security alerts
+
+ **DON'T:**
+ Sign unknown transactions
+ Connect to suspicious websites
+ Share your private key
+ Ignore security warnings
+ Rush through transaction confirmations
+
+### Phishing Protection
+
+ **Common Phishing Tactics:**
+
+1. **Fake websites**: Always check URL (https://oraclex.com)
+2. **Impersonation**: Official team never DMs first
+3. **Urgent messages**: "Act now or lose funds"
+4. **Fake support**: We never ask for seed phrases
+5. **Airdrop scams**: Too good to be true offers
+
+️ **Protection Steps:**
+
+ Bookmark official site
+ Verify social media accounts
+ Check contract addresses on BSCScan
+ Enable 2FA where available
+ Report suspicious activity
+
+## Troubleshooting
+
+### "Wrong Network" Error
+
+**Problem**: MetaMask is on wrong network
+
+**Solution**:
+1. Open MetaMask
+2. Click network dropdown
+3. Select "BNB Smart Chain Testnet"
+4. If not listed, add manually (see above)
+
+### "Insufficient Funds" Error
+
+**Problem**: Not enough BNB for gas
+
+**Solution**:
+1. Get test BNB from faucet
+2. Wait for transaction to confirm
+3. Check balance in MetaMask
+4. Try transaction again
+
+### "Transaction Failed"
+
+**Problem**: Transaction reverted
+
+**Possible causes**:
+ Insufficient gas
+ Contract error
+ Slippage too low
+ Approval needed first
+
+**Solution**:
+1. Check error message in MetaMask
+2. Ensure sufficient BNB for gas
+3. Try increasing gas limit
+4. Check if token approval needed
+
+### Can't Connect Wallet
+
+**Problem**: MetaMask won't connect
+
+**Solution**:
+1. Refresh page
+2. Lock/unlock MetaMask
+3. Clear browser cache
+4. Try different browser
+5. Reinstall MetaMask (last resort  have seed phrase ready!)
+
+### Token Not Showing
+
+**Problem**: ORX balance is 0 or not visible
+
+**Solution**:
+1. Verify you're on BNB Testnet
+2. Check if token imported correctly
+3. Verify contract address
+4. Check balance on BSCScan
+5. Refresh MetaMask
+
+### Pending Transaction Stuck
+
+**Problem**: Transaction pending for too long
+
+**Solution**:
+1. Click pending transaction
+2. Click **"Speed Up"** or **"Cancel"**
+3. Pay higher gas fee
+4. Wait for confirmation
+
+Or reset account:
+1. MetaMask Settings
+2. Advanced
+3. Reset Account (clears pending transactions)
+
+## Advanced: Hardware Wallets
+
+For holding significant ORX amounts, use a hardware wallet.
+
+### Supported Hardware Wallets
+
+ **Ledger** (Nano S, Nano X, Nano S Plus)
+ **Trezor** (Model One, Model T)
+
+### Connecting Ledger
+
+1. Install Ledger Live app
+2. Connect Ledger device
+3. Install Binance Smart Chain app on device
+4. Open MetaMask
+5. Click account icon
+6. Select **"Connect Hardware Wallet"**
+7. Choose **"Ledger"**
+8. Follow prompts
+
+### Connecting Trezor
+
+1. Install Trezor Suite
+2. Connect Trezor device
+3. Enable BNB Chain support
+4. Open MetaMask
+5. Click account icon
+6. Select **"Connect Hardware Wallet"**
+7. Choose **"Trezor"**
+8. Follow prompts
+
+## MultiChain Support (Future)
+
+OracleX currently supports BNB Chain Testnet. Mainnet and other chains coming soon:
+
+  BNB Chain Testnet (Current)
+  BNB Chain Mainnet
+  Ethereum
+  Polygon
+  Arbitrum
+
+## Additional Resources
+
+ **MetaMask Support**: https://support.metamask.io
+ **BNB Chain Docs**: https://docs.bnbchain.org
+ **BSCScan Testnet**: https://testnet.bscscan.com
+ **OracleX Discord**: https://discord.gg/oraclex
+
+## Next Steps
+
+Now that your wallet is set up:
+
+1.  [Get Your First ORX ](gettingorx.md)
+2.  [Make Your First Prediction ](makingpredictions.md)
+3.  [Stake ORX for Rewards ](stakingguide.md)
+
+
+
+div style"background: lineargradient(135deg, #FFD700, #9333EA); padding: 1.5rem; borderradius: 12px; color: white;"
+  strong Wallet Ready!/strong You're all set to start using OracleX. Remember to keep your seed phrase safe and never share it with anyone!
+/div

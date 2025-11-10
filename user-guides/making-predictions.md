@@ -1,478 +1,406 @@
-# Making Predictions Guide
+﻿# Wallet Setup Guide
 
-Learn how to make predictions on OracleX markets and earn from your insights.
+Complete guide to setting up your wallet for OracleX on BNB Smart Chain Testnet.
 
-## 🎯 What are Predictions?
+## Overview
 
-Predictions are bets you place on the outcome of future events. When you're right, you earn a share of the losing side's stakes.
+To use OracleX, you need a Web3 wallet to:
+ Connect to the platform
+ Sign transactions
+ Store ORX tokens
+ Manage your predictions
 
-**How it works:**
-1. Find a market you understand
-2. Analyze the question and outcomes
-3. Stake ORX tokens on your prediction
-4. Wait for market resolution
-5. Claim rewards if correct
+**Recommended Wallet**: MetaMask (most widely supported)
 
-## 🔍 Finding Markets
+## Installing MetaMask
 
-### Browse All Markets
+### Browser Extension (Desktop)
 
-1. Go to **Markets** page
-2. Browse available categories:
-   - 🏈 Sports
-   - 🏛️ Politics
-   - 💰 Crypto
-   - 🎬 Entertainment
-   - 🌍 World Events
-   - 🔬 Science & Tech
+#### Step 1: Download MetaMask
 
-### Filter Markets
+1. Visit **official website**: https://metamask.io
+2. Click **"Download"**
+3. Select your browser:
+    Chrome
+    Firefox
+    Brave
+    Edge
+4. Click **"Install MetaMask"**
+5. Add extension to browser
 
-Use filters to find relevant markets:
+#### Step 2: Create New Wallet
 
-```typescript
-// Filter options
-- Status: Active, Pending, Resolved
-- Category: All categories
-- Time Range: 24h, 7d, 30d, All
-- Volume: High to Low
-- Sort: Newest, Trending, Ending Soon
-```
+1. Open MetaMask extension
+2. Click **"Get Started"**
+3. Select **"Create a new wallet"**
+4. Agree to terms
+5. Create a strong password (min 8 characters)
+6. Watch the security video (optional but recommended)
 
-### Search Markets
+#### Step 3: Secure Your Seed Phrase
 
-Use the search bar to find specific topics:
-- Type keywords (e.g., "Bitcoin", "Election", "UFC")
-- Press Enter or click search icon
-- Results show matching markets
+️ **CRITICAL: Your seed phrase is the master key to your wallet**
 
-### Market Cards
+1. Click **"Reveal Secret Recovery Phrase"**
+2. Write down all 12 words **on paper** (in exact order)
+3. Store paper in a secure location
+4. **Never** share with anyone
+5. **Never** store digitally (no screenshots, no cloud)
+6. Complete the confirmation test
 
-Each market card shows:
-- **Question**: What you're predicting
-- **Category**: Market type
-- **End Date**: When betting closes
-- **Volume**: Total ORX staked
-- **Outcomes**: Possible results with current odds
-- **AI Confidence**: TruthMesh AI's prediction
+**Example Seed Phrase:**
 
-## 📊 Understanding a Market
+word1 word2 word3 word4 word5 word6 
+word7 word8 word9 word10 word11 word12
 
-### Market Details Page
 
-Click any market to see full details:
+### Mobile App
 
-#### Header Information
-- **Full Question**: Complete market description
-- **Creator**: Who created the market
-- **Resolution Source**: How outcome is determined
-- **Time Remaining**: Countdown to close
-
-#### Current Odds
-
-```typescript
-// Odds display example
-YES: 65% (10,500 ORX staked)
-NO: 35% (5,500 ORX staked)
-```
-
-**Understanding Odds:**
-- Higher % = More people think this outcome will happen
-- Lower % = Better potential returns if you're right
-- Odds change as people stake
-
-#### Potential Returns Calculator
-
-Enter your stake to see potential winnings:
-
-```typescript
-Your Stake: 1,000 ORX
-Predicted: YES
-Current YES odds: 65%
-Current NO pool: 5,500 ORX
+#### iOS (iPhone/iPad)
 
-If YES wins:
-Your Share: 1,000 / 11,500 = 8.7%
-Winning Pool: 5,500 × 0.98 = 5,390 ORX (after 2% fee)
-Your Reward: 5,390 × 8.7% = 469 ORX
-Total Return: 1,000 + 469 = 1,469 ORX
-Profit: +469 ORX (+46.9%)
-```
+1. Open **App Store**
+2. Search **"MetaMask"**
+3. Install app by MetaMask
+4. Open app
+5. Follow same creation steps as desktop
 
-#### AI Analysis
-
-TruthMesh AI provides:
-- **Confidence Score**: 0-100% certainty
-- **Prediction**: Expected outcome
-- **Key Factors**: What influences the outcome
-- **Data Sources**: Where AI got information
-- **Risk Assessment**: Low, Medium, High
+#### Android
 
-#### Activity Feed
+1. Open **Google Play Store**
+2. Search **"MetaMask"**
+3. Install app by MetaMask
+4. Open app
+5. Follow same creation steps as desktop
 
-See recent predictions:
-- Who staked
-- How much
-- Which outcome
-- When
-
-## 💰 Making Your First Prediction
+## Adding BNB Smart Chain Testnet
 
-### Step 1: Choose Your Outcome
+MetaMask defaults to Ethereum. You need to add BNB Chain Testnet for OracleX.
 
-1. Read the market question carefully
-2. Review AI analysis
-3. Check current odds
-4. Select your predicted outcome (YES/NO or multiple choice)
+### Method 1: Automatic (Recommended)
 
-### Step 2: Enter Stake Amount
+1. Visit OracleX: https://oraclex.com
+2. Click **"Connect Wallet"**
+3. MetaMask will prompt to add network
+4. Click **"Approve"** then **"Switch network"**
 
-```typescript
-// Minimum stake
-Minimum: 10 ORX
-Recommended: 100-1,000 ORX for meaningful returns
+### Method 2: Manual Setup
 
-// Example stake levels
-Small: 10-100 ORX (test the waters)
-Medium: 100-1,000 ORX (serious prediction)
-Large: 1,000-10,000 ORX (high confidence)
-Whale: 10,000+ ORX (market maker)
-```
+#### Step 1: Open Network Settings
 
-**Tips:**
-- Start small if you're new
-- Only stake what you can afford to lose
-- Consider diversifying across multiple markets
+1. Open MetaMask
+2. Click network dropdown (top of extension)
+3. Click **"Add network"**
+4. Click **"Add a network manually"**
 
-### Step 3: Review Transaction
+#### Step 2: Enter Network Details
 
-Before confirming, check:
-- ✅ Correct outcome selected
-- ✅ Stake amount is right
-- ✅ Expected returns make sense
-- ✅ Sufficient BNB for gas
+Fill in the following information:
 
-### Step 4: Approve & Stake
+ Field  Value 
 
-**First Time Staking:**
-You need to approve ORX spending:
+ **Network Name**  BNB Smart Chain Testnet 
+ **RPC URL**  https://bsctestnetrpc.publicnode.com 
+ **Chain ID**  97 
+ **Currency Symbol**  tBNB 
+ **Block Explorer**  https://testnet.bscscan.com 
 
-1. Click **"Make Prediction"**
-2. MetaMask popup: **"Approve ORX"**
-3. Sign approval transaction
-4. Wait for confirmation (~3 seconds)
-5. Second popup: **"Stake Tokens"**
-6. Sign staking transaction
-7. Wait for confirmation
+#### Step 3: Save and Switch
 
-**Subsequent Predictions:**
-If already approved, just one transaction:
-1. Click **"Make Prediction"**
-2. Sign transaction
-3. Confirmation
+1. Click **"Save"**
+2. MetaMask automatically switches to new network
+3. You should see "BNB Smart Chain Testnet" at top
 
-```typescript
-// Gas costs (approximate)
-Approval: ~50,000 gas (~$0.02)
-Staking: ~100,000 gas (~$0.04)
-Total first time: ~$0.06
-```
+### Alternative RPC URLs
 
-### Step 5: Track Your Prediction
+If the primary RPC is slow, try these alternatives:
 
-After staking:
-- ✅ Transaction confirmed
-- ✅ Prediction appears in **Portfolio**
-- ✅ Market odds update with your stake
-- ✅ You can view details anytime
 
-## 📈 Prediction Strategies
+https://dataseedprebsc1s1.bnbchain.org:8545
+https://dataseedprebsc2s1.bnbchain.org:8545
+https://bsctestnet.public.blastapi.io
 
-### 1. Contrarian Betting
 
-Bet against the crowd when odds are skewed:
+## Getting Test BNB
 
-```typescript
-// Example
-Market: "Bitcoin above $100k by end of year?"
-YES: 85% (42,500 ORX)
-NO: 15% (7,500 ORX)
+You need BNB for gas fees (transaction costs).
 
-Strategy: Bet NO if you think it's overvalued
-Risk: High (going against majority)
-Reward: High (7,500 / 42,500 = 17.6% share if right)
-```
+### Using BNB Chain Faucet
 
-### 2. Early Bird
+1. Visit: https://testnet.bnbchain.org/faucetsmart
+2. Connect your MetaMask wallet
+3. Complete reCAPTCHA
+4. Click **"Give me BNB"**
+5. Wait 3060 seconds
+6. Check MetaMask balance (0.1 tBNB received)
 
-Stake early before odds settle:
+**Faucet Limits:**
+ Amount: 0.1 tBNB per request
+ Cooldown: 24 hours
+ Daily limit: May vary
 
-**Benefits:**
-- Better odds before information spreads
-- Influence market sentiment
-- Potential for better returns
+### Alternative Faucets
 
-**Risks:**
-- Less information available
-- Market may move against you
-- Could get better odds later
+If the official faucet is down:
 
-### 3. Follow the AI
+1. **Alchemy BNB Faucet**: https://www.alchemy.com/faucets/bnbsmartchaintestnet
+2. **QuickNode Faucet**: https://faucet.quicknode.com/binancesmartchain/bnbtestnet
 
-Trust TruthMesh AI's analysis:
+## Adding ORX Token to MetaMask
 
-```typescript
-If AI confidence > 80%: Consider following
-If AI confidence 60-80%: Do your own research
-If AI confidence < 60%: High uncertainty, be careful
-```
+Once you have test BNB, add ORX token to view your balance.
 
-### 4. Diversification
+### Method 1: Automatic Import
 
-Spread risk across multiple markets:
+1. Visit OracleX faucet: https://oraclex.com/faucet
+2. Claim 1,000 ORX
+3. MetaMask may autodetect the token
+4. Click **"Add token"** in notification
 
-```typescript
-// Portfolio example
-Total: 10,000 ORX
+### Method 2: Manual Import
 
-Market 1 (Sports): 2,000 ORX
-Market 2 (Crypto): 2,000 ORX
-Market 3 (Politics): 2,000 ORX
-Market 4 (Entertainment): 2,000 ORX
-Market 5 (Tech): 2,000 ORX
+#### Step 1: Open Token Settings
 
-Risk: Distributed
-Potential: Steady returns from multiple markets
-```
+1. Open MetaMask
+2. Ensure you're on BNB Testnet
+3. Scroll down to bottom
+4. Click **"Import tokens"**
 
-### 5. Time-Based Strategy
+#### Step 2: Enter Token Details
 
-**Early Resolution Markets:**
-- Resolve in 24-48 hours
-- Quick results
-- Lower stakes typically
+1. Select **"Custom token"** tab
+2. Enter token contract address:
+   
+   0x7eE4f73bab260C11c68e5560c46E3975E824ed79
+   
+3. Token symbol and decimals autofill:
+    Symbol: ORX
+    Decimals: 18
+4. Click **"Add custom token"**
+5. Click **"Import tokens"**
 
-**Long-Term Markets:**
-- Weeks or months to resolve
-- More time for research
-- Larger stakes
+#### Step 3: Verify
 
-### 6. High-Volume Markets
+You should now see:
+ ORX token in your asset list
+ Current balance (0 if you haven't claimed yet)
 
-Bet on popular markets:
+## Connecting to OracleX
 
-**Advantages:**
-- More liquidity
-- Easier to understand
-- Better odds stability
+### First Time Connection
 
-**Disadvantages:**
-- Lower potential returns
-- More competition
+1. Go to https://oraclex.com
+2. Click **"Connect Wallet"** (top right)
+3. Select **"MetaMask"**
+4. MetaMask popup appears
+5. Select account to connect
+6. Click **"Next"**
+7. Click **"Connect"**
+8. May ask to switch to BNB Testnet (click "Switch")
 
-## 🧠 Research Tips
+### Account Display
 
-### Before Making Predictions
+Once connected, you'll see:
+ Your wallet address (shortened): 0x1234...5678
+ ORX balance
+ Account avatar/icon
 
-1. **Read the Question Carefully**
-   - Understand exact wording
-   - Check resolution criteria
-   - Note any conditions
+### Disconnecting
 
-2. **Check Resolution Source**
-   - Who determines outcome?
-   - Is source reliable?
-   - When will it be checked?
+1. Click your address (top right)
+2. Click **"Disconnect"**
 
-3. **Review AI Analysis**
-   - What's the confidence level?
-   - What data does AI use?
-   - Do you agree with factors?
+Or from MetaMask:
+1. Open MetaMask
+2. Click three dots (top right)
+3. Select **"Connected sites"**
+4. Find OracleX
+5. Click **"Disconnect"**
 
-4. **Analyze Current Odds**
-   - Are they fair?
-   - Why might they be skewed?
-   - Room for movement?
+## Security Best Practices
 
-5. **Consider Time Frame**
-   - How long until resolution?
-   - Can situation change?
-   - Is time on your side?
+### Seed Phrase Security
 
-6. **Check Your Knowledge**
-   - Do you have expertise in this area?
-   - Have you researched enough?
-   - What's your confidence level?
+ **DO:**
+ Write on paper and store securely
+ Use a hardware wallet for large amounts
+ Create multiple backups in different locations
+ Use a password manager with encryption
+ Consider metal seed phrase backup
 
-## 📱 Managing Predictions
+ **DON'T:**
+ Screenshot or save digitally
+ Share with anyone (even "support")
+ Store in cloud (Google Drive, Dropbox, etc.)
+ Email to yourself
+ Save in browser notes
 
-### View Active Predictions
+### Transaction Safety
 
-Go to **Portfolio** page to see:
-- All your active predictions
-- Current value
-- Unrealized P&L
-- Time until resolution
+ **DO:**
+ Always verify contract addresses
+ Check transaction details before signing
+ Start with small test amounts
+ Use hardware wallet for large sums
+ Enable MetaMask security alerts
 
-### Prediction Details
+ **DON'T:**
+ Sign unknown transactions
+ Connect to suspicious websites
+ Share your private key
+ Ignore security warnings
+ Rush through transaction confirmations
 
-Click any prediction to view:
-- Market details
-- Your stake amount
-- Current odds
-- Potential returns
-- Time remaining
+### Phishing Protection
 
-### Cannot Cancel
+ **Common Phishing Tactics:**
 
-⚠️ **Important**: Predictions are final and cannot be canceled once made.
+1. **Fake websites**: Always check URL (https://oraclex.com)
+2. **Impersonation**: Official team never DMs first
+3. **Urgent messages**: "Act now or lose funds"
+4. **Fake support**: We never ask for seed phrases
+5. **Airdrop scams**: Too good to be true offers
 
-**Why?**
-- Ensures fair odds for everyone
-- Prevents market manipulation
-- Maintains integrity
-
-**Plan accordingly:**
-- Only stake what you're committed to
-- Double-check before confirming
-- Research thoroughly first
-
-## 💎 After Market Resolves
+️ **Protection Steps:**
 
-### Winning Predictions
+ Bookmark official site
+ Verify social media accounts
+ Check contract addresses on BSCScan
+ Enable 2FA where available
+ Report suspicious activity
 
-If your prediction is correct:
+## Troubleshooting
 
-1. Market status changes to **"Resolved"**
-2. Outcome is determined by AI Oracle
-3. Rewards calculated and distributed
-4. Claim button appears
-
-**To Claim:**
-1. Go to **Portfolio**
-2. Find resolved market
-3. Click **"Claim Rewards"**
-4. Sign transaction
-5. Receive ORX + rewards
-
-```typescript
-// Claiming rewards
-Your Original Stake: 1,000 ORX
-Your Rewards: 469 ORX
-Total Claim: 1,469 ORX
-Gas Cost: ~$0.03
-```
-
-### Losing Predictions
-
-If your prediction is wrong:
-- Stake goes to winning side
-- Prediction marked as **"Lost"**
-- Moves to **"History"** section
-- Learn and improve!
-
-### Disputed Outcomes
-
-If outcome is disputed:
-- Market enters dispute period
-- Community votes on correct outcome
-- May take 3-7 days to resolve
-- Your stake locked until resolution
-
-## 📊 Tracking Performance
-
-### Stats Tracked
-
-View your performance metrics:
-- **Total Predictions**: Number made
-- **Win Rate**: % of correct predictions
-- **Total Staked**: Amount wagered
-- **Total Returns**: Amount earned
-- **Net Profit**: Returns - Stakes
-- **ROI**: Return on investment %
-- **Reputation**: Score based on accuracy
-
-### Reputation System
-
-```typescript
-Reputation = (Correct Predictions × Stake Weight) / Total Predictions
-
-Levels:
-0-100: Novice Predictor
-100-250: Rising Oracle
-250-500: Skilled Analyst
-500-750: Expert Forecaster
-750-900: Master Oracle
-900-1000: Oracle Legend
-```
-
-Higher reputation unlocks:
-- Badges and achievements
-- Leaderboard rankings
-- Special market access
-- Community recognition
-
-## 🎮 Gamification Features
-
-### Achievements
-
-Earn badges for milestones:
-- 🎯 First Prediction
-- 🔥 10 Win Streak
-- 💎 1,000 ORX Profit
-- 🏆 100 Correct Predictions
-- 🎓 Expert in Category
-- 👑 Top 10 Leaderboard
-
-### Leaderboards
-
-Compete for rankings:
-- **Daily**: Reset every 24h
-- **Weekly**: Reset Monday
-- **Monthly**: Reset 1st of month
-- **All-Time**: Forever
-
-Sorted by:
-- Total Winnings
-- Win Rate
-- Reputation Score
-- Prediction Volume
-
-### Levels
-
-Progress through experience:
-
-```typescript
-Level 1: 0-100 XP (Novice)
-Level 5: 500-1000 XP (Apprentice)
-Level 10: 2500-5000 XP (Adept)
-Level 20: 10000-20000 XP (Expert)
-Level 50: 100000+ XP (Master)
-```
-
-Earn XP from:
-- Making predictions: +10 XP
-- Winning predictions: +50 XP
-- Creating markets: +100 XP
-- Completing achievements: +varying XP
-
-## 🔗 Resources
-
-- **Market Explorer**: https://oraclex.com/markets
-- **Your Portfolio**: https://oraclex.com/portfolio
-- **Leaderboard**: https://oraclex.com/leaderboard
-- **Analytics**: https://oraclex.com/analytics
+### "Wrong Network" Error
+
+**Problem**: MetaMask is on wrong network
+
+**Solution**:
+1. Open MetaMask
+2. Click network dropdown
+3. Select "BNB Smart Chain Testnet"
+4. If not listed, add manually (see above)
+
+### "Insufficient Funds" Error
+
+**Problem**: Not enough BNB for gas
+
+**Solution**:
+1. Get test BNB from faucet
+2. Wait for transaction to confirm
+3. Check balance in MetaMask
+4. Try transaction again
+
+### "Transaction Failed"
+
+**Problem**: Transaction reverted
+
+**Possible causes**:
+ Insufficient gas
+ Contract error
+ Slippage too low
+ Approval needed first
+
+**Solution**:
+1. Check error message in MetaMask
+2. Ensure sufficient BNB for gas
+3. Try increasing gas limit
+4. Check if token approval needed
+
+### Can't Connect Wallet
+
+**Problem**: MetaMask won't connect
+
+**Solution**:
+1. Refresh page
+2. Lock/unlock MetaMask
+3. Clear browser cache
+4. Try different browser
+5. Reinstall MetaMask (last resort  have seed phrase ready!)
+
+### Token Not Showing
+
+**Problem**: ORX balance is 0 or not visible
+
+**Solution**:
+1. Verify you're on BNB Testnet
+2. Check if token imported correctly
+3. Verify contract address
+4. Check balance on BSCScan
+5. Refresh MetaMask
+
+### Pending Transaction Stuck
+
+**Problem**: Transaction pending for too long
+
+**Solution**:
+1. Click pending transaction
+2. Click **"Speed Up"** or **"Cancel"**
+3. Pay higher gas fee
+4. Wait for confirmation
+
+Or reset account:
+1. MetaMask Settings
+2. Advanced
+3. Reset Account (clears pending transactions)
+
+## Advanced: Hardware Wallets
+
+For holding significant ORX amounts, use a hardware wallet.
+
+### Supported Hardware Wallets
+
+ **Ledger** (Nano S, Nano X, Nano S Plus)
+ **Trezor** (Model One, Model T)
+
+### Connecting Ledger
+
+1. Install Ledger Live app
+2. Connect Ledger device
+3. Install Binance Smart Chain app on device
+4. Open MetaMask
+5. Click account icon
+6. Select **"Connect Hardware Wallet"**
+7. Choose **"Ledger"**
+8. Follow prompts
+
+### Connecting Trezor
+
+1. Install Trezor Suite
+2. Connect Trezor device
+3. Enable BNB Chain support
+4. Open MetaMask
+5. Click account icon
+6. Select **"Connect Hardware Wallet"**
+7. Choose **"Trezor"**
+8. Follow prompts
+
+## MultiChain Support (Future)
+
+OracleX currently supports BNB Chain Testnet. Mainnet and other chains coming soon:
+
+  BNB Chain Testnet (Current)
+  BNB Chain Mainnet
+  Ethereum
+  Polygon
+  Arbitrum
+
+## Additional Resources
+
+ **MetaMask Support**: https://support.metamask.io
+ **BNB Chain Docs**: https://docs.bnbchain.org
+ **BSCScan Testnet**: https://testnet.bscscan.com
+ **OracleX Discord**: https://discord.gg/oraclex
 
 ## Next Steps
 
-Now that you know how to predict:
+Now that your wallet is set up:
 
-1. ✅ [Create Your Own Market →](creating-markets.md)
-2. ✅ [Stake ORX for Passive Income →](staking-guide.md)
-3. ✅ [Participate in Governance →](governance.md)
+1.  [Get Your First ORX ](gettingorx.md)
+2.  [Make Your First Prediction ](makingpredictions.md)
+3.  [Stake ORX for Rewards ](stakingguide.md)
 
----
 
-<div style="background: linear-gradient(135deg, #FFD700, #9333EA); padding: 1.5rem; border-radius: 12px; color: white;">
-  <strong>🎯 Start Predicting!</strong> The future belongs to those who predict it. Make your first prediction and join the OracleX community today!
-</div>
+
+div style"background: lineargradient(135deg, #FFD700, #9333EA); padding: 1.5rem; borderradius: 12px; color: white;"
+  strong Wallet Ready!/strong You're all set to start using OracleX. Remember to keep your seed phrase safe and never share it with anyone!
+/div

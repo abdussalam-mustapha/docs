@@ -1,591 +1,406 @@
-# Creating Markets Guide
-
-Learn how to create prediction markets on OracleX and build your own community.
+﻿# Wallet Setup Guide
 
-## 🎯 What is Market Creation?
+Complete guide to setting up your wallet for OracleX on BNB Smart Chain Testnet.
 
-As a market creator, you define a question about the future that others can predict on. You become the curator of that prediction community.
+## Overview
 
-**Requirements:**
-- 1,000 ORX stake (refunded after fair resolution)
-- Clear, verifiable question
-- Reliable resolution source
-- Active wallet with BNB for gas
-
-## 💡 Why Create Markets?
+To use OracleX, you need a Web3 wallet to:
+ Connect to the platform
+ Sign transactions
+ Store ORX tokens
+ Manage your predictions
 
-### Benefits
+**Recommended Wallet**: MetaMask (most widely supported)
 
-1. **Build Community**: Gather people around topics you care about
-2. **Earn Reputation**: Gain recognition as a market creator
-3. **Influence Discussion**: Shape conversations on important topics
-4. **Participation**: Predict on your own markets
-5. **Impact**: Help others make informed decisions
+## Installing MetaMask
 
-### Responsibilities
+### Browser Extension (Desktop)
 
-- ✅ Write clear, unambiguous questions
-- ✅ Choose fair resolution sources
-- ✅ Monitor market for issues
-- ✅ Ensure proper resolution
-- ⚠️ Stake can be slashed if market is disputed
+#### Step 1: Download MetaMask
 
-## 📝 Market Creation Process
-
-### Step 1: Navigate to Create Market
+1. Visit **official website**: https://metamask.io
+2. Click **"Download"**
+3. Select your browser:
+    Chrome
+    Firefox
+    Brave
+    Edge
+4. Click **"Install MetaMask"**
+5. Add extension to browser
 
-1. Go to **Markets** page
-2. Click **"Create Market"** button (top right)
-3. Or visit: https://oraclex.com/markets/create
-
-### Step 2: Define Your Question
-
-#### Writing Good Questions
-
-**✅ Good Questions:**
-```
-"Will Bitcoin reach $100,000 before January 1, 2026?"
-- Clear outcome criteria
-- Specific timeframe
-- Verifiable result
-
-"Will Team A defeat Team B in the Championship Final?"
-- Binary outcome
-- Specific event
-- Known resolution date
-
-"Will the Fed raise interest rates in Q4 2025?"
-- Definite yes/no
-- Time-bound
-- Public information source
-```
-
-**❌ Bad Questions:**
-```
-"Will Bitcoin do well?"
-- Vague outcome
-- No timeframe
-- Subjective
-
-"Is AI dangerous?"
-- Opinion-based
-- No clear resolution
-- Subjective
-
-"Who is the best player?"
-- Subjective
-- No criteria
-- No source
-```
-
-#### Question Best Practices
-
-1. **Be Specific**
-   - Use exact dates and times
-   - Define clear thresholds
-   - Specify all conditions
-
-2. **Be Objective**
-   - Avoid subjective terms
-   - Use measurable criteria
-   - Stick to facts
-
-3. **Be Time-Bound**
-   - Set clear end date
-   - Allow reasonable time for resolution
-   - Consider time zones
-
-4. **Be Unambiguous**
-   - One interpretation only
-   - Define edge cases
-   - Clear success criteria
-
-### Step 3: Select Category
-
-Choose the most relevant category:
-
-| Category | Examples |
-|----------|----------|
-| 🏈 **Sports** | Game outcomes, championships, player stats |
-| 🏛️ **Politics** | Elections, policy changes, government decisions |
-| 💰 **Crypto** | Price predictions, protocol launches, adoption |
-| 🎬 **Entertainment** | Award shows, box office, streaming releases |
-| 🌍 **World Events** | International relations, climate, major events |
-| 🔬 **Science & Tech** | Product launches, scientific discoveries, innovation |
-
-### Step 4: Set Resolution Source
-
-Define how the outcome will be determined.
-
-#### Types of Sources
-
-**1. Price Oracles**
-```typescript
-Source: "CoinGecko API"
-Criteria: "Bitcoin USD price at 00:00 UTC on Jan 1, 2026"
-URL: "https://www.coingecko.com/en/coins/bitcoin"
-```
-
-**2. Official Announcements**
-```typescript
-Source: "Federal Reserve Official Website"
-Criteria: "Interest rate decision announced in FOMC statement"
-URL: "https://www.federalreserve.gov"
-```
-
-**3. Sports Results**
-```typescript
-Source: "ESPN Official Scores"
-Criteria: "Final score at end of regulation play"
-URL: "https://www.espn.com"
-```
-
-**4. News Aggregators**
-```typescript
-Source: "Reuters"
-Criteria: "Official confirmation published by Reuters"
-URL: "https://www.reuters.com"
-```
-
-**5. Blockchain Data**
-```typescript
-Source: "BscScan"
-Criteria: "Transaction confirmed on-chain"
-URL: "https://bscscan.com"
-```
-
-#### Resolution Source Requirements
-
-✅ **Must have:**
-- Publicly accessible
-- Reliable and trusted
-- Updated regularly
-- Free to access
-- Timestamped data
-
-❌ **Avoid:**
-- Personal websites
-- Paywalled content
-- Unreliable sources
-- Subjective sources
-- Easily manipulated data
-
-### Step 5: Set End Time
-
-Choose when betting closes:
+#### Step 2: Create New Wallet
 
-```typescript
-// Minimum: 24 hours from creation
-// Maximum: 1 year from creation
+1. Open MetaMask extension
+2. Click **"Get Started"**
+3. Select **"Create a new wallet"**
+4. Agree to terms
+5. Create a strong password (min 8 characters)
+6. Watch the security video (optional but recommended)
 
-Short-term: 24-48 hours
-- Breaking news
-- Daily sports events
-- Quick markets
-
-Medium-term: 1 week - 1 month
-- Weekly sports
-- Monthly economic data
-- Product launches
-
-Long-term: 1-12 months
-- Elections
-- Annual predictions
-- Major milestones
-```
-
-**Tips:**
-- Allow enough time for people to discover market
-- End before event occurs (not when it resolves)
-- Consider time zones for global events
-- Add buffer for resolution verification
-
-### Step 6: Define Outcomes
-
-#### Binary Markets (YES/NO)
-
-Most common market type:
-- Simple yes or no question
-- Two possible outcomes
-- Easy to understand
-
-```typescript
-Question: "Will Bitcoin reach $100k in 2025?"
-Outcomes:
-- YES: Bitcoin hits $100,000 or more
-- NO: Bitcoin stays below $100,000
-```
-
-#### Multiple Choice Markets
-
-For questions with multiple possible outcomes:
-
-```typescript
-Question: "Which team will win the World Cup?"
-Outcomes:
-- Team A
-- Team B
-- Team C
-- Team D
-- Other
-
-(Maximum 6 outcomes)
-```
-
-**Requirements:**
-- Mutually exclusive outcomes
-- Collectively exhaustive (cover all possibilities)
-- Clear definitions for each
-- Consider "Other" option if needed
-
-### Step 7: Add Description (Optional)
-
-Provide additional context:
-
-```markdown
-# Market Context
-
-This market resolves based on the official CoinGecko price 
-at 00:00 UTC on January 1, 2026.
-
-## Resolution Criteria
-
-- YES: If BTC >= $100,000.00
-- NO: If BTC < $100,000.00
-
-## Data Source
-
-Price will be checked on CoinGecko's historical data:
-https://www.coingecko.com/en/coins/bitcoin
-
-## Edge Cases
-
-- If CoinGecko is down: Alternative source CoinMarketCap
-- Price snapshots taken at exact UTC midnight
-- Rounding to nearest cent
-
-## Dispute Policy
-
-Disputes must be filed within 24 hours of resolution 
-with clear evidence of incorrect outcome.
-```
-
-### Step 8: Review & Stake
-
-Before creating:
-
-**Review Checklist:**
-- ✅ Question is clear and specific
-- ✅ Category is correct
-- ✅ Resolution source is reliable
-- ✅ End time is appropriate
-- ✅ Outcomes are well-defined
-- ✅ Description provides context
-- ✅ You have 1,000 ORX + gas fees
-
-**Stake Information:**
-```typescript
-Creator Stake: 1,000 ORX
-Gas Fee: ~0.01 BNB (~$3)
-Total Cost: 1,000 ORX + gas
-
-Stake Returns:
-- Fair resolution: 100% refund + reputation
-- Disputed & upheld: 100% refund
-- Disputed & overturned: Partial/full slash
-```
-
-### Step 9: Confirm Transactions
-
-**Transaction 1: Approve ORX**
-1. MetaMask popup appears
-2. Click "Approve"
-3. Wait for confirmation (~3 seconds)
-
-**Transaction 2: Create Market**
-1. Second MetaMask popup
-2. Review details
-3. Click "Confirm"
-4. Wait for confirmation (~3 seconds)
-
-**Success:**
-- Market is live immediately
-- You're redirected to market page
-- 1,000 ORX is staked
-- Market appears in your profile
-
-## 🎯 After Creation
-
-### Promote Your Market
-
-1. **Share Link**
-   ```
-   https://oraclex.com/markets/[your-market-id]
-   ```
-
-2. **Social Media**
-   - Twitter: Share with relevant hashtags
-   - Discord: Post in appropriate channels
-   - Telegram: Share in crypto groups
-   - Reddit: Relevant subreddits
-
-3. **Make First Prediction**
-   - Show confidence in your market
-   - Set initial odds
-   - Encourage participation
-
-### Monitor Activity
-
-Track your market:
-- Total volume
-- Number of predictions
-- Odds movement
-- Time remaining
-- AI confidence score
-
-### Engage Community
-
-- Respond to questions
-- Share updates
-- Clarify ambiguities
-- Build excitement
-
-## 🔍 Resolution Process
-
-### Automatic Resolution
-
-OracleX uses TruthMesh AI to resolve markets:
-
-**Step 1: Market Closes**
-- Betting ends at specified time
-- No more predictions accepted
-- Resolution countdown begins
-
-**Step 2: AI Oracle Checks**
-- TruthMesh agents activate
-- Fetch data from resolution source
-- Analyze outcome
-- Reach consensus
-
-**Step 3: Outcome Determined**
-- AI confidence > 90%: Auto-resolve
-- AI confidence < 90%: Manual review
-- Disputed: Community voting
-
-**Step 4: Distribution**
-- Winners can claim rewards
-- Your 1,000 ORX stake returned
-- Reputation points awarded
-
-### Time Frames
-
-```typescript
-Market closes: End time specified
-Resolution check: Within 1 hour
-Auto-resolution: Within 24 hours
-Manual review: 24-48 hours
-Dispute period: 48 hours after resolution
-Final: Resolution becomes final
-```
-
-## ⚖️ Dispute Handling
-
-### When Disputes Occur
-
-Markets can be disputed if:
-- Outcome is incorrect
-- Resolution source was wrong
-- Criteria not followed
-- Edge case occurred
-
-### Dispute Process
-
-1. **Filing Period**: 48 hours after resolution
-2. **Challenger Stakes**: 1,000 ORX to dispute
-3. **Evidence Required**: Proof of incorrect outcome
-4. **Community Votes**: DAO members vote
-5. **Resolution**: Majority decides outcome
-
-### Impact on Creator
-
-**If Dispute Upheld (You Were Wrong):**
-```typescript
-Your Stake: Slashed 50% (500 ORX penalty)
-Goes To: Challenger
-Remaining: Returned to you (500 ORX)
-Reputation: Decreases
-```
-
-**If Dispute Rejected (You Were Right):**
-```typescript
-Your Stake: Fully refunded (1,000 ORX)
-Challenger Stake: Distributed to voters
-Reputation: Increases (bonus for fair market)
-```
-
-## 📊 Market Analytics
-
-### Track Performance
-
-View stats for your markets:
-- Total volume generated
-- Number of participants
-- Prediction distribution
-- Resolution accuracy
-- Dispute history
-- Creator reputation
-
-### Leaderboards
-
-Compete as a creator:
-- Most volume generated
-- Most participants
-- Highest accuracy
-- Most markets created
-- Best reputation
-
-## 💎 Advanced Tips
-
-### Creating Viral Markets
-
-1. **Trending Topics**
-   - Follow news cycles
-   - Jump on breaking stories
-   - Tap into current events
-
-2. **Controversial Questions**
-   - Polarizing topics
-   - Unexpected predictions
-   - Challenge consensus
-
-3. **Time-Sensitive**
-   - React to announcements
-   - Predict imminent events
-   - Create FOMO
-
-### Building Market Series
-
-Create related markets:
-```typescript
-// Example: NFL Season Series
-"Will [Team] win Week 1?"
-"Will [Team] win Week 2?"
-...
-"Will [Team] make playoffs?"
-"Will [Team] win Super Bowl?"
-
-// Benefits:
-- Recurring participants
-- Build following
-- Compound interest
-```
-
-### Niche Markets
-
-Specialize in specific categories:
-- Become known expert
-- Build loyal community
-- Higher quality predictions
-- Better engagement
-
-## 🚫 What NOT to Do
-
-### Prohibited Markets
-
-❌ **Illegal Activities**
-- Assassination markets
-- Illegal gambling
-- Criminal activity
-
-❌ **Harmful Content**
-- Violence or harm
-- Hateful content
-- Personal attacks
-
-❌ **Manipulable Markets**
-- Easily gamed outcomes
-- Self-fulfilling prophecies
-- Insider trading
-
-❌ **Ambiguous Questions**
-- No clear resolution
-- Subjective outcomes
-- Vague criteria
-
-### Penalties
-
-Violating guidelines results in:
-- Market removal
-- Stake slashing (100%)
-- Account suspension
-- Reputation penalty
-- Possible ban
-
-## 📚 Examples
-
-### Example 1: Crypto Price
-
-```typescript
-Question: "Will Ethereum reach $5,000 before July 1, 2025?"
-Category: Crypto
-End Time: June 30, 2025 23:59 UTC
-Resolution Source: CoinGecko API
-Outcomes: YES / NO
-
-Description:
-"This market resolves YES if Ethereum (ETH) reaches or 
-exceeds $5,000 USD at any point before July 1, 2025 00:00 UTC, 
-as reported by CoinGecko. The price will be checked using 
-CoinGecko's historical data and API."
-```
-
-### Example 2: Sports Event
-
-```typescript
-Question: "Will Liverpool FC win the Premier League 2024/25?"
-Category: Sports
-End Time: May 25, 2025 23:59 UTC
-Resolution Source: Premier League Official
-Outcomes: YES / NO
-
-Description:
-"Market resolves YES if Liverpool FC is crowned Premier League 
-champion for the 2024/25 season. Resolution based on official 
-Premier League standings at end of season."
-```
-
-### Example 3: Product Launch
-
-```typescript
-Question: "Will Apple release VR headset in 2025?"
-Category: Science & Tech
-End Time: Dec 31, 2025 23:59 UTC
-Resolution Source: Apple Press Releases
-Outcomes: YES / NO
-
-Description:
-"Resolves YES if Apple officially announces and releases a 
-consumer VR/AR headset product during 2025. Announcement alone 
-is not sufficient - product must be available for purchase."
-```
-
-## 🔗 Resources
-
-- **Create Market**: https://oraclex.com/markets/create
-- **Your Markets**: https://oraclex.com/profile?tab=markets
-- **Market Guidelines**: https://docs.oraclex.com/policies
-- **Community Forum**: https://forum.oraclex.com
+#### Step 3: Secure Your Seed Phrase
+
+️ **CRITICAL: Your seed phrase is the master key to your wallet**
+
+1. Click **"Reveal Secret Recovery Phrase"**
+2. Write down all 12 words **on paper** (in exact order)
+3. Store paper in a secure location
+4. **Never** share with anyone
+5. **Never** store digitally (no screenshots, no cloud)
+6. Complete the confirmation test
+
+**Example Seed Phrase:**
+
+word1 word2 word3 word4 word5 word6 
+word7 word8 word9 word10 word11 word12
+
+
+### Mobile App
+
+#### iOS (iPhone/iPad)
+
+1. Open **App Store**
+2. Search **"MetaMask"**
+3. Install app by MetaMask
+4. Open app
+5. Follow same creation steps as desktop
+
+#### Android
+
+1. Open **Google Play Store**
+2. Search **"MetaMask"**
+3. Install app by MetaMask
+4. Open app
+5. Follow same creation steps as desktop
+
+## Adding BNB Smart Chain Testnet
+
+MetaMask defaults to Ethereum. You need to add BNB Chain Testnet for OracleX.
+
+### Method 1: Automatic (Recommended)
+
+1. Visit OracleX: https://oraclex.com
+2. Click **"Connect Wallet"**
+3. MetaMask will prompt to add network
+4. Click **"Approve"** then **"Switch network"**
+
+### Method 2: Manual Setup
+
+#### Step 1: Open Network Settings
+
+1. Open MetaMask
+2. Click network dropdown (top of extension)
+3. Click **"Add network"**
+4. Click **"Add a network manually"**
+
+#### Step 2: Enter Network Details
+
+Fill in the following information:
+
+ Field  Value 
+
+ **Network Name**  BNB Smart Chain Testnet 
+ **RPC URL**  https://bsctestnetrpc.publicnode.com 
+ **Chain ID**  97 
+ **Currency Symbol**  tBNB 
+ **Block Explorer**  https://testnet.bscscan.com 
+
+#### Step 3: Save and Switch
+
+1. Click **"Save"**
+2. MetaMask automatically switches to new network
+3. You should see "BNB Smart Chain Testnet" at top
+
+### Alternative RPC URLs
+
+If the primary RPC is slow, try these alternatives:
+
+
+https://dataseedprebsc1s1.bnbchain.org:8545
+https://dataseedprebsc2s1.bnbchain.org:8545
+https://bsctestnet.public.blastapi.io
+
+
+## Getting Test BNB
+
+You need BNB for gas fees (transaction costs).
+
+### Using BNB Chain Faucet
+
+1. Visit: https://testnet.bnbchain.org/faucetsmart
+2. Connect your MetaMask wallet
+3. Complete reCAPTCHA
+4. Click **"Give me BNB"**
+5. Wait 3060 seconds
+6. Check MetaMask balance (0.1 tBNB received)
+
+**Faucet Limits:**
+ Amount: 0.1 tBNB per request
+ Cooldown: 24 hours
+ Daily limit: May vary
+
+### Alternative Faucets
+
+If the official faucet is down:
+
+1. **Alchemy BNB Faucet**: https://www.alchemy.com/faucets/bnbsmartchaintestnet
+2. **QuickNode Faucet**: https://faucet.quicknode.com/binancesmartchain/bnbtestnet
+
+## Adding ORX Token to MetaMask
+
+Once you have test BNB, add ORX token to view your balance.
+
+### Method 1: Automatic Import
+
+1. Visit OracleX faucet: https://oraclex.com/faucet
+2. Claim 1,000 ORX
+3. MetaMask may autodetect the token
+4. Click **"Add token"** in notification
+
+### Method 2: Manual Import
+
+#### Step 1: Open Token Settings
+
+1. Open MetaMask
+2. Ensure you're on BNB Testnet
+3. Scroll down to bottom
+4. Click **"Import tokens"**
+
+#### Step 2: Enter Token Details
+
+1. Select **"Custom token"** tab
+2. Enter token contract address:
+   
+   0x7eE4f73bab260C11c68e5560c46E3975E824ed79
+   
+3. Token symbol and decimals autofill:
+    Symbol: ORX
+    Decimals: 18
+4. Click **"Add custom token"**
+5. Click **"Import tokens"**
+
+#### Step 3: Verify
+
+You should now see:
+ ORX token in your asset list
+ Current balance (0 if you haven't claimed yet)
+
+## Connecting to OracleX
+
+### First Time Connection
+
+1. Go to https://oraclex.com
+2. Click **"Connect Wallet"** (top right)
+3. Select **"MetaMask"**
+4. MetaMask popup appears
+5. Select account to connect
+6. Click **"Next"**
+7. Click **"Connect"**
+8. May ask to switch to BNB Testnet (click "Switch")
+
+### Account Display
+
+Once connected, you'll see:
+ Your wallet address (shortened): 0x1234...5678
+ ORX balance
+ Account avatar/icon
+
+### Disconnecting
+
+1. Click your address (top right)
+2. Click **"Disconnect"**
+
+Or from MetaMask:
+1. Open MetaMask
+2. Click three dots (top right)
+3. Select **"Connected sites"**
+4. Find OracleX
+5. Click **"Disconnect"**
+
+## Security Best Practices
+
+### Seed Phrase Security
+
+ **DO:**
+ Write on paper and store securely
+ Use a hardware wallet for large amounts
+ Create multiple backups in different locations
+ Use a password manager with encryption
+ Consider metal seed phrase backup
+
+ **DON'T:**
+ Screenshot or save digitally
+ Share with anyone (even "support")
+ Store in cloud (Google Drive, Dropbox, etc.)
+ Email to yourself
+ Save in browser notes
+
+### Transaction Safety
+
+ **DO:**
+ Always verify contract addresses
+ Check transaction details before signing
+ Start with small test amounts
+ Use hardware wallet for large sums
+ Enable MetaMask security alerts
+
+ **DON'T:**
+ Sign unknown transactions
+ Connect to suspicious websites
+ Share your private key
+ Ignore security warnings
+ Rush through transaction confirmations
+
+### Phishing Protection
+
+ **Common Phishing Tactics:**
+
+1. **Fake websites**: Always check URL (https://oraclex.com)
+2. **Impersonation**: Official team never DMs first
+3. **Urgent messages**: "Act now or lose funds"
+4. **Fake support**: We never ask for seed phrases
+5. **Airdrop scams**: Too good to be true offers
+
+️ **Protection Steps:**
+
+ Bookmark official site
+ Verify social media accounts
+ Check contract addresses on BSCScan
+ Enable 2FA where available
+ Report suspicious activity
+
+## Troubleshooting
+
+### "Wrong Network" Error
+
+**Problem**: MetaMask is on wrong network
+
+**Solution**:
+1. Open MetaMask
+2. Click network dropdown
+3. Select "BNB Smart Chain Testnet"
+4. If not listed, add manually (see above)
+
+### "Insufficient Funds" Error
+
+**Problem**: Not enough BNB for gas
+
+**Solution**:
+1. Get test BNB from faucet
+2. Wait for transaction to confirm
+3. Check balance in MetaMask
+4. Try transaction again
+
+### "Transaction Failed"
+
+**Problem**: Transaction reverted
+
+**Possible causes**:
+ Insufficient gas
+ Contract error
+ Slippage too low
+ Approval needed first
+
+**Solution**:
+1. Check error message in MetaMask
+2. Ensure sufficient BNB for gas
+3. Try increasing gas limit
+4. Check if token approval needed
+
+### Can't Connect Wallet
+
+**Problem**: MetaMask won't connect
+
+**Solution**:
+1. Refresh page
+2. Lock/unlock MetaMask
+3. Clear browser cache
+4. Try different browser
+5. Reinstall MetaMask (last resort  have seed phrase ready!)
+
+### Token Not Showing
+
+**Problem**: ORX balance is 0 or not visible
+
+**Solution**:
+1. Verify you're on BNB Testnet
+2. Check if token imported correctly
+3. Verify contract address
+4. Check balance on BSCScan
+5. Refresh MetaMask
+
+### Pending Transaction Stuck
+
+**Problem**: Transaction pending for too long
+
+**Solution**:
+1. Click pending transaction
+2. Click **"Speed Up"** or **"Cancel"**
+3. Pay higher gas fee
+4. Wait for confirmation
+
+Or reset account:
+1. MetaMask Settings
+2. Advanced
+3. Reset Account (clears pending transactions)
+
+## Advanced: Hardware Wallets
+
+For holding significant ORX amounts, use a hardware wallet.
+
+### Supported Hardware Wallets
+
+ **Ledger** (Nano S, Nano X, Nano S Plus)
+ **Trezor** (Model One, Model T)
+
+### Connecting Ledger
+
+1. Install Ledger Live app
+2. Connect Ledger device
+3. Install Binance Smart Chain app on device
+4. Open MetaMask
+5. Click account icon
+6. Select **"Connect Hardware Wallet"**
+7. Choose **"Ledger"**
+8. Follow prompts
+
+### Connecting Trezor
+
+1. Install Trezor Suite
+2. Connect Trezor device
+3. Enable BNB Chain support
+4. Open MetaMask
+5. Click account icon
+6. Select **"Connect Hardware Wallet"**
+7. Choose **"Trezor"**
+8. Follow prompts
+
+## MultiChain Support (Future)
+
+OracleX currently supports BNB Chain Testnet. Mainnet and other chains coming soon:
+
+  BNB Chain Testnet (Current)
+  BNB Chain Mainnet
+  Ethereum
+  Polygon
+  Arbitrum
+
+## Additional Resources
+
+ **MetaMask Support**: https://support.metamask.io
+ **BNB Chain Docs**: https://docs.bnbchain.org
+ **BSCScan Testnet**: https://testnet.bscscan.com
+ **OracleX Discord**: https://discord.gg/oraclex
 
 ## Next Steps
 
-Ready to create your first market?
+Now that your wallet is set up:
 
-1. ✅ [Get 1,000 ORX from Faucet →](getting-orx.md)
-2. ✅ [Join Creator Community →](https://discord.gg/oraclex)
-3. ✅ [View Example Markets →](https://oraclex.com/markets)
+1.  [Get Your First ORX ](gettingorx.md)
+2.  [Make Your First Prediction ](makingpredictions.md)
+3.  [Stake ORX for Rewards ](stakingguide.md)
 
----
 
-<div style="background: linear-gradient(135deg, #FFD700, #9333EA); padding: 1.5rem; border-radius: 12px; color: white;">
-  <strong>🎨 Become a Creator!</strong> Shape the future of prediction markets by creating meaningful questions that engage the community. Your market, your rules!
-</div>
+
+div style"background: lineargradient(135deg, #FFD700, #9333EA); padding: 1.5rem; borderradius: 12px; color: white;"
+  strong Wallet Ready!/strong You're all set to start using OracleX. Remember to keep your seed phrase safe and never share it with anyone!
+/div
