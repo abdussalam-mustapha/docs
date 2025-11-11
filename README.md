@@ -204,7 +204,7 @@ This project is licensed under the MIT License - see the [LICENSE](../LICENSE) f
 
 **Built with  by the OracleX Team**
 
-[Website](https://oraclex.ai)  [Twitter](https://twitter.com/oraclex_official)  [Discord](https://discord.gg/oraclex)  [GitHub](https://github.com/oraclex)
+[Website](https://oracle-x.vercel.app)  [Twitter](https://twitter.com/oraclex12)  [Discord](https://discord.gg/oraclex)  [GitHub](https://github.com/oraclex)
 
 </div>
 
